@@ -6,7 +6,7 @@
 				<!--Category Menu Start-->
 				<div class="category-menu category-menu-2">
 					<div class="category-heading">
-						<h2 class="categories-toggle"><span>categories</span></h2>
+						<h2 class="categories-toggle"><span>CATEGORIAS</span></h2>
 					</div>
 					<div id="cate-toggle" class="category-menu-list">
 						<ul>
@@ -182,12 +182,17 @@
 			<!-- Slider Area End Here -->
 			<!-- Begin Li Banner Area -->
 			<div class="col-lg-3 col-md-4 text-center pt-sm-30">
-				<div class="li-banner">
-					<a href="#">
-						<img src="{{ asset('electro/images/banner/3_1.jpg') }}" alt="">
+				<div class="li-banner   mt-sm-30 mt-xs-25 mb-xs-5" style="height: 101px;border: 2px solid #e1e1e0; background-color: #f7f7f7;">
+					<a href="/mercadoPublico">
+						<img src="{{ asset('/chilecompra.png') }}" style="padding:20px; width:270px;"  alt="">
 					</a>
 				</div>
-				<div class="li-banner mt-15 mt-sm-30 mt-xs-25 mb-xs-5">
+				<div class="li-banner mt-15 mt-sm-30 mt-xs-25 mb-xs-5" style="height:145px;">
+					<a href="#">
+						<img src="{{ asset('electro/images/banner/3_2.jpg') }}" alt="">
+					</a>
+				</div>
+				<div class="li-banner mt-15 mt-sm-30 mt-xs-25 mb-xs-3" style="height:145px;">
 					<a href="#">
 						<img src="{{ asset('electro/images/banner/3_2.jpg') }}" alt="">
 					</a>

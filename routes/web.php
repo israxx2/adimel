@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('cliente.index-3');
 });
+
+Route::get('/mercadoPublico', function () {
+    return view('cliente.mercado-publico');
+});

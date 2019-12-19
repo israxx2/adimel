@@ -3,19 +3,22 @@
 		<div class="row">
 			<!-- Begin Header Logo Area -->
 			<div class="col-lg-3">
+			
 				<div class="logo pb-sm-30 pb-xs-30">
-					<a href="index.html">
-						<img src="{{ asset('electro/images/menu/logo/3.png') }}" style="height: 70px; padding-left: 85px;" alt="logo adimel">
+					<a href="/">
+						<center>
+							<img src="{{ asset('electro/images/menu/logo/3.png') }}" style="height: 70px;"  alt="logo adimel">
+						</center>
 					</a>
 				</div>
 			</div>
 			<!-- Header Logo Area End Here -->
 			<!-- Begin Header Middle Right Area -->
-			<div class="col-lg-9">
+			<div class="col-lg-9" style="padding-top:10px">
 				<!-- Begin Header Middle Searchbox Area -->
 				<form action="#" class="hm-searchbox">
 					<select class="nice-select select-search-category">
-						<option value="0">All</option>                         
+						<option value="0">TODO</option>                         
 						<option value="10">Laptops</option>                     
 						<option value="17">- -  Prime Video</option>                    
 						<option value="20">- - - -  All Videos</option>                     
@@ -86,7 +89,7 @@
 						<option value="15">Smartwatch</option>                           
 						<option value="16">Accessories</option>
 					</select>
-					<input type="text" placeholder="Enter your search key ...">
+					<input type="text" placeholder="Buscar un articulo ...">
 					<button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
 				</form>
 				<!-- Header Middle Searchbox Area End Here -->
@@ -95,18 +98,18 @@
 					<ul class="hm-menu">
 						<!-- Begin Header Middle Wishlist Area -->
 						<li class="hm-wishlist">
-							<a href="wishlist.html">
+							{{-- <a href="wishlist.html">
 								<span class="cart-item-count wishlist-item-count">0</span>
 								<i class="fa fa-heart-o"></i>
-							</a>
+							</a> --}}
 						</li>
 						<!-- Header Middle Wishlist Area End Here -->
 						<!-- Begin Header Mini Cart Area -->
-						<li class="hm-minicart">
-							<div class="hm-minicart-trigger">
+						<li class="hm-minicart"  >
+							<div class="hm-minicart-trigger" style="background-color:#0088C6">
 								<span class="item-icon"></span>
 								<span class="item-text">$15.590
-									<span class="cart-item-count">2</span>
+									<span class="cart-item-count" style="background-color:#ffdc04; color:#0088C6 "><b>2</b></span>
 								</span>
 							</div>
 							<span></span>
@@ -157,3 +160,11 @@
 		</div>
 	</div>
 </div>
+
+<div style="position:fixed; top:303px; z-index:10000; right:17px">
+	<button class="btn btn-xs" style="background:#1BD741" onclick="location.href='http://web.whatsapp.com/send?text=&phone=+56982226526&abid=+56982226526'">
+		<i class="fa fa-whatsapp"style="font-size:35px; color:#fff" ></i>
+	</button>
+	
+</div>
+

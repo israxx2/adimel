@@ -5,23 +5,26 @@
 				<!-- Begin Footer Logo Area -->
 				<div class="col-lg-4 col-md-6">
 					<div class="footer-logo">
-						<img src="{{ asset('electro/images/menu/logo/1.jpg') }}" alt="Footer Logo">
+					
+							<img src="{{ asset('electro/images/menu/logo/3.png') }}" height="100px" alt="Footer Logo">
+						
+						
 						<p class="info">
-							We are a team of designers and developers that create high quality HTML Template & Woocommerce, Shopify Theme.
+							
 						</p>
 					</div>
 					<ul class="des">
 						<li>
-							<span>Address: </span>
-							6688Princess Road, London, Greater London BAS 23JK, UK
+							<span>Ubicacion: </span>
+							Calle 6 Ote. 640, Talca, Maule
 						</li>
 						<li>
-							<span>Phone: </span>
-							<a href="#">(+123) 123 321 345</a>
+							<span>Telefono: </span>
+							<a href="#">(71) 221 5408 </a>
 						</li>
 						<li>
-							<span>Email: </span>
-							<a href="mailto://info@yourdomain.com">info@yourdomain.com</a>
+							<span>Correo: </span>
+							<a href="mailto://webadimel@gmail.com">webadimel@gmail.com</a>
 						</li>
 					</ul>
 				</div>
@@ -29,12 +32,12 @@
 				<!-- Begin Footer Block Area -->
 				<div class="col-lg-2 col-md-3 col-sm-6">
 					<div class="footer-block">
-						<h3 class="footer-block-title">Product</h3>
+						<h3 class="footer-block-title">PRODUCTOS</h3>
 						<ul>
-							<li><a href="#">Prices drop</a></li>
-							<li><a href="#">New products</a></li>
-							<li><a href="#">Best sales</a></li>
-							<li><a href="#">Contact us</a></li>
+							<li><a href="#">Lista de Precios</a></li>
+							<li><a href="#">Nuevos Productos</a></li>
+							<li><a href="#">Mas vendidos</a></li>
+							
 						</ul>
 					</div>
 				</div>
@@ -42,12 +45,12 @@
 				<!-- Begin Footer Block Area -->
 				<div class="col-lg-2 col-md-3 col-sm-6">
 					<div class="footer-block">
-						<h3 class="footer-block-title">Our company</h3>
+						<h3 class="footer-block-title">NOSOTROS</h3>
 						<ul>
-							<li><a href="#">Delivery</a></li>
-							<li><a href="#">Legal Notice</a></li>
-							<li><a href="#">About us</a></li>
-							<li><a href="#">Contact us</a></li>
+					
+							<li><a href="/mercadoPublico">Convenios</a></li>
+							<li><a href="/quienes-somos">Quiénes Somos</a></li>
+							<li><a href="/contacto">Contactovvvvvvvvvvvv</a></li>
 						</ul>
 					</div>
 				</div>
@@ -55,7 +58,7 @@
 				<!-- Begin Footer Block Area -->
 				<div class="col-lg-4">
 					<div class="footer-block">
-						<h3 class="footer-block-title">Follow Us</h3>
+						<h3 class="footer-block-title">REDES SOCIALES</h3>
 						<ul class="social-link">
 							<li class="twitter">
 								<a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
@@ -73,7 +76,7 @@
 								</a>
 							</li>
 							<li class="facebook">
-								<a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
+								<a href="https://www.facebook.com/adimel.talca/" data-toggle="tooltip" target="_blank" title="Facebook">
 									<i class="fa fa-facebook"></i>
 								</a>
 							</li>
@@ -83,13 +86,13 @@
 								</a>
 							</li>
 							<li class="instagram">
-								<a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank" title="Instagram">
+								<a href="https://www.instagram.com/libreria_adimel/?hl=es-la" data-toggle="tooltip" target="_blank" title="Instagram">
 									<i class="fa fa-instagram"></i>
 								</a>
 							</li>
 						</ul>
 					</div>
-					<!-- Begin Footer Newsletter Area -->
+					{{-- <!-- Begin Footer Newsletter Area -->
 					<div class="footer-newsletter">
 						<h4>Sign up to newsletter</h4>
 						<form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank" novalidate>
@@ -100,7 +103,7 @@
 								</div>
 							</div>
 						</form>
-					</div>
+					</div> --}}
 					<!-- Footer Newsletter Area End Here -->
 				</div>
 				<!-- Footer Block Area End Here -->
