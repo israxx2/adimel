@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('cliente.index-3');
 });
+
+Route::get('/quienes-somos', function () {
+    return view('cliente.about_us');
+});
