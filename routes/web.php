@@ -18,6 +18,11 @@ Route::get('/', function () {
 Route::get('/mercadoPublico', function () {
     return view('cliente.mercado-publico');
 });
+
 Route::get('/quienes-somos', function () {
     return view('cliente.about_us');
+});
+
+Route::get('/contacto', function () {
+    return view('cliente.contact');
 });
