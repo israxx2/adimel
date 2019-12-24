@@ -19,7 +19,7 @@
 
 @section('body')
 
-@include('cliente.template.componentes.slider')
+@include('cliente.template.componentes.slider', ['categorias' => $categorias])
 @include('cliente.template.componentes.static_banner_1')
 
 <div class="content-wrapper pt-60 pb-60">
