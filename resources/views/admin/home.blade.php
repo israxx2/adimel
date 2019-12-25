@@ -6,9 +6,12 @@
 
 <!-- Content Header (Page header) -->
 @include('admin.template.componentes.content_header', [
-'title' => 'Inicio',
+'header' => [
+'icon'	=> '',
+'title' => 'Inicio'
+],
 'pages' => [
-	['title' => 'Inicio']
+['title' => 'Inicio']
 ]
 ])
 <!-- /.content-header -->

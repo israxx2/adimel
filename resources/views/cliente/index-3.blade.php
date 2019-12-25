@@ -32,10 +32,10 @@
 	</div>
 </div>
 
-@include('cliente.template.componentes.hot_deals')
+{{-- @include('cliente.template.componentes.hot_deals')
 @include('cliente.template.componentes.offer_product')
 @include('cliente.template.componentes.static_banner_2')
-@include('cliente.template.componentes.trendding_product')
+@include('cliente.template.componentes.trendding_product') --}}
 
 @endsection
 

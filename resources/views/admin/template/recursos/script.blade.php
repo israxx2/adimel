@@ -9,26 +9,25 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- ChartJS -->
-<script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
-<!-- Sparkline -->
-<script src="{{ asset('adminlte/plugins/sparklines/sparkline.js') }}"></script>
-<!-- JQVMap -->
-<script src="{{ asset('adminlte/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{{ asset('adminlte/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-<!-- daterangepicker -->
-<script src="{{ asset('adminlte/plugins/moment/moment.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/daterangepicker/daterangepicker.js') }}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-<!-- Summernote -->
-<script src="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<!-- DataTables -->
+<script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
 <!-- overlayScrollbars -->
 <script src="{{ asset('adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('adminlte/dist/js/demo.js') }}"></script>
+<!-- blockUI -->
+<script src="{{ asset('AdminLTE/dist/js/jquery.blockUI.js') }}"></script>
+<!-- funciones genericas -->
+<script src="{{ asset('AdminLTE/dist/js/generico.js') }}"></script>
+<script>
+	function unblockUI(){
+		$.unblockUI();
+	};
+	$(document).ajaxStart(function() {
+		blockUI();
+	}).ajaxStop(function() {
+		unblockUI();
+	});
+</script>
 @endif

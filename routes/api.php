@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,5 +14,19 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });
+
+/*
+*	Productos
+*/
+Route::get('productos/datatable', function (Request $request){
+
+	if($request->ajax())
+	{
+		$productos = DB::table('PRODUCTOS')
+		->where('pro_stock', '>', 0)
+		->get();
+		return Datatables()->collection($productos)->make(true);
+	} else return [];
+})->name('api.proveedor.datatable');
