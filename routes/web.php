@@ -10,14 +10,31 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
-    return view('cliente.index-3');
+
+	//dd(DB::table('PRODUCTOS')->get());
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
+
+	return view('cliente.index-3')
+	->with('categorias', $categorias);
+
 });
 
 Route::get('/mercadoPublico', function () {
     return view('cliente.mercado-publico');
 });
+
 Route::get('/quienes-somos', function () {
     return view('cliente.about_us');
+});
+
+Route::get('/contacto', function () {
+    return view('cliente.contact');
 });

@@ -50,7 +50,7 @@
 					
 							<li><a href="/mercadoPublico">Convenios</a></li>
 							<li><a href="/quienes-somos">Quiénes Somos</a></li>
-							<li><a href="/contacto">Contactovvvvvvvvvvvv</a></li>
+							<li><a href="/contacto">Contacto</a></li>
 						</ul>
 					</div>
 				</div>
