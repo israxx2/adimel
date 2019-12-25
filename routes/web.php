@@ -38,3 +38,14 @@ Route::get('/quienes-somos', function () {
 Route::get('/contacto', function () {
     return view('cliente.contact');
 });
+
+Route::group(['prefix' => 'admin'], function(){
+
+	Route::get('/', function () {
+		return view('admin.home');
+	})->name('admin');
+
+	//Productos
+	Route::get('/productos', 'Admin\ProductoController@index')->name('admin.productos.index');
+	
+});
