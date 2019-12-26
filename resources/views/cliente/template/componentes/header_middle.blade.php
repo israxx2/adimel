@@ -42,45 +42,22 @@
 						<li class="hm-minicart"  >
 							<div class="hm-minicart-trigger" style="background-color:#0088C6">
 								<span class="item-icon"></span>
-								<span class="item-text">$15.590
-									<span class="cart-item-count" style="background-color:#ffdc04; color:#0088C6 "><b>2</b></span>
+								<span class="item-text" ><span id="subtotal1">$0</span>
+									<span id="cantidad" class="cart-item-count" style="background-color:#ffdc04; color:#0088C6 "><b>0</b></span>
 								</span>
 							</div>
 							<span></span>
 							<div class="minicart">
 								<ul class="minicart-product-list">
-									<li>
-										<a href="single-product.html" class="minicart-product-image">
-											<img src="{{ asset('electro/images/product/small-size/1.jpg') }}" alt="cart products">
-										</a>
-										<div class="minicart-product-details">
-											<h6><a href="single-product.html">Aenean eu tristique</a></h6>
-											<span>$10.000 x 1</span>
-										</div>
-										<button class="close">
-											<i class="fa fa-close"></i>
-										</button>
-									</li>
-									<li>
-										<a href="single-product.html" class="minicart-product-image">
-											<img src="{{ asset('electro/images/product/small-size/2.jpg') }}" alt="cart products">
-										</a>
-										<div class="minicart-product-details">
-											<h6><a href="single-product.html">Aenean eu tristique</a></h6>
-											<span>$5.590 x 1</span>
-										</div>
-										<button class="close">
-											<i class="fa fa-close"></i>
-										</button>
-									</li>
+									
 								</ul>
-								<p class="minicart-total">SUBTOTAL: <span>$15.590</span></p>
+								<p class="minicart-total">SUBTOTAL: <span id="subtotal2">$0</span></p>
 								<div class="minicart-button">
 									<a href="checkout.html" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-										<span>View Full Cart</span>
+										<span>VER CARRO</span>
 									</a>
 									<a href="checkout.html" class="li-button li-button-fullwidth li-button-sm">
-										<span>Checkout</span>
+										<span>COMPRAR</span>
 									</a>
 								</div>
 							</div>
@@ -102,3 +79,36 @@
 	
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	let carrito = [];
+	let subtotal=0;
+	if(localStorage.getItem("carrito")!=null){
+		carrito=localStorage.getItem("carrito");
+		carrito=JSON.parse(carrito);
+	}
+
+	carrito.forEach(producto => {
+		
+		$(".minicart-product-list").append(`
+			<li>
+				<a href="single-product.html" class="minicart-product-image">
+					<img src="{{ asset('electro/images/product/small-size/1.jpg') }}" alt="cart products">
+				</a>
+				<div class="minicart-product-details">
+					<h6><a href="single-product.html">`+producto.nombre+`</a></h6>
+					<span>$`+producto.precio+` x `+producto.cantidad+`</span>
+				</div>
+				<button class="close">
+					<i class="fa fa-close"></i>
+				</button>
+			</li>
+			`)
+		subtotal= producto.precio*producto.cantidad + subtotal;
+		});
+
+		$("#subtotal1").text('$'+subtotal);
+		$("#subtotal2").text('$'+subtotal);
+		$("#cantidad").text(carrito.length);
+
+</script>

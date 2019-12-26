@@ -67,7 +67,7 @@
 									<div class="product_desc_info">
 										<div class="product-review">
 											<h5 class="manufacturer">
-												<a href="product-details.html">Graphic Corner</a>
+												<a href="viewProduct/{{$p->pro_idn}}">Graphic Corner</a>
 											</h5>
 											<div class="rating-box">
 												<ul class="rating">
@@ -79,16 +79,15 @@
 												</ul>
 											</div>
 										</div>
-										<h4><a class="product_name" href="single-product.html">{{$p->pro_nombre}}</a></h4>
+										<h4><a class="product_name" href="viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
 										<div class="price-box">
 											<span class="new-price">${{$p->pro_valor_venta1}}</span>
 										</div>
 									</div>
 									<div class="add-actions">
 										<ul class="add-actions-link">
-											<li class="add-cart active"><a href="shopping-cart.html">Añadir</a></li>
+											<li class="add-cart active"><a onclick="Añadir(' {{$p->pro_idn}}','{{$p->pro_nombre}}','{{ $p->pro_valor_venta1}}','{{1}}' )">Añadir</a></li>
 											<li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-											<li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
 										</ul>
 									</div>
 								</div>
@@ -173,3 +172,31 @@
 		</div>
 	</div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+function Añadir(id,nombre,precio,cantidad){
+  
+    let carrito = [];
+
+    if(localStorage.getItem("carrito")!=null){
+        carrito=localStorage.getItem("carrito");
+        carrito=JSON.parse(carrito);
+    }
+    
+    let total= precio*cantidad;
+
+   let product={
+       id: id,
+       nombre: nombre,
+       precio: precio,
+       cantidad: cantidad,
+       total: total,
+   }
+    carrito.push(product)
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  
+}
+
+</script>

@@ -50,16 +50,6 @@
                                 </span>
                             </p>
                         </div>
-                        {{-- <div class="product-variants">
-                            <div class="produt-variants-size">
-                                <label>Dimension</label>
-                                <select class="nice-select">
-                                    <option value="1" title="S" selected="selected">40x60cm</option>
-                                    <option value="2" title="M">60x90cm</option>
-                                    <option value="3" title="L">80x120cm</option>
-                                </select>
-                            </div>
-                        </div> --}}
                         <div class="single-add-to-cart">
                             <form action="#" class="cart-quantity">
                                 <div class="quantity">
@@ -70,20 +60,14 @@
                                         <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                     </div>
                                 </div>
-                                <button class="add-to-cart" type="submit">Añadir</button>
+                                <button 
+                                class="add-to-cart"  
+                                style=color:#fff; 
+                                onclick="Añadir(' {{$productos->first()->pro_idn}}','{{$productos->first()->pro_nombre}}','{{ $productos->first()->pro_valor_venta1}}','{{1}}' )" 
+                                >Añadir</button>
                             </form>
                         </div>
-                        {{-- <div class="product-additional-info pt-25"> --}}
-                            {{-- <a class="wishlist-btn" href="wishlist.html"><i class="fa fa-heart-o"></i>Add to wishlist</a> --}}
-                            {{-- <div class="product-social-sharing pt-25">
-                                <ul>
-                                    <li class="facebook"><a href="#"><i class="fa fa-facebook"></i>Facebook</a></li>
-                                    <li class="twitter"><a href="#"><i class="fa fa-twitter"></i>Twitter</a></li>
-                                    <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i>Google +</a></li>
-                                    <li class="instagram"><a href="#"><i class="fa fa-instagram"></i>Instagram</a></li>
-                                </ul>
-                            </div> --}}
-                        {{-- </div> --}}
+
                         <div class="block-reassurance">
                             <ul>
                                 <li>
@@ -118,3 +102,30 @@
         </div>
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+function Añadir(id,nombre,precio,cantidad){
+    console.log(id,nombre,precio,cantidad)
+    let carrito = [];
+
+    if(localStorage.getItem("carrito")!=null){
+        carrito=localStorage.getItem("carrito");
+        carrito=JSON.parse(carrito);
+    }
+    
+    let total= precio*cantidad;
+
+   let product={
+       id: id,
+       nombre: nombre,
+       precio: precio,
+       cantidad: cantidad,
+       total: total,
+   }
+    carrito.push(product)
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  
+}
+
+</script>
