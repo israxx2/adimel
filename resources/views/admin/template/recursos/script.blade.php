@@ -17,9 +17,9 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
 <!-- blockUI -->
-<script src="{{ asset('AdminLTE/dist/js/jquery.blockUI.js') }}"></script>
+<script src="{{ asset('adminlte/dist/js/jquery.blockUI.js') }}"></script>
 <!-- funciones genericas -->
-<script src="{{ asset('AdminLTE/dist/js/generico.js') }}"></script>
+<script src="{{ asset('adminlte/dist/js/generico.js') }}"></script>
 <script>
 	function unblockUI(){
 		$.unblockUI();
