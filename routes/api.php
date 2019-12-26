@@ -26,6 +26,7 @@ Route::get('productos/datatable', function (Request $request){
 	{
 		$productos = DB::table('PRODUCTOS')
 		->where('pro_stock', '>', 0)
+		->take('200')
 		->get();
 		return Datatables()->collection($productos)->make(true);
 	} else return [];
