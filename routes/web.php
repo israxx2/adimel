@@ -103,4 +103,9 @@ Route::group(['prefix' => 'admin'], function(){
 		'edit' 		=> 'admin.producto.edit',
 		'update' 	=> 'admin.producto.update',
 	]]);
+
+		//Imagenes
+		Route::get('imagen', 'Admin\ProductoController@imagenes');
+
+		Route::post('imagen', 'Admin\ProductoController@imageCropPost');
 });

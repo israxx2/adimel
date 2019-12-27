@@ -59,29 +59,28 @@
 							<div class="single-product-wrap">
 								<div class="product-image">
 									<a href="viewProduct/{{$p->pro_idn}}">
-										<img src="{{ asset('electro/images/product/large-size/1.jpg') }}" alt="Li's Product Image">
+
+										@if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
+											<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" alt="Product Image">
+										@else
+											<img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
+										
+										@endif
 									</a>
-									<span class="sticker">New</span>
 								</div>
+							
 								<div class="product_desc">
 									<div class="product_desc_info">
-										<div class="product-review">
-											<h5 class="manufacturer">
-												<a href="viewProduct/{{$p->pro_idn}}">Graphic Corner</a>
-											</h5>
-											<div class="rating-box">
-												<ul class="rating">
-													<li><i class="fa fa-star-o"></i></li>
-													<li><i class="fa fa-star-o"></i></li>
-													<li><i class="fa fa-star-o"></i></li>
-													<li class="no-star"><i class="fa fa-star-o"></i></li>
-													<li class="no-star"><i class="fa fa-star-o"></i></li>
-												</ul>
-											</div>
-										</div>
 										<h4><a class="product_name" href="viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
 										<div class="price-box">
+										
+										
 											<span class="new-price">${{$p->pro_valor_venta1}}</span>
+										
+
+										
+
+											
 										</div>
 									</div>
 									<div class="add-actions">

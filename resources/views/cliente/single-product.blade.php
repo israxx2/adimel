@@ -23,7 +23,7 @@
  
 
     @include('cliente.template.componentes.singleProduct.Details')
-    @include('cliente.template.componentes.singleProduct.Area')
+    {{-- @include('cliente.template.componentes.singleProduct.Area') --}}
 
     @include('cliente.template.componentes.singleProduct.Similary')
 

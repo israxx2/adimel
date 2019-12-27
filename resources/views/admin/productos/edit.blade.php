@@ -1,267 +1,165 @@
+<link rel="stylesheet" href="{{ asset('electro/style.css') }}">
+<link rel="stylesheet" href="http://demo.itsolutionstuff.com/plugin/croppie.css">
+
 @extends('admin.template.app')
-
 @section('title', 'Productos')
-
 @section('content')
 
 <!-- Content Header (Page header) -->
 @include('admin.template.componentes.content_header', [
-'header' => [
-'icon'	=> 'fas fa-archive',
-'title' => 'Productos'
-],
-'pages' => [
-['title' => 'Inicio', 'href' => route('admin')],
-['title' => 'Productos']
-]
-])
+	'header' => [
+		'icon'	=> 'fas fa-archive',
+		'title' => 'Productos'
+		],
+	'pages' => [
+		['title' => 'Inicio', 'href' => route('admin')],
+		['title' => 'Productos']
+	]
+	])
 <!-- /.content-header -->
 
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <!-- Main content -->
+<style>
+	input[type="file"] {
+		display: none;
+	}
+	.custom-file-upload {
+		display: inline-block;
+		padding: 6px 12px;
+		cursor: pointer;
+	}
+</style>
+
+
 <section class="content">
 	<div class="container-fluid">
-		<div class="row" id="row_productos">
-			<div class="col-sm-12 text-center">
-				<div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-					<div class="card-body">
-						<h2><strong>Sign Up Your User Account</strong></h2>
-						<p>Fill all form field to go to next step</p>
-
-						<div class="row">
-							<div class="col-md-12 mx-0">
-								<form id="msform">
-									<!-- progressbar -->
-									<ul id="progressbar">
-										<li class="active" id="imagen"><strong>Elegir Imagen</strong></li>
-										<li id="recortar"><strong>Recortar</strong></li>
-										<li id="payment"><strong>Payment</strong></li>
-										<li id="confirm"><strong>Finish</strong></li>
-									</ul> <!-- fieldsets -->
-									<fieldset>
-										<div class="form-card">
-											<h2 class="fs-title">Account Information</h2> <input type="email" name="email" placeholder="Email Id" /> <input type="text" name="uname" placeholder="UserName" /> <input type="password" name="pwd" placeholder="Password" /> <input type="password" name="cpwd" placeholder="Confirm Password" />
-										</div> <input type="button" name="next" class="next action-button" value="Next Step" />
-									</fieldset>
-									<fieldset>
-										<div class="form-card">
-											<h2 class="fs-title">Personal Information</h2> <input type="text" name="fname" placeholder="First Name" /> <input type="text" name="lname" placeholder="Last Name" /> <input type="text" name="phno" placeholder="Contact No." /> <input type="text" name="phno_2" placeholder="Alternate Contact No." />
-										</div> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="next" class="next action-button" value="Next Step" />
-									</fieldset>
-									<fieldset>
-										<div class="form-card">
-											<h2 class="fs-title">Payment Information</h2>
-											<div class="radio-group">
-												<div class='radio' data-value="credit"><img src="https://i.imgur.com/XzOzVHZ.jpg" width="200px" height="100px"></div>
-												<div class='radio' data-value="paypal"><img src="https://i.imgur.com/jXjwZlj.jpg" width="200px" height="100px"></div> <br>
-											</div> <label class="pay">Card Holder Name*</label> <input type="text" name="holdername" placeholder="" />
-											<div class="row">
-												<div class="col-9"> <label class="pay">Card Number*</label> <input type="text" name="cardno" placeholder="" /> </div>
-												<div class="col-3"> <label class="pay">CVC*</label> <input type="password" name="cvcpwd" placeholder="***" /> </div>
-											</div>
-											<div class="row">
-												<div class="col-3"> <label class="pay">Expiry Date*</label> </div>
-												<div class="col-9"> <select class="list-dt" id="month" name="expmonth">
-													<option selected>Month</option>
-													<option>January</option>
-													<option>February</option>
-													<option>March</option>
-													<option>April</option>
-													<option>May</option>
-													<option>June</option>
-													<option>July</option>
-													<option>August</option>
-													<option>September</option>
-													<option>October</option>
-													<option>November</option>
-													<option>December</option>
-												</select> <select class="list-dt" id="year" name="expyear">
-													<option selected>Year</option>
-												</select> </div>
-											</div>
-										</div> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="make_payment" class="next action-button" value="Confirm" />
-									</fieldset>
-									<fieldset>
-										<div class="form-card">
-											<h2 class="fs-title text-center">Success !</h2> <br><br>
-											<div class="row justify-content-center">
-												<div class="col-3"> <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image"> </div>
-											</div> <br><br>
-											<div class="row justify-content-center">
-												<div class="col-7 text-center">
-													<h5>You Have Successfully Signed Up</h5>
-												</div>
-											</div>
-										</div>
-									</fieldset>
-								</form>
-							</div>
-						</div>
-
+		<div class="container">
+              <div class="panel-body">
+                  <div class="row">
+					<div class="col-md-2 text-center" style="padding:10px;">
+                     <label class="custom-file-upload btn btn-block btn-xl btn-info" style="padding: 10px; top:30%; position:relative;">
+							<input type="file" id="upload"/>
+							SELECCIONAR
+						</label>
+						<button class="btn btn-success btn-xl btn-block upload-result" style="padding: 10px; top:30%; position:relative;">
+							<strong>GUARDAR</strong>
+						</button>
 					</div>
-					<div class="card-footer">
-						Footer
-					</div>
-				</div>
-			</div>
-			
 
-
-
-
-			<div class="row justify-content-center mt-0">
-				<div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
-					<div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-						<h2><strong>Sign Up Your User Account</strong></h2>
-						<p>Fill all form field to go to next step</p>
-						<div class="row">
-							<div class="col-md-12 mx-0">
-								<form id="msform">
-									<!-- progressbar -->
-									<ul id="progressbar">
-										<li class="active" id="account"><strong>Account</strong></li>
-										<li id="personal"><strong>Personal</strong></li>
-										<li id="payment"><strong>Payment</strong></li>
-										<li id="confirm"><strong>Finish</strong></li>
-									</ul> <!-- fieldsets -->
-									<fieldset>
-										<div class="form-card">
-											<h2 class="fs-title">Account Information</h2> <input type="email" name="email" placeholder="Email Id" /> <input type="text" name="uname" placeholder="UserName" /> <input type="password" name="pwd" placeholder="Password" /> <input type="password" name="cpwd" placeholder="Confirm Password" />
-										</div> <input type="button" name="next" class="next action-button" value="Next Step" />
-									</fieldset>
-									<fieldset>
-										<div class="form-card">
-											<h2 class="fs-title">Personal Information</h2> <input type="text" name="fname" placeholder="First Name" /> <input type="text" name="lname" placeholder="Last Name" /> <input type="text" name="phno" placeholder="Contact No." /> <input type="text" name="phno_2" placeholder="Alternate Contact No." />
-										</div> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="next" class="next action-button" value="Next Step" />
-									</fieldset>
-									<fieldset>
-										<div class="form-card">
-											<h2 class="fs-title">Payment Information</h2>
-											<div class="radio-group">
-												<div class='radio' data-value="credit"><img src="https://i.imgur.com/XzOzVHZ.jpg" width="200px" height="100px"></div>
-												<div class='radio' data-value="paypal"><img src="https://i.imgur.com/jXjwZlj.jpg" width="200px" height="100px"></div> <br>
-											</div> <label class="pay">Card Holder Name*</label> <input type="text" name="holdername" placeholder="" />
-											<div class="row">
-												<div class="col-9"> <label class="pay">Card Number*</label> <input type="text" name="cardno" placeholder="" /> </div>
-												<div class="col-3"> <label class="pay">CVC*</label> <input type="password" name="cvcpwd" placeholder="***" /> </div>
-											</div>
-											<div class="row">
-												<div class="col-3"> <label class="pay">Expiry Date*</label> </div>
-												<div class="col-9"> <select class="list-dt" id="month" name="expmonth">
-													<option selected>Month</option>
-													<option>January</option>
-													<option>February</option>
-													<option>March</option>
-													<option>April</option>
-													<option>May</option>
-													<option>June</option>
-													<option>July</option>
-													<option>August</option>
-													<option>September</option>
-													<option>October</option>
-													<option>November</option>
-													<option>December</option>
-												</select> <select class="list-dt" id="year" name="expyear">
-													<option selected>Year</option>
-												</select> </div>
-											</div>
-										</div> <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="make_payment" class="next action-button" value="Confirm" />
-									</fieldset>
-									<fieldset>
-										<div class="form-card">
-											<h2 class="fs-title text-center">Success !</h2> <br><br>
-											<div class="row justify-content-center">
-												<div class="col-3"> <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image"> </div>
-											</div> <br><br>
-											<div class="row justify-content-center">
-												<div class="col-7 text-center">
-													<h5>You Have Successfully Signed Up</h5>
-												</div>
-											</div>
-										</div>
-									</fieldset>
-								</form>
+					<div class="col-lg-3 col-md-4 col-sm-6 mt-40">
+						<div class="card">
+							<div class="product-image" >
+									<div id="upload-demo"  style="padding:20px; display:none;">
+										
+									</div>
+									<div id="imagen"  style="padding:10px;">
+										<center>
+											@if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
+												<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" width="240px" height="240px" alt="Product Image">
+											@else
+												<img src="{{ asset('imageProducts/noimage.png') }}" width="240px" height="240px" alt="Product Image">
+											
+											@endif
+										</center>
+									</div>
+								
+								</div>
+							<div class="product_desc">
+								<div class="product_desc_info" style="padding:20px;">
+									<h4><a class="product_name" href="/viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
+									<div class="price-box">
+										<span class="new-price">${{$p->pro_valor_venta1}}</span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-
-
-		</div>
+				
+                  </div>
+              </div>
+        </div>
 	</div>
 </section>
 
 @endsection
-
 @section('script')
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.js"></script>
+
 <script type="text/javascript">
-	$(document).ready(function(){
+        
+        
+	$.ajaxSetup({
 
-		var current_fs, next_fs, previous_fs; //fieldsets
-		var opacity;
-
-		$(".next").click(function(){
-
-			current_fs = $(this).parent();
-			next_fs = $(this).parent().next();
-
-		//Add Class Active
-		$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-
-		//show the next fieldset
-		next_fs.show();
-		//hide the current fieldset with style
-		current_fs.animate({opacity: 0}, {
-			step: function(now) {
-		// for making fielset appear animation
-		opacity = 1 - now;
-
-		current_fs.css({
-			'display': 'none',
-			'position': 'relative'
-		});
-		next_fs.css({'opacity': opacity});
-	},
-	duration: 600
-});
-	});
-
-		$(".previous").click(function(){
-
-			current_fs = $(this).parent();
-			previous_fs = $(this).parent().prev();
-
-		//Remove class active
-		$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-
-		//show the previous fieldset
-		previous_fs.show();
-
-		//hide the current fieldset with style
-		current_fs.animate({opacity: 0}, {
-			step: function(now) {
-		// for making fielset appear animation
-		opacity = 1 - now;
-
-		current_fs.css({
-			'display': 'none',
-			'position': 'relative'
-		});
-		previous_fs.css({'opacity': opacity});
-	},
-	duration: 600
-});
-	});
-
-		$('.radio-group .radio').click(function(){
-			$(this).parent().find('.radio').removeClass('selected');
-			$(this).addClass('selected');
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
 		});
 
-		$(".submit").click(function(){
-			return false;
-		})
+    $uploadCrop = $('#upload-demo').croppie({
+    
+        enableExif: true,
+        viewport: {
+            width: 270,
+            height: 270,
+            type: 'square'
+        },
+        boundary: {
+            width: 270,
+            height: 270
+        }
+    
+    });
 
-	});
-</script>
+    
+    
+    $('#upload').on('change', function () { 
+    
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $uploadCrop.croppie('bind', {
+                url: e.target.result
+            });	
+        }
+        reader.readAsDataURL(this.files[0]);
+		
+		
+		document.getElementById("imagen").style.display = "none"; 
+		document.getElementById("upload-demo").style.display = "inline"; 
+	
+    
+    });
+
+    
+    
+    $('.upload-result').on('click', function (ev) {
+    
+        $uploadCrop.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+    
+        }).then(function (resp) {
+    
+            $.ajax({
+                url: "/admin/imagen",
+                type: "POST",
+                data: {"image":resp, "id":window.location.pathname.split("/")[3]},
+                success: function () {
+                 
+
+					document.getElementById("upload-demo").style.display = "none"; 
+					html = '<img src="' + resp + '" width="240px" height="240px"  />';
+					$("#imagen").html(html);
+					document.getElementById("imagen").style.display = "inline"; 
+				}
+            });
+        });
+    });
+    
+    
+    </script>
+
 @endsection

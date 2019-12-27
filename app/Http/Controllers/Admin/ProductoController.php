@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class ProductoController extends Controller
 {
     /**
@@ -16,7 +16,7 @@ class ProductoController extends Controller
     {
         return view('admin.productos.index');
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -57,8 +57,14 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        
-        return view('admin.productos.edit');
+        $productos= DB::table('PRODUCTOS')
+        ->where([
+            ['pro_idn', $id],
+        ])->get();
+
+        return view('admin.productos.edit')
+        ->with('p', $productos->first());
+
     }
 
     /**
@@ -83,4 +89,28 @@ class ProductoController extends Controller
     {
         //
     }
+
+
+    public function imagenes()
+    {
+        return view('admin.imagenes.crop');
+    }
+
+    public function imageCropPost(Request $request)
+
+    {
+        $data = $request->image;
+        $id= $request->id;
+        
+        list($type, $data) = explode(';', $data);
+        list(, $data)      = explode(',', $data);
+        $data = base64_decode($data);
+      
+        $path = public_path() . "/imageProducts/" . $id . '.png';
+        error_log($path);
+        file_put_contents($path, $data);
+        return response()->json(['success'=>'done']);
+
+    }
+
 }
