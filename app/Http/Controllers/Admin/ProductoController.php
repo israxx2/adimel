@@ -57,13 +57,6 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-<<<<<<< HEAD
-        
-        return view('admin.productos.agregar_imagen', [
-            'resourceScript' => 'imagen', 
-            'resourceLink' => 'imagen'
-        ]);
-=======
         $productos= DB::table('PRODUCTOS')
         ->where([
             ['pro_idn', $id],
@@ -72,7 +65,6 @@ class ProductoController extends Controller
         return view('admin.productos.edit')
         ->with('p', $productos->first());
 
->>>>>>> 53d84196d331c86d34133ecd35333ef698190961
     }
 
     /**
