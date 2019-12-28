@@ -2381,7 +2381,7 @@ textarea:focus {
 }
 .add-actions-link li:hover a, 
 .add-actions-link li.add-cart:hover a {
-	color: #242424;
+	color: #fff;
 }
 .add-actions-link li.add-cart > a {
 	color: #a4a4a4;

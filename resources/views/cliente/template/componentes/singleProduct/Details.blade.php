@@ -50,7 +50,7 @@
                                 <button 
                                 class="add-to-cart"  
                                 style=color:#fff; 
-                                onclick="Añadir(' {{$productos->first()->pro_idn}}','{{$productos->first()->pro_nombre}}','{{ $productos->first()->pro_valor_venta1}}','{{1}}' )" 
+                                onclick="Añadir('{{$productos->first()->pro_idn}}','{{$productos->first()->pro_nombre}}','{{ $productos->first()->pro_valor_venta1}}','{{1}}' )" 
                                 >Añadir</button>
                             </form>
                         </div>
@@ -89,30 +89,3 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-
-function Añadir(id,nombre,precio,cantidad){
-    console.log(id,nombre,precio,cantidad)
-    let carrito = [];
-
-    if(localStorage.getItem("carrito")!=null){
-        carrito=localStorage.getItem("carrito");
-        carrito=JSON.parse(carrito);
-    }
-    
-    let total= precio*cantidad;
-
-   let product={
-       id: id,
-       nombre: nombre,
-       precio: precio,
-       cantidad: cantidad,
-       total: total,
-   }
-    carrito.push(product)
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-  
-}
-
-</script>

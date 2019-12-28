@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
 
-    $productos= DB::table('PRODUCTOS')->paginate(15);
+    $productos= DB::table('PRODUCTOS')->paginate(8);
 
 	$categorias = DB::table('RUBRO')
 	->where([
