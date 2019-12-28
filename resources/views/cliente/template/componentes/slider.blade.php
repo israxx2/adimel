@@ -11,7 +11,7 @@
 					<div id="cate-toggle" class="category-menu-list">
 						<ul>
 							@foreach($categorias as $c)
-								<li><a href="#">{{ ucwords(strtolower($c->rub_nombre)) }}</a></li>
+								<li><a href="#">{{strtoupper($c->rub_nombre)}}</a></li>
 							@endforeach
 							
 						</ul>

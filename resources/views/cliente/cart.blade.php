@@ -1,3 +1,5 @@
+
+
 @extends('cliente.template.app')
 @section('titulo', 'Quienes Somos')
 
@@ -17,18 +19,19 @@
 <!-- Mobile Menu Area End Here -->
 @endsection
 
-
 @section('body')
 
-    @include('cliente.template.componentes.singleProduct.Details')
-    {{-- @include('cliente.template.componentes.singleProduct.Area') --}}
+@include('cliente.template.componentes.breadcrumb_area', ['pages' => ['Inicio', 'Carrito']])
 
-    @include('cliente.template.componentes.singleProduct.Similary')
+@include('cliente.template.componentes.cart.cart')
 
 @endsection
+
+
+
 @section('footer')
 
-    @include('cliente.template.componentes.footer_middle')
-    @include('cliente.template.componentes.footer_bottom')
+@include('cliente.template.componentes.footer_middle')
+@include('cliente.template.componentes.footer_bottom')
 
 @endsection

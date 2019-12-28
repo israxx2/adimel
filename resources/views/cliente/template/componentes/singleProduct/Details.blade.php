@@ -6,21 +6,19 @@
                 <div class="product-details-left">
                     <div class="product-details-images slider-navigation-1">
                         <div class="lg-image">
-                            <a class="popup-img venobox vbox-item" href="images/product/large-size/1.jpg" data-gall="myGallery">
-                                <img src="{{ asset('electro/images/product/large-size/2.jpg') }}" alt="product image">
-                            </a>
+                        
+                                @if (file_exists('imageProducts/'.$productos->first()->pro_idn.'.png'))
+                                    <img src="{{ asset('imageProducts/'.$productos->first()->pro_idn.'.png') }}" alt="Product Image">
+                                @else
+                                    <img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
+                                
+                                @endif
+                         
                         </div>
-                        <div class="lg-image">
-                            <a class="popup-img venobox vbox-item" href="images/product/large-size/2.jpg" data-gall="myGallery">
-                                <img src="{{ asset('electro/images/product/large-size/1.jpg') }}"alt="product image">
-                            </a>
-                        </div>
+                    
                         
                     </div>
-                    <div class="product-details-thumbs slider-thumbs-1">                                        
-                        <div class="sm-image"><img src="{{ asset('electro/images/product/small-size/2.jpg') }}" alt="product image thumb"></div>
-                        <div class="sm-image"><img src="{{ asset('electro/images/product/small-size/1.jpg') }}" alt="product image thumb"></div>
-                </div>
+       
                 </div>
                 <!--// Product Details Left -->
             </div>
@@ -29,27 +27,16 @@
                 <div class="product-details-view-content pt-60">
                     <div class="product-info">
                         <h2>{{$productos->first()->pro_nombre}}</h2>
-                        <span class="product-details-ref">Reference: demo_15</span>
-                        <div class="rating-box pt-20">
-                            <ul class="rating rating-with-review-item">
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                <li class="review-item"><a href="#">Read Review</a></li>
-                                <li class="review-item"><a href="#">Write Review</a></li>
-                            </ul>
+                     
+                        <div class="product-desc">
+                            <p>
+                                <span>{{$productos->first()->pro_nombre}} </span>
+                            </p>
                         </div>
                         <div class="price-box pt-20">
                             <span class="new-price new-price-2">${{$productos->first()->pro_valor_venta1}}</span>
                         </div>
-                        <div class="product-desc">
-                            <p>
-                                <span>{{$productos->first()->pro_nombre}}
-                                </span>
-                            </p>
-                        </div>
+                        
                         <div class="single-add-to-cart">
                             <form action="#" class="cart-quantity">
                                 <div class="quantity">
@@ -63,7 +50,7 @@
                                 <button 
                                 class="add-to-cart"  
                                 style=color:#fff; 
-                                onclick="Añadir(' {{$productos->first()->pro_idn}}','{{$productos->first()->pro_nombre}}','{{ $productos->first()->pro_valor_venta1}}','{{1}}' )" 
+                                onclick="Añadir('{{$productos->first()->pro_idn}}','{{$productos->first()->pro_nombre}}','{{ $productos->first()->pro_valor_venta1}}','{{1}}' )" 
                                 >Añadir</button>
                             </form>
                         </div>
@@ -102,30 +89,3 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-
-function Añadir(id,nombre,precio,cantidad){
-    console.log(id,nombre,precio,cantidad)
-    let carrito = [];
-
-    if(localStorage.getItem("carrito")!=null){
-        carrito=localStorage.getItem("carrito");
-        carrito=JSON.parse(carrito);
-    }
-    
-    let total= precio*cantidad;
-
-   let product={
-       id: id,
-       nombre: nombre,
-       precio: precio,
-       cantidad: cantidad,
-       total: total,
-   }
-    carrito.push(product)
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-  
-}
-
-</script>

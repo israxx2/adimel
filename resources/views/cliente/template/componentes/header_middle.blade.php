@@ -7,7 +7,11 @@
 				<div class="logo pb-sm-30 pb-xs-30">
 					<a href="/">
 						<center>
+<<<<<<< HEAD
 							<img src="{{ asset('logo_adimel4.jpg') }}" style="height: 70px;"  alt="logo adimel">
+=======
+							<img src="{{ asset('img/logo.png') }}" style="height: 70px;"  alt="logo adimel">
+>>>>>>> 53d84196d331c86d34133ecd35333ef698190961
 						</center>
 					</a>
 				</div>
@@ -30,14 +34,6 @@
 				<!-- Begin Header Middle Right Area -->
 				<div class="header-middle-right">
 					<ul class="hm-menu">
-						<!-- Begin Header Middle Wishlist Area -->
-						<li class="hm-wishlist">
-							{{-- <a href="wishlist.html">
-								<span class="cart-item-count wishlist-item-count">0</span>
-								<i class="fa fa-heart-o"></i>
-							</a> --}}
-						</li>
-						<!-- Header Middle Wishlist Area End Here -->
 						<!-- Begin Header Mini Cart Area -->
 						<li class="hm-minicart"  >
 							<div class="hm-minicart-trigger" style="background-color:#0088C6">
@@ -53,10 +49,10 @@
 								</ul>
 								<p class="minicart-total">SUBTOTAL: <span id="subtotal2">$0</span></p>
 								<div class="minicart-button">
-									<a href="checkout.html" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+									<a href="/cart" class="li-button li-button-dark li-button-fullwidth li-button-sm">
 										<span>VER CARRO</span>
 									</a>
-									<a href="checkout.html" class="li-button li-button-fullwidth li-button-sm">
+									<a href="/checkout" class="li-button li-button-fullwidth li-button-sm">
 										<span>COMPRAR</span>
 									</a>
 								</div>
@@ -78,37 +74,3 @@
 	</button>
 	
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-	let carrito = [];
-	let subtotal=0;
-	if(localStorage.getItem("carrito")!=null){
-		carrito=localStorage.getItem("carrito");
-		carrito=JSON.parse(carrito);
-	}
-
-	carrito.forEach(producto => {
-		
-		$(".minicart-product-list").append(`
-			<li>
-				<a href="single-product.html" class="minicart-product-image">
-					<img src="{{ asset('electro/images/product/small-size/1.jpg') }}" alt="cart products">
-				</a>
-				<div class="minicart-product-details">
-					<h6><a href="single-product.html">`+producto.nombre+`</a></h6>
-					<span>$`+producto.precio+` x `+producto.cantidad+`</span>
-				</div>
-				<button class="close">
-					<i class="fa fa-close"></i>
-				</button>
-			</li>
-			`)
-		subtotal= producto.precio*producto.cantidad + subtotal;
-		});
-
-		$("#subtotal1").text('$'+subtotal);
-		$("#subtotal2").text('$'+subtotal);
-		$("#cantidad").text(carrito.length);
-
-</script>

@@ -20,6 +20,7 @@
 <script src="{{ asset('adminlte/dist/js/jquery.blockUI.js') }}"></script>
 <!-- funciones genericas -->
 <script src="{{ asset('adminlte/dist/js/generico.js') }}"></script>
+<<<<<<< HEAD
 <script>
 	function unblockUI(){
 		$.unblockUI();
@@ -56,6 +57,8 @@
 <script src="{{ asset('adminlte/dist/js/jquery.blockUI.js') }}"></script>
 <!-- funciones genericas -->
 <script src="{{ asset('adminlte/dist/js/generico.js') }}"></script>
+=======
+>>>>>>> 53d84196d331c86d34133ecd35333ef698190961
 <script>
 	function unblockUI(){
 		$.unblockUI();

@@ -3,17 +3,17 @@
 		<div class="footer-logo-wrap pt-50 pb-35">
 			<div class="row">
 				<!-- Begin Footer Logo Area -->
-				<div class="col-lg-4 col-md-6">
+				<div class="col-lg-3 col-md-6">
 					<div class="footer-logo">
 					
-							<img src="{{ asset('electro/images/menu/logo/3.png') }}" height="100px" alt="Footer Logo">
+							<img src="{{ asset('img/logo.png') }}" height="100px" alt="Footer Logo">
 						
 						
 						<p class="info">
 							
 						</p>
 					</div>
-					<ul class="des">
+					{{-- <ul class="des">
 						<li>
 							<span>Ubicacion: </span>
 							Calle 6 Ote. 640, Talca, Maule
@@ -26,11 +26,11 @@
 							<span>Correo: </span>
 							<a href="mailto://webadimel@gmail.com">webadimel@gmail.com</a>
 						</li>
-					</ul>
+					</ul> --}}
 				</div>
 				<!-- Footer Logo Area End Here -->
 				<!-- Begin Footer Block Area -->
-				<div class="col-lg-2 col-md-3 col-sm-6">
+				<div class="col-lg-3 col-md-3 col-sm-6">
 					<div class="footer-block">
 						<h3 class="footer-block-title">PRODUCTOS</h3>
 						<ul>
@@ -43,7 +43,7 @@
 				</div>
 				<!-- Footer Block Area End Here -->
 				<!-- Begin Footer Block Area -->
-				<div class="col-lg-2 col-md-3 col-sm-6">
+				<div class="col-lg-3 col-md-3 col-sm-6">
 					<div class="footer-block">
 						<h3 class="footer-block-title">NOSOTROS</h3>
 						<ul>
@@ -54,9 +54,20 @@
 						</ul>
 					</div>
 				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6">
+					<div class="footer-block">
+						<h3 class="footer-block-title">POLITICAS</h3>
+						<ul>
+					
+							<li><a href="/mercadoPublico">Convenios</a></li>
+							<li><a href="/quienes-somos">Quiénes Somos</a></li>
+							<li><a href="/contacto">Contacto</a></li>
+						</ul>
+					</div>
+				</div>
 				<!-- Footer Block Area End Here -->
 				<!-- Begin Footer Block Area -->
-				<div class="col-lg-4">
+				{{-- <div class="col-lg-4">
 					<div class="footer-block">
 						<h3 class="footer-block-title">REDES SOCIALES</h3>
 						<ul class="social-link">
@@ -92,7 +103,7 @@
 							</li>
 						</ul>
 					</div>
-					{{-- <!-- Begin Footer Newsletter Area -->
+				 <!-- Begin Footer Newsletter Area -->
 					<div class="footer-newsletter">
 						<h4>Sign up to newsletter</h4>
 						<form action="#" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="footer-subscribe-form validate" target="_blank" novalidate>
@@ -103,9 +114,9 @@
 								</div>
 							</div>
 						</form>
-					</div> --}}
+					</div>
 					<!-- Footer Newsletter Area End Here -->
-				</div>
+				</div> --}}
 				<!-- Footer Block Area End Here -->
 			</div>
 		</div>
