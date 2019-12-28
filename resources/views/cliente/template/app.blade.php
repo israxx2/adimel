@@ -18,7 +18,9 @@
         <header>
             @yield('header')
         </header>
+        
         @yield('body')
+
         <div class="footer">
             @yield('footer')
         </div>

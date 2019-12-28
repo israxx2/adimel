@@ -64,6 +64,29 @@ Route::get('/contacto', function () {
 	->with('categorias', $categorias);
 });
 
+Route::get('/cart', function () {
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
+
+	return view('cliente.cart')
+	->with('categorias', $categorias);
+});
+Route::get('/checkout', function () {
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
+
+	return view('cliente.checkout')
+	->with('categorias', $categorias);
+});
+
 Route::get('/viewProduct/{id}', function ($id) {
 
     //0000003070147

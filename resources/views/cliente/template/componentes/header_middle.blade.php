@@ -45,10 +45,10 @@
 								</ul>
 								<p class="minicart-total">SUBTOTAL: <span id="subtotal2">$0</span></p>
 								<div class="minicart-button">
-									<a href="checkout.html" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+									<a href="/cart" class="li-button li-button-dark li-button-fullwidth li-button-sm">
 										<span>VER CARRO</span>
 									</a>
-									<a href="checkout.html" class="li-button li-button-fullwidth li-button-sm">
+									<a href="/checkout" class="li-button li-button-fullwidth li-button-sm">
 										<span>COMPRAR</span>
 									</a>
 								</div>

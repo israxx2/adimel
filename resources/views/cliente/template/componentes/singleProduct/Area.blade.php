@@ -6,7 +6,7 @@
                     <ul class="nav li-product-menu">
                         <li><a class="active" data-toggle="tab" href="#description"><span>Descripción</span></a></li>
                         <li><a data-toggle="tab" href="#product-details"><span>Detalles del Producto</span></a></li>
-                        {{-- <li><a data-toggle="tab" href="#reviews"><span>Revision</span></a></li> --}}
+                     
                     </ul>               
                 </div>
                 <!-- Begin Li's Tab Menu Content Area -->

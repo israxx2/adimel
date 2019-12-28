@@ -29,10 +29,9 @@
 										</div>
 									</div>
 									<div class="add-actions">
-										<ul class="add-actions-link">
-											<li class="add-cart active"><a  onclick="Añadir('{{$p->pro_idn}}','{{$p->pro_nombre}}','{{ $p->pro_valor_venta1}}','{{1}} ')">Añadir</a></li>
-											<li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-										</ul>
+									
+										<button  class="btn btn-xs btn-block" style="background-color: #0088C6; color:white" onclick="Añadir('{{$p->pro_idn}}','{{$p->pro_nombre}}','{{ $p->pro_valor_venta1}}','{{1}} ')"><strong>AÑADIR</strong></button>
+									
 									</div>
 								</div>
 							</div>
