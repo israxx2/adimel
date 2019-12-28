@@ -36,14 +36,8 @@ Route::get('/mercadoPublico', function () {
 		['rub_idn', '!=', 0],
 		['rub_idn', '!=', 8],
 	])->get();
-<<<<<<< HEAD
-
-    return view('cliente.mercado-publico')
-    ->with('categorias', $categorias);
-=======
 	return view('cliente.mercado-publico')
 	->with('categorias', $categorias);
->>>>>>> 53d84196d331c86d34133ecd35333ef698190961
 });
 
 Route::get('/quienes-somos', function () {
@@ -54,13 +48,8 @@ Route::get('/quienes-somos', function () {
 		['rub_idn', '!=', 8],
 	])->get();
 
-<<<<<<< HEAD
-    return view('cliente.about_us')
-    ->with('categorias', $categorias);
-=======
 	return view('cliente.about_us')
 	->with('categorias', $categorias);
->>>>>>> 53d84196d331c86d34133ecd35333ef698190961
 });
 
 Route::get('/contacto', function () {
@@ -70,10 +59,6 @@ Route::get('/contacto', function () {
 		['rub_idn', '!=', 0],
 		['rub_idn', '!=', 8],
 	])->get();
-<<<<<<< HEAD
-    return view('cliente.contact')
-    ->with('categorias', $categorias);
-=======
 
 	return view('cliente.contact')
 	->with('categorias', $categorias);
@@ -100,7 +85,6 @@ Route::get('/checkout', function () {
 
 	return view('cliente.checkout')
 	->with('categorias', $categorias);
->>>>>>> 53d84196d331c86d34133ecd35333ef698190961
 });
 
 Route::get('/viewProduct/{id}', function ($id) {
@@ -142,13 +126,9 @@ Route::group(['prefix' => 'admin'], function(){
 		'edit' 		=> 'admin.producto.edit',
 		'update' 	=> 'admin.producto.update',
 	]]);
-<<<<<<< HEAD
-	Route::post('producto/add-foto', 'Admin\ProductoController@addFoto')->name('admin.producto.add_foto');
-=======
 
 		//Imagenes
 		Route::get('imagen', 'Admin\ProductoController@imagenes');
 
 		Route::post('imagen', 'Admin\ProductoController@imageCropPost');
->>>>>>> 53d84196d331c86d34133ecd35333ef698190961
 });
