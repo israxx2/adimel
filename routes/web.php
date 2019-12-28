@@ -30,15 +30,38 @@ Route::get('/', function () {
 });
 
 Route::get('/mercadoPublico', function () {
-    return view('cliente.mercado-publico');
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
+
+    return view('cliente.mercado-publico')
+    ->with('categorias', $categorias);
 });
 
 Route::get('/quienes-somos', function () {
-    return view('cliente.about_us');
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
+
+    return view('cliente.about_us')
+    ->with('categorias', $categorias);
 });
 
 Route::get('/contacto', function () {
-    return view('cliente.contact');
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
+    return view('cliente.contact')
+    ->with('categorias', $categorias);
 });
 
 Route::get('/viewProduct/{id}', function ($id) {
@@ -80,4 +103,5 @@ Route::group(['prefix' => 'admin'], function(){
 		'edit' 		=> 'admin.producto.edit',
 		'update' 	=> 'admin.producto.update',
 	]]);
+	Route::post('producto/add-foto', 'Admin\ProductoController@addFoto')->name('admin.producto.add_foto');
 });

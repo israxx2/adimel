@@ -58,7 +58,10 @@ class ProductoController extends Controller
     public function edit($id)
     {
         
-        return view('admin.productos.edit');
+        return view('admin.productos.agregar_imagen', [
+            'resourceScript' => 'imagen', 
+            'resourceLink' => 'imagen'
+        ]);
     }
 
     /**

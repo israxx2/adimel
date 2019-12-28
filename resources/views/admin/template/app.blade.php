@@ -46,7 +46,7 @@
     </div>
     <!-- ./wrapper -->
 
-    @include('admin.template.recursos.script', ['resourceScript' => 'general'])
+    @include('admin.template.recursos.script', ['resourceScript' => $resourceScript])
 
     @yield('script')
 </body>
