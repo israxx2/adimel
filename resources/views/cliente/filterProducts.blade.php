@@ -20,9 +20,8 @@
 
 @section('body')
 
-    @include('cliente.template.componentes.singleProduct.Details')
+    @include('cliente.template.componentes.filterProducts.index')
 
-    @include('cliente.template.componentes.singleProduct.Similary')
 
 @endsection
 @section('footer')

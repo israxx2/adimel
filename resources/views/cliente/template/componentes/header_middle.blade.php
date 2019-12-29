@@ -16,14 +16,15 @@
 			<!-- Begin Header Middle Right Area -->
 			<div class="col-lg-9" style="padding-top:10px">
 				<!-- Begin Header Middle Searchbox Area -->
-				<form action="#" class="hm-searchbox">
-					<select class="nice-select select-search-category" >
+				<form action="#" id="buscar" class="hm-searchbox">
+					{{-- <select class="nice-select select-search-category" onchange="changeCategoria(this)"> --}}
+						<select class="nice-select select-search-category" id="categoria" >
 						<option value="0" selected>TODOS</option> 
 						@foreach($categorias as $c)
-							<option value={{$c->rub_nombre}}>{{strtoupper($c->rub_nombre)}}</option>  
+							<option value={{$c->rub_idn}}>{{strtoupper($c->rub_nombre)}}</option>  
 						@endforeach
 					</select>
-					<input type="text" placeholder="Buscar un articulo ...">
+					<input type="text" id="texto" placeholder="Buscar un articulo ...">
 					<button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
 				</form>
 				<!-- Header Middle Searchbox Area End Here -->
@@ -70,3 +71,22 @@
 	</button>
 	
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+function changeCategoria(e){
+	location.href="/categoria/"+e.value
+}
+
+$("#buscar").submit(function( e ) {
+	e.preventDefault();
+ 	let categoria=$("#categoria").val();
+	let texto=$("#texto").val();
+	console.log(texto)
+
+  
+});
+
+</script>

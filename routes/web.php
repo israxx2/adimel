@@ -75,6 +75,7 @@ Route::get('/cart', function () {
 	return view('cliente.cart')
 	->with('categorias', $categorias);
 });
+
 Route::get('/checkout', function () {
 	$categorias = DB::table('RUBRO')
 	->where([
@@ -106,6 +107,34 @@ Route::get('/viewProduct/{id}', function ($id) {
     ->with('categorias', $categorias)
     ->with('productos', $productos);
 });
+
+Route::get('/categoria/{id}', function ($id) {
+
+
+    $productos= DB::table('PRODUCTOS')
+    ->where([
+		['rub_idn', $id]
+	])->paginate(8);
+
+    $categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
+
+	$cat = DB::table('RUBRO')
+	->where([
+		['rub_idn', $id],
+	])->get();
+
+
+    return view('cliente.filterProducts')
+	->with('categorias', $categorias)
+	->with('cat', $cat->first())
+    ->with('productos', $productos);
+});
+
 
 Route::group(['prefix' => 'admin'], function(){
 
