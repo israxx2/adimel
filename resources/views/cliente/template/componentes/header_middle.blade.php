@@ -7,7 +7,11 @@
 				<div class="logo pb-sm-30 pb-xs-30">
 					<a href="/">
 						<center>
+<<<<<<< HEAD
+							<img src="{{ asset('logo_adimel4.jpg') }}" style="height: 70px;"  alt="logo adimel">
+=======
 							<img src="{{ asset('img/logo.png') }}" style="height: 70px;"  alt="logo adimel">
+>>>>>>> 53d84196d331c86d34133ecd35333ef698190961
 						</center>
 					</a>
 				</div>
