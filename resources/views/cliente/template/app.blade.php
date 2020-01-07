@@ -25,6 +25,8 @@
             @yield('footer')
         </div>
         @yield('modal')
+
+        @include('cliente.template.componentes.modal_login')
     </div>
     @include('cliente.template.recursos.script', ['resourceScript' => $resourceScript])
 </body>

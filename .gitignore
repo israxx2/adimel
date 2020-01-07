@@ -3,6 +3,7 @@ composer.phar
 
 ### Laravel ###
 /vendor
+/public/imageProducts
 node_modules/
 npm-debug.log
 .env

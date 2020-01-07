@@ -3,15 +3,11 @@
 		<div class="row">
 			<!-- Begin Header Logo Area -->
 			<div class="col-lg-3">
-			
+
 				<div class="logo pb-sm-30 pb-xs-30">
 					<a href="/">
 						<center>
-<<<<<<< HEAD
 							<img src="{{ asset('logo_adimel4.jpg') }}" style="height: 70px;"  alt="logo adimel">
-=======
-							<img src="{{ asset('img/logo.png') }}" style="height: 70px;"  alt="logo adimel">
->>>>>>> 53d84196d331c86d34133ecd35333ef698190961
 						</center>
 					</a>
 				</div>
@@ -23,23 +19,25 @@
 				<form action="#" id="buscar" class="hm-searchbox">
 					{{-- <select class="nice-select select-search-category" onchange="changeCategoria(this)"> --}}
 						<select class="nice-select select-search-category" id="categoria" >
-						<option value="0" selected>TODOS</option> 
-						@foreach($categorias as $c)
+							<option value="0" selected>TODOS</option> 
+							@foreach($categorias as $c)
 							<option value={{$c->rub_idn}}>{{strtoupper($c->rub_nombre)}}</option>  
-						@endforeach
-					</select>
-					<input type="text" id="texto" placeholder="Buscar un articulo ...">
-					<button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
-				</form>
-				<!-- Header Middle Searchbox Area End Here -->
-				<!-- Begin Header Middle Right Area -->
-				<div class="header-middle-right">
-					<ul class="hm-menu">
-						<!-- Begin Header Mini Cart Area -->
-						<li class="hm-minicart"  >
-							<div class="hm-minicart-trigger" style="background-color:#0088C6">
-								<span class="item-icon"></span>
-								<span class="item-text" ><span id="subtotal1">$0</span>
+							@endforeach
+						</select>
+						<input type="text" id="texto" placeholder="Buscar un articulo ...">
+						<button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+					</form>
+					<!-- Header Middle Searchbox Area End Here -->
+
+					@if(Auth::check()) 
+					<!-- Begin Header Middle Right Area -->
+					<div class="header-middle-right">
+						<ul class="hm-menu">
+							<!-- Begin Header Mini Cart Area -->
+							<li class="hm-minicart"  >
+								<div class="hm-minicart-trigger" style="background-color:#0088C6">
+									<span class="item-icon"></span>
+									<span class="item-text" ><span id="subtotal1">$0</span>
 									<span id="cantidad" class="cart-item-count" style="background-color:#ffdc04; color:#0088C6 "><b>0</b></span>
 								</span>
 							</div>
@@ -63,6 +61,16 @@
 					</ul>
 				</div>
 				<!-- Header Middle Right Area End Here -->
+				@else
+				<!-- Begin Header Middle Right Area -->
+				<div class="header-middle-right">
+					<button class="li-btn-2" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
+				</div>
+				<!-- Header Middle Right Area End Here -->
+				@endif
+				
+
+
 			</div>
 			<!-- Header Middle Right Area End Here -->
 		</div>
@@ -80,17 +88,17 @@
 
 <script>
 
-function changeCategoria(e){
-	location.href="/categoria/"+e.value
-}
+	function changeCategoria(e){
+		location.href="/categoria/"+e.value
+	}
 
-$("#buscar").submit(function( e ) {
-	e.preventDefault();
- 	let categoria=$("#categoria").val();
-	let texto=$("#texto").val();
-	console.log(texto)
+	$("#buscar").submit(function( e ) {
+		e.preventDefault();
+		let categoria=$("#categoria").val();
+		let texto=$("#texto").val();
+		console.log(texto)
 
-  
-});
+
+	});
 
 </script>

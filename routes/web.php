@@ -11,10 +11,15 @@
 |
 */
 use Illuminate\Support\Facades\DB;
+use App\User;
+
+Auth::routes(['register' => false]);
 
 Route::get('/', function () {
 
-    $productos= DB::table('PRODUCTOS')->paginate(8);
+    $productos= DB::table('PRODUCTOS')
+    ->where('pro_stock', '>', 0)
+    ->paginate(16);
 
 	$categorias = DB::table('RUBRO')
 	->where([
@@ -38,6 +43,20 @@ Route::get('/mercadoPublico', function () {
 	])->get();
 	return view('cliente.mercado-publico')
 	->with('categorias', $categorias);
+});
+
+Route::get('/test', function () {
+	$users = User::all()->take('10');
+	dd($users);
+
+
+	$dep = DB::table('CLIENTE')->get();
+	dd($dep[1]);
+
+	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+	->where('cli_idn', '04065059-8')
+	->get();
+	dd($dep);
 });
 
 Route::get('/quienes-somos', function () {
@@ -94,6 +113,7 @@ Route::get('/viewProduct/{id}', function ($id) {
     $productos= DB::table('PRODUCTOS')
     ->where([
 		['pro_idn', $id],
+		['pro_stock', '>', 0]
 	])->get();
 
     $categorias = DB::table('RUBRO')
