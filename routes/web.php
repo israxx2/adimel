@@ -15,145 +15,24 @@ use App\User;
 
 Auth::routes(['register' => false]);
 
-Route::get('/', function () {
 
-    $productos= DB::table('PRODUCTOS')
-    ->where('pro_stock', '>', 0)
-    ->paginate(16);
+Route::get('/', 'Cliente\GeneralController@inicio');
 
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
+Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
 
-	return view('cliente.index-3')
-    ->with('categorias', $categorias)
-    ->with('productos', $productos);
+Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
 
-});
+Route::get('/contacto', 'Cliente\GeneralController@contacto');
 
-Route::get('/mercadoPublico', function () {
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
-	return view('cliente.mercado-publico')
-	->with('categorias', $categorias);
-});
+Route::get('/cart', 'Cliente\GeneralController@cart');
 
-Route::get('/test', function () {
-	$users = User::all()->take('10');
-	dd($users);
+Route::get('/checkout', 'Cliente\GeneralController@checkout');
 
+Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
 
-	$dep = DB::table('CLIENTE')->get();
-	dd($dep[1]);
+Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
 
-	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-	->where('cli_idn', '04065059-8')
-	->get();
-	dd($dep);
-});
-
-Route::get('/quienes-somos', function () {
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
-
-	return view('cliente.about_us')
-	->with('categorias', $categorias);
-});
-
-Route::get('/contacto', function () {
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
-
-	return view('cliente.contact')
-	->with('categorias', $categorias);
-});
-
-Route::get('/cart', function () {
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
-
-	return view('cliente.cart')
-	->with('categorias', $categorias);
-});
-
-Route::get('/checkout', function () {
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
-
-	return view('cliente.checkout')
-	->with('categorias', $categorias);
-});
-
-Route::get('/viewProduct/{id}', function ($id) {
-
-    //0000003070147
-    $productos= DB::table('PRODUCTOS')
-    ->where([
-		['pro_idn', $id],
-		['pro_stock', '>', 0]
-	])->get();
-
-    $categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
-
-    return view('cliente.single-product')
-    ->with('categorias', $categorias)
-    ->with('productos', $productos);
-});
-
-Route::get('/categoria/{id}', function ($id) {
-
-
-    $productos= DB::table('PRODUCTOS')
-    ->where([
-		['rub_idn', $id]
-	])->paginate(8);
-
-    $categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
-
-	$cat = DB::table('RUBRO')
-	->where([
-		['rub_idn', $id],
-	])->get();
-
-
-    return view('cliente.filterProducts')
-	->with('categorias', $categorias)
-	->with('cat', $cat->first())
-    ->with('productos', $productos);
-});
+Route::get('/nueva-cuenta', 'Cliente\GeneralController@createAccount')->name('cliente.create_account');
 
 
 Route::group(['prefix' => 'admin'], function(){
@@ -177,7 +56,21 @@ Route::group(['prefix' => 'admin'], function(){
 	]]);
 
 		//Imagenes
-		Route::get('imagen', 'Admin\ProductoController@imagenes');
+	Route::get('imagen', 'Admin\ProductoController@imagenes');
 
-		Route::post('imagen', 'Admin\ProductoController@imageCropPost');
+	Route::post('imagen', 'Admin\ProductoController@imageCropPost');
+});
+
+Route::get('/test', function () {
+	$users = User::all()->take('10');
+	dd($users);
+
+
+	$dep = DB::table('CLIENTE')->get();
+	dd($dep[1]);
+
+	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+	->where('cli_idn', '04065059-8')
+	->get();
+	dd($dep);
 });
