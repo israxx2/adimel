@@ -16,13 +16,13 @@ use App\User;
 Auth::routes(['register' => false]);
 
 
-Route::get('/', 'Cliente\GeneralController@inicio');
+Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
 
 Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
 
 Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
 
-Route::get('/contacto', 'Cliente\GeneralController@contacto');
+Route::get('/contacto', 'Cliente\GeneralController@viewContacto');
 
 Route::get('/cart', 'Cliente\GeneralController@cart');
 
@@ -32,7 +32,9 @@ Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
 
 Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
 
-Route::get('/nueva-cuenta', 'Cliente\GeneralController@createAccount')->name('cliente.create_account');
+Route::get('/nueva-cuenta', 'Cliente\GeneralController@viewCreateAccount')->name('cliente.create_account');
+Route::post('/nueva-cuenta', 'Cliente\GeneralController@storeCreateAccount')->name('cliente.create_account.store');
+
 
 
 Route::group(['prefix' => 'admin'], function(){

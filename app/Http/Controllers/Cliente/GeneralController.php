@@ -27,7 +27,7 @@ class GeneralController extends Controller
 		->with('productos', $productos);
 	}
 
-	public function createAccount()
+	public function viewCreateAccount()
 	{
 		$categorias = DB::table('RUBRO')
 		->where([
@@ -37,6 +37,48 @@ class GeneralController extends Controller
 		])->get();
 		return view('cliente.create_account')
 		->with('categorias', $categorias);
+	}
+
+	public function storeCreateAccount(Request $request)
+	{
+		$data = array('status' => true, 'errors' => null);
+
+		dd($request->all());
+
+		//Validación
+		$rut = $request->input('rut');
+		$reglas['rut'] = "required";
+		$msjs['rut.required'] = "El rut es obligatorio";
+
+		$reglas['nombre'] = "required";
+		$msjs['nombre.required'] = "El nombre es obligatorio.";
+
+		$reglas['apellidos'] = "required";
+		$msjs['apellidos.required'] = "Los apellidos son obligatorios.";
+
+		$reglas['email'] = "required";
+		$msjs['email.required'] = "El E-mail es obligatorio.";
+
+		$reglas['pw'] = 'required|confirmed|min:6';
+		$msjs['pw.required'] = "La contraseña es obligatoria.";
+		$msjs['pw.confirmed'] = "Las contraseñas no coinciden.";
+		$msjs['pw.min'] = "La contraseña debe tener mas de 5 caracteres";
+
+		$validator = \Validator::make($request->all(), $reglas, $msjs);
+
+		if ($validator->fails())
+        {
+            $data['errors'] = response()->json(['errors'=>$validator->errors()]);
+            return $data;
+        }
+
+        //Ingreso datos
+        try {
+        } catch (\Exception $e) {
+        //si falla retornar error
+        }
+
+        return $data;
 	}
 
 	public function mercadoPublico() {
@@ -62,7 +104,7 @@ class GeneralController extends Controller
 		->with('categorias', $categorias);
 	}
 
-	public function contacto() {
+	public function viewContacto() {
 		$categorias = DB::table('RUBRO')
 		->where([
 			['rub_estado', 1],
