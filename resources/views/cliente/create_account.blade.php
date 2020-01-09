@@ -31,28 +31,28 @@
 							<div class="col-sm-12">
 								<p>Se ha asociado su cuenta WEB con sus datos ya almacenados en nuestra base de datos</p>
 							</div>
-							<div class="col-md-12 col-12 mb-20">
+							<div class="form-group col-md-12 col-12 mb-20">
 								<label>RUT</label>
-								<input class="mb-0" type="text" name="rut" id="rut" placeholder="12345678-0">
+								<input class="mb-0" type="text" name="rut" id="rut" placeholder="Ej: 12345678-0">
 							</div>
 							<br>
-							<div class="col-md-6 col-md-offset-4 col-12 mb-20">
+							<div class="form-group col-md-6 col-md-offset-4 col-12 mb-20">
 								<label>Nombre</label>
 								<input class="mb-0" type="text" name="nombre" id="nombre" placeholder="">
 							</div>
-							<div class="col-md-6 col-12 mb-20">
+							<div class="form-group col-md-6 col-12 mb-20">
 								<label>Apellidos</label>
 								<input class="mb-0" type="text" name="apellidos" id="apellidos" placeholder="">
 							</div>
-							<div class="col-md-12 mb-20">
+							<div class="form-group col-md-12 mb-20">
 								<label>E-mail</label>
 								<input class="mb-0" type="email" name="email" id="email" placeholder="Ingrese su E-mail">
 							</div>
-							<div class="col-md-6 mb-20">
+							<div class="form-group col-md-6 mb-20">
 								<label>Contraseña</label>
 								<input class="mb-0" type="password" name="pw" id="pw" placeholder="Contraseña">
 							</div>
-							<div class="col-md-6 mb-20">
+							<div class="form-group col-md-6 mb-20">
 								<label>Confirmar Contraseña</label>
 								<input class="mb-0" type="password" name="pw_confirmation" placeholder="Confirmar Contraseña">
 							</div>
@@ -100,77 +100,34 @@
 		})
 		.done(function(data) {
 			console.log(data);
-			// if(data.status) {
-			// 	if(data.errors == null) {
-			// 		$('.btn').attr("disabled", true);
-			// 		window.location.href = '{{ route("cliente.inicio") }}';
-			// 	} else {
-			// 		$.notify({
-			// 			title: '<i class="fa fa-fw fa-exclamation"></i><strong> Ups...</strong><br/>',
-			// 			message: "Ingrese correctamente los campos correctamente",
-			// 		},{
-			// 			z_index: 2000,
-			// 			type: 'danger',
-			// 			animate: {
-			// 				enter: 'animated fadeInUp',
-			// 				exit: 'animated fadeOutRight'
-			// 			},
-			// 			placement: {
-			// 				from: "top",
-			// 				align: "right"
-			// 			},
-			// 		});
-			// 		var errors = data.errors.original.errors
+			if(data.status) {
+				if(data.errors == null) {
+					$('.btn').attr("disabled", true);
+				} else {
+					var errors = data.errors.original.errors
 
-			// 		for(error in errors){
-			// 			var elem = $('#'+error);
-			// 			if(elem.is('input')) {
-			// 				elem.addClass("is-invalid");
-			// 				elem.parent().parent().find("small").find("p").text(errors[error]);
-			// 			} else if(elem.is("select")) {
-			// 				elem.addClass("is-invalid");
-			// 				elem.parent().find("small").find("p").text(errors[error]);
-			// 			}
+					for(error in errors){
+						var elem = $('#'+error);
+						if(elem.is('input')) {
+							elem.addClass("is-invalid");
+							elem.parent().parent().find("small").find("p").text(errors[error]);
+						} else if(elem.is("select")) {
+							elem.addClass("is-invalid");
+							elem.parent().find("small").find("p").text(errors[error]);
+						}
 
-			// 		}
-			// 		$('.btn').removeAttr('disabled');
-			// 	}
-			// } else {
-			// 	$.notify({
-			// 		title: '<i class="fa fa-fw fa-exclamation"></i><strong> Ups...</strong><br/>',
-			// 		message: "Ha ocurrido un problema con el servidor",
-			// 	},{
-			// 		z_index: 2000,
-			// 		type: 'danger',
-			// 		animate: {
-			// 			enter: 'animated fadeInUp',
-			// 			exit: 'animated fadeOutRight'
-			// 		},
-			// 		placement: {
-			// 			from: "top",
-			// 			align: "right"
-			// 		},
-			// 	});
-			// 	$('.btn').removeAttr('disabled');
-			// }
+					}
+					$('.btn').removeAttr('disabled');
+				}
+			} else {
+				alert("Ups... Ha ocurrido un error en nuestros servidores");
+				$('.btn').removeAttr('disabled');
+			}
 
 		})
 		.fail(function() {
 			console.log("salio mal");
-			$.notify({
-				title: '<i class="fa fa-fw fa-exclamation"></i><strong> Ups...</strong><br/>',
-				message: "Ha ocurrido un problema con el servidor",
-			},{
-				type: 'danger',
-				animate: {
-					enter: 'animated fadeInUp',
-					exit: 'animated fadeOutRight'
-				},
-				placement: {
-					from: "top",
-					align: "right"
-				},
-			});
+
 			$('.btn').removeAttr('disabled');
 		});
 

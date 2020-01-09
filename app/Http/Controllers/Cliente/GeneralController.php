@@ -42,9 +42,7 @@ class GeneralController extends Controller
 	public function storeCreateAccount(Request $request)
 	{
 		$data = array('status' => true, 'errors' => null);
-
-		dd($request->all());
-
+		//dd($request->input());
 		//Validación
 		$rut = $request->input('rut');
 		$reglas['rut'] = "required";
@@ -74,6 +72,8 @@ class GeneralController extends Controller
 
         //Ingreso datos
         try {
+
+
         } catch (\Exception $e) {
         //si falla retornar error
         }

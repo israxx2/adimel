@@ -41,8 +41,6 @@
 <script src="{{ asset('electro/js/scrollUp.min.js') }}"></script>
 <!-- Main/Activator js -->
 <script src="{{ asset('electro/js/main.js') }}"></script>
-<!-- Bootstrap Notify js -->
-<script src="{{ asset('electro/js/bootstrap-notify.js') }}"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -50,5 +48,4 @@
 
 @endif
 
-@include('cliente.template.componentes.notify')
 @yield('script')
