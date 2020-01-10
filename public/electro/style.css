@@ -5452,3 +5452,7 @@ span.required {
 	border-color: #dd4b39;
 	box-shadow: none;
 }
+
+.text-error {
+	color: #dd4b39;
+}

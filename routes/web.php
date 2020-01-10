@@ -64,15 +64,49 @@ Route::group(['prefix' => 'admin'], function(){
 });
 
 Route::get('/test', function () {
-	$users = User::all()->take('10');
-	dd($users);
+	$users = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+	->select([DB::raw('MAX(CAST(dep_cli_idn AS int)) AS dep_cli_idn')])->first()->dep_cli_idn;
+	dd($users + 1);
 
 
-	$dep = DB::table('CLIENTE')->get();
-	dd($dep[1]);
+	// $dep = DB::table('CLIENTE')
+	// ->where('cli_idn', '13100907-0')
+	// ->get();
+	// dd($dep);
 
-	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-	->where('cli_idn', '04065059-8')
-	->get();
-	dd($dep);
+	// CLIENTE
+	// +"cli_idn": "13100907-0"
+	// +"cli_rut": "13.100.907-0"
+	// +"cli_razon_social": "BERNARDO GUTIERREZ"
+	// +"cli_giro": "PARTICULAR"
+	// +"cli_traslado": "0"
+
+	// DEPENDENCIAS_DEL_CLIENTE
+	// "dep_cli_idn" => "1"
+	// "cli_idn" => "13100907-0"
+	// "dep_cli_nombre" => "BERNARDO GUTIERREZ"
+	// "cli_giro" => "PARTICULAR"
+	// "dep_cli_direccion" => "8 OTE 245"
+	// "seg_div_pol_idn" => "100"
+	// "dep_cli_fono" => "617449"
+	// "dep_cli_fax" => ""
+	// "dep_cli_casilla" => "-"
+	// "dep_cli_enc_atencion" => " "
+	// "cat_idn" => "100"
+	// "zon_idn" => "100"
+	// "dep_cli_descuento" => "0.0"
+	// "ven_idn" => "N"
+	// "dep_cli_email" => "CRISOL@MACROHARD.CL"
+	// "dep_cli_web" => "-"
+	// "por_uti_idn" => "1"
+	// "dep_cli_fecha_ingreso" => "2016-05-02 00:00:00"
+	// "dep_cli_estado" => "1"
+	// "dep_cli_monaut" => "0"
+	// "pla_pag_idn" => "100"
+	// "for_pag_idn" => "1"
+	// "dep_cli_saldo_favor" => "0"
+	// "dep_cli_ciudad" => "TALCA"
+	// "dep_plazo_pago" => "0"
+	// "dep_cli_usuario_web" => null
+	// "dep_cli_clave_web" => null
 });

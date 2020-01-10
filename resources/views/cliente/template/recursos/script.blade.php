@@ -44,7 +44,13 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+<script src="{{ asset('electro/js/jquery.mask.min.js') }}"></script>
+
+<script src="{{ asset('electro/js/jquery.rut.chileno.min.js') }}"></script>
+
 <script src="{{ asset('js/funciones.js') }}"></script>
+
+
 
 @endif
 

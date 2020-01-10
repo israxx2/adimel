@@ -33,7 +33,7 @@
 							</div>
 							<div class="form-group col-md-12 col-12 mb-20">
 								<label>RUT</label>
-								<input class="mb-0" type="text" name="rut" id="rut" placeholder="Ej: 12345678-0">
+								<input class="mb-0 rut" type="text" name="rut" id="rut" placeholder="Ej: 12345678-0">
 							</div>
 							<br>
 							<div class="form-group col-md-6 col-md-offset-4 col-12 mb-20">
@@ -80,7 +80,6 @@
 
 @section('script')
 <script type="text/javascript">
-
 	$('#form-create-account').submit(function(event) {
 		event.preventDefault();
 		$form = $(this);
@@ -100,23 +99,28 @@
 		})
 		.done(function(data) {
 			console.log(data);
+			$('.has-error').removeClass('has-error');
+			$('.text-error').remove();
 			if(data.status) {
 				if(data.errors == null) {
 					$('.btn').attr("disabled", true);
 				} else {
 					var errors = data.errors.original.errors
 
-					for(error in errors){
-						var elem = $('#'+error);
+					$.each(errors , function( index, msj ) {
+						//alert( index + ": " + value );
+						var elem = $('#'+index);
 						if(elem.is('input')) {
-							elem.addClass("is-invalid");
-							elem.parent().parent().find("small").find("p").text(errors[error]);
-						} else if(elem.is("select")) {
-							elem.addClass("is-invalid");
-							elem.parent().find("small").find("p").text(errors[error]);
+							$form_group = elem.parent('.form-group');
+							$form_group.addClass('has-error');
+							html = '';
+							html += '<p class="text-error">';
+							html += msj;
+							html += '</p>';
+							$form_group.append(html);
 						}
+					});
 
-					}
 					$('.btn').removeAttr('disabled');
 				}
 			} else {
@@ -129,10 +133,16 @@
 			console.log("salio mal");
 
 			$('.btn').removeAttr('disabled');
-		});
-
-		
-		
+		});	
 	});
+
+	$('.rut').rut({
+		formatear :true,
+		placeholder: false,
+		fn_error : function(input){
+		}
+	});
+
+	$('.rut').trigger('blur');
 </script>
 @endsection
