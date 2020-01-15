@@ -57,8 +57,7 @@ class LoginController extends Controller
 
         //Si se crea el guardia (si se loguea) .....
         if (Auth::guard('cliente')->attempt(['cli_idn' => $request->rut, 'password' => $request->pw], $request->filled('remember'))) {
-            //dd("exito");
-            return redirect('/test');
+            return redirect('/');
         }
         dd("falló");
         return back()->withInput($request->only('rut'));

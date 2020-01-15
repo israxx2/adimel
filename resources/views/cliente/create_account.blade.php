@@ -87,7 +87,7 @@
 		//$('.is-invalid').removeClass('is-invalid');
 		//$('.text-error').text("");
 		//$('.register-button').attr("disabled", true);
-		$('register-button').attr("disabled", true);
+		$('.register-button').attr("disabled", true);
 		var $inputs = $form.find("input");
 
 		var serializedData = $inputs.serialize();
@@ -102,13 +102,10 @@
 			$('.has-error').removeClass('has-error');
 			$('.text-error').remove();
 			if(data.status) {
-				
 				if(data.errors == null) {
-					$('.btn').attr("disabled", true);
 					//YA EXISTE
 					if(Boolean(data.existe)) {
 						alert(data.existe);
-						$('.register-button').removeAttr('disabled');
 					} else {
 						alert("Se ha creado la cuenta con éxito");
 					}
@@ -129,14 +126,12 @@
 							$form_group.append(html);
 						}
 					});
-
-					$('.register-button').removeAttr('disabled');
 				}
+				
 			} else {
 				alert("Ups... Ha ocurrido un error en nuestros servidores");
-				$('.register-button').removeAttr('disabled');
 			}
-
+			$('.register-button').removeAttr('disabled');
 		})
 		.fail(function() {
 			alert("Fallo conexion al servidor");

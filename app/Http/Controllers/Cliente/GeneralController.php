@@ -99,7 +99,7 @@ class GeneralController extends Controller
 					'cli_rut' 			=> strtoupper($request->rut),
 					'cli_razon_social' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
 					'cli_giro' 			=> "PARTICULAR",
-					'cli_traslado' 		=> 0],
+					'cli_traslado' 		=> 0]
 				);
 
 				$dep_cli_idn = DB::table('DEPENDENCIAS_DEL_CLIENTE')
@@ -131,8 +131,8 @@ class GeneralController extends Controller
 					//'dep_cli_ciudad' => " ",
 					//'dep_plazo_pago' => " ",
 					//'dep_cli_usuario_web' => " ",
-					'password' => bcrypt($request->pw),
-				],
+					'password' => bcrypt($request->pw)
+				]
 			);
 
 				//dd("todo ok");

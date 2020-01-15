@@ -73,6 +73,11 @@ Route::get('/test', function () {
 	// ->take('20')
 	// ->get();
 	// dd($users);
+
+	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+	->where('cli_idn', '19105900-K')
+	->get();
+	dd($dep);
 	dd(Auth::guard('cliente')->user());
 	//metodos para el cliente logueado
 	// Auth::guard('cliente')->user()     --Retorna al usuario logueado
