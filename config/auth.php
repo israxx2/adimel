@@ -69,6 +69,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+            'table' => 'DEPENDENCIAS_DEL_CLIENTE',
         ],
 
         // 'users' => [

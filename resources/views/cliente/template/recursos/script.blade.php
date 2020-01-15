@@ -50,7 +50,19 @@
 
 <script src="{{ asset('js/funciones.js') }}"></script>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.rut').rut({
+			formatear :true,
+			placeholder: false,
+			fn_error : function(input){
+			}
+		});
 
+		$('.rut').trigger('blur');
+	})
+	
+</script>
 
 @endif
 

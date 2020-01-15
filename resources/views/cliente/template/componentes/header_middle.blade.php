@@ -29,7 +29,7 @@
 					</form>
 					<!-- Header Middle Searchbox Area End Here -->
 
-					@if(Auth::check()) 
+
 					<!-- Begin Header Middle Right Area -->
 					<div class="header-middle-right">
 						<ul class="hm-menu">
@@ -61,13 +61,15 @@
 					</ul>
 				</div>
 				<!-- Header Middle Right Area End Here -->
-				@else
+
 				<!-- Begin Header Middle Right Area -->
+
 				<div class="header-middle-right">
 					<button class="li-btn-2" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
 				</div>
+
 				<!-- Header Middle Right Area End Here -->
-				@endif
+
 				
 
 

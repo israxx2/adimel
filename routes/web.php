@@ -12,9 +12,13 @@
 */
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => false]);
 
+Route::post('/loguear', 'Cliente\GeneralController@loguear')->name('loguear');
+
+Route::get('/adimel-login', 'Auth\LoginController@showLoginForm');
 
 Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
 
@@ -64,9 +68,15 @@ Route::group(['prefix' => 'admin'], function(){
 });
 
 Route::get('/test', function () {
-	$users = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-	->select([DB::raw('MAX(CAST(dep_cli_idn AS int)) AS dep_cli_idn')])->first()->dep_cli_idn;
-	dd($users + 1);
+	dd(Auth::user());
+	$user = User::find(6347);
+	dd($user);
+	$user->password = bcrypt('asdqwe123');
+	dd($user->save());
+	dd(Auth::check());
+	// $users = DB::table('DEPENDENCIAS_DEL_CLIENTE')->take('10')->get();
+	$users = DB::table('DEPENDENCIAS_DEL_CLIENTE')->where('dep_cli_idn', 6347)->get();
+	dd($users);
 
 
 	// $dep = DB::table('CLIENTE')

@@ -33,7 +33,7 @@
 							</div>
 							<div class="form-group col-md-12 col-12 mb-20">
 								<label>RUT</label>
-								<input class="mb-0 rut" type="text" name="rut" id="rut" placeholder="Ej: 12345678-0">
+								<input class="mb-0 rut" type="text" name="rut" id="rut" placeholder="">
 							</div>
 							<br>
 							<div class="form-group col-md-6 col-md-offset-4 col-12 mb-20">
@@ -63,7 +63,7 @@
 					</div>
 				</form>
 			</div>
-		</div>
+		</div>	
 	</div>
 </div>
 
@@ -87,7 +87,7 @@
 		//$('.is-invalid').removeClass('is-invalid');
 		//$('.text-error').text("");
 		//$('.register-button').attr("disabled", true);
-
+		$('register-button').attr("disabled", true);
 		var $inputs = $form.find("input");
 
 		var serializedData = $inputs.serialize();
@@ -102,9 +102,18 @@
 			$('.has-error').removeClass('has-error');
 			$('.text-error').remove();
 			if(data.status) {
+				
 				if(data.errors == null) {
 					$('.btn').attr("disabled", true);
-				} else {
+					//YA EXISTE
+					if(Boolean(data.existe)) {
+						alert(data.existe);
+						$('.register-button').removeAttr('disabled');
+					} else {
+						alert("Se ha asignado una contraseña con exito");
+					}
+					//ERRORES DE VALIDACIÓN
+				}  else {
 					var errors = data.errors.original.errors
 
 					$.each(errors , function( index, msj ) {
@@ -121,28 +130,18 @@
 						}
 					});
 
-					$('.btn').removeAttr('disabled');
+					$('.register-button').removeAttr('disabled');
 				}
 			} else {
 				alert("Ups... Ha ocurrido un error en nuestros servidores");
-				$('.btn').removeAttr('disabled');
+				$('.register-button').removeAttr('disabled');
 			}
 
 		})
 		.fail(function() {
-			console.log("salio mal");
-
-			$('.btn').removeAttr('disabled');
+			alert("Fallo conexion al servidor");
+			$('.register-button').removeAttr('disabled');
 		});	
 	});
-
-	$('.rut').rut({
-		formatear :true,
-		placeholder: false,
-		fn_error : function(input){
-		}
-	});
-
-	$('.rut').trigger('blur');
 </script>
 @endsection
