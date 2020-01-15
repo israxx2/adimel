@@ -7,18 +7,18 @@
 				</button>
 				<div class="modal-inner-area row">
 					<div class="col-sm-12">
-						<form method="POST" action="{{ route('login') }}">
+						<form method="POST" action="{{ route('cliente.login') }}">
 							@csrf
 							<div class="container">
 								<h4 class="login-title">Iniciar Sesión</h4>
 								<div class="row d-flex justify-content-center">
 									<div class="col-md-12 col-12 mb-30 mt-20 form-group">
 										<label>RUT</label>
-										<input class="mb-0 form-control rut" type="text" name="cli_idn" placeholder="EJ: 12345678-0">
+										<input class="mb-0 form-control rut" type="text" name="rut" placeholder="EJ: 12345678-0">
 									</div>
 									<div class="col-12 mb-20 form-group">
 										<label>Contraseña</label>
-										<input class="mb-0 form-control" name="password" type="password">
+										<input class="mb-0 form-control" name="pw" type="password">
 									</div>
 									<div class="col-md-12 mt-10 text-left text-md-right">
 										<a href="{{ route('cliente.create_account') }}">Crear una Cuenta</a>

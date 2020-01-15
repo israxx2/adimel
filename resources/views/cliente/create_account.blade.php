@@ -110,7 +110,7 @@
 						alert(data.existe);
 						$('.register-button').removeAttr('disabled');
 					} else {
-						alert("Se ha asignado una contraseña con exito");
+						alert("Se ha creado la cuenta con éxito");
 					}
 					//ERRORES DE VALIDACIÓN
 				}  else {

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => false]);
 
-Route::post('/loguear', 'Cliente\GeneralController@loguear')->name('loguear');
+Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
 
 Route::get('/adimel-login', 'Auth\LoginController@showLoginForm');
 
@@ -68,7 +68,19 @@ Route::group(['prefix' => 'admin'], function(){
 });
 
 Route::get('/test', function () {
-	dd(Auth::user());
+
+	// $users = DB::table('CLIENTE')
+	// ->take('20')
+	// ->get();
+	// dd($users);
+	dd(Auth::guard('cliente')->user());
+	//metodos para el cliente logueado
+	// Auth::guard('cliente')->user()     --Retorna al usuario logueado
+	// Auth::guard('cliente')->id()       --Retorna la id
+	// Auth::guard('cliente')->check()    --Retorna true si alguien ta logueado
+	// Auth::guard('cliente')->logout()   --Desloguea obviamente
+
+
 	$user = User::find(6347);
 	dd($user);
 	$user->password = bcrypt('asdqwe123');
