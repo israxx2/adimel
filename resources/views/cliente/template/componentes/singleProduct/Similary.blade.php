@@ -9,36 +9,47 @@
                     </h2>
                 </div>
                 <div class="row">
-                    <div class="product-active owl-carousel">
-                        <div class="col-lg-12">
+                    <div class="product-active owl-carousel"  >
+                        @foreach ($similaryProducts as $s)
+                         <div class="col-lg-12">
+                                
                             <!-- single-product-wrap start -->
                             <div class="single-product-wrap">
                                 <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img src="{{ asset('electro/images/product/large-size/2.jpg') }}"alt="Li's Product Image">
-                                    </a>
-                                    <span class="sticker">New</span>
+                                    @if (file_exists('imageProducts/'.$s->pro_idn.'.png'))
+                                        <img src="{{ asset('imageProducts/'.$s->pro_idn.'.png') }}" alt="Product Image">
+                                    @else
+                                        <img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
+                                    
+                                    @endif
                                 </div>
                                 <div class="product_desc">
                                     <div class="product_desc_info">
-                                        <h4><a class="product_name" href="single-product.html">Accusantium dolorem1</a></h4>
-                                        <div class="price-box">
-                                            <span class="new-price">$46.80</span>
-                                        </div>
+                                        <h4><a class="product_name" href="viewProduct/{{$s->pro_idn}}">{{$s->pro_nombre}}</a></h4>
+                                        @if(Auth::guard('cliente')->check())
+                                            <div class="price-box">									
+                                                <span class="new-price">${{$s->pro_valor_venta1}}</span>
+                                            </div>
+                                        @else
+                                            <center><small><i>Para ver los precios debe iniciar sesion</i></small></center>
+                                        @endif
                                     </div>
+                                
                                     <div class="add-actions">
-                                        <ul class="add-actions-link">
-                                            <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                            <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-                                            <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
-                                        </ul>
+                                        @if(Auth::guard('cliente')->check())
+                                            <button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="Añadir('{{$s->pro_idn}}','{{$s->pro_nombre}}','{{ $s->pro_valor_venta1}}','{{1}} ')"><span>AÑADIR</span></button>										
+                                        @else
+                                            <button class="btn btn-sm btn-block" style="background-color:#0088c6; color:white" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
+                                        @endif
                                     </div>
+                                    
                                 </div>
                             </div>
                             <!-- single-product-wrap end -->
+                          
                         </div>
      
-                
+                        @endforeach
                 
                     </div>
                 </div>

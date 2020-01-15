@@ -13,27 +13,37 @@
 									<a href="viewProduct/{{$p->pro_idn}}">
 
 										@if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
-											<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" alt="Product Image">
+											<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" alt="Product Image" height="240px">
 										@else
 											<img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
-										
 										@endif
 									</a>
 								</div>
+								
 							
-								<div class="product_desc">
-									<div class="product_desc_info">
-										<h4><a class="product_name" href="viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
-										<div class="price-box">									
-											<span class="new-price">${{$p->pro_valor_venta1}}</span>
+									<div class="product_desc">
+										<div class="product_desc_info">
+											<h4><a class="product_name" href="viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
+											@if(Auth::guard('cliente')->check())
+												<div class="price-box">									
+													<span class="new-price">${{$p->pro_valor_venta1}}</span>
+												</div>
+											@else
+												<center><small><i>Para ver los precios debe iniciar sesion</i></small></center>
+											@endif
 										</div>
-									</div>
-									<div class="add-actions">
 									
-										<button  class="btn btn-xs btn-block" style="background-color: #0088C6; color:white" onclick="Añadir('{{$p->pro_idn}}','{{$p->pro_nombre}}','{{ $p->pro_valor_venta1}}','{{1}} ')"><strong>AÑADIR</strong></button>
-									
+										<div class="add-actions">
+											@if(Auth::guard('cliente')->check())
+												<button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="Añadir('{{$p->pro_idn}}','{{$p->pro_nombre}}','{{ $p->pro_valor_venta1}}','{{1}} ')"><span>AÑADIR</span></button>										
+											@else
+												<button class="btn btn-sm btn-block" style="background-color:#0088c6; color:white" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
+											@endif
+										</div>
+										
 									</div>
-								</div>
+				
+							
 							</div>
 							<!-- single-product-wrap end -->
 						</div>

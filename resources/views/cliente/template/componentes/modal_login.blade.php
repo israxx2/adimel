@@ -10,7 +10,7 @@
 						<form method="POST" action="{{ route('cliente.login') }}">
 							@csrf
 							<div class="container">
-								<h4 class="login-title">Iniciar Sesión</h4>
+								<center><h4 class="login-title">Iniciar Sesión</h4></center>
 								<div class="row d-flex justify-content-center">
 									<div class="col-md-12 col-12 mb-30 mt-20 form-group">
 										<label>RUT</label>

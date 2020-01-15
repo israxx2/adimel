@@ -56,6 +56,12 @@ function CalculateCarrito(){
     //totales para vista cart.
     $("#subtotal3").text('$'+subtotal);
     $("#total4").text('$'+subtotal);
+
+    //totales para checkout
+    $("#subtotalCheckOut").text('$'+subtotal);
+    $("#totalCheckOut").text('$'+subtotal);
+
+    
    
     
 }

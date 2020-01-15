@@ -196,6 +196,10 @@ class GeneralController extends Controller
 	}
 
 	public function checkout() {
+		$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+				->where('dep_cli_idn',1 /*Auth::guard('cliente')->id()*/)->first();
+	
+
 		$categorias = DB::table('RUBRO')
 		->where([
 			['rub_estado', 1],
@@ -204,6 +208,7 @@ class GeneralController extends Controller
 		])->get();
 
 		return view('cliente.checkout')
+		->with('user', $user)
 		->with('categorias', $categorias);
 	}
 
@@ -213,8 +218,17 @@ class GeneralController extends Controller
 		->where([
 			['pro_idn', $id],
 			['pro_stock', '>', 0]
-		])->get();
+		])->first();
+		
+		$similaryProducts = DB::table('PRODUCTOS')
+		->where([
+			['pro_stock', '>', 0],
+			['rub_idn', '=', $productos->rub_idn],
+			['pro_idn', '!=',$id],
+		])->take(5)->get();
+	
 
+	
 		$categorias = DB::table('RUBRO')
 		->where([
 			['rub_estado', 1],
@@ -224,7 +238,8 @@ class GeneralController extends Controller
 
 		return view('cliente.single-product')
 		->with('categorias', $categorias)
-		->with('productos', $productos);
+		->with('productos', $productos)
+		->with('similaryProducts', $similaryProducts);
 	}
 
 	public function categoria($id) {

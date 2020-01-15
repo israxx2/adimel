@@ -59,7 +59,7 @@ class LoginController extends Controller
         if (Auth::guard('cliente')->attempt(['cli_idn' => $request->rut, 'password' => $request->pw], $request->filled('remember'))) {
             return redirect('/');
         }
-        dd("falló");
+        //dd("falló");
         return back()->withInput($request->only('rut'));
     }
 }

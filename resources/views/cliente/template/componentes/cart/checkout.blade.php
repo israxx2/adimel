@@ -5,13 +5,18 @@
             <div class="col-lg-6 col-12">
                 <form action="#">
                     <div class="checkbox-form">
-                        <h3>Billing Details</h3>
+                        <h3>Detalles del comprador</h3>
                         <div class="row">
                             <div class="col-md-12">
-                                <p>Datos del comprador</p>
+                                <p><b>Nombre:</b> {{$user->dep_cli_nombre}}</p>   
+                                <p><b>Ciudad:</b> {{$user->dep_cli_ciudad}}</p>  
+                                <p><b>Dirección:</b> {{$user->dep_cli_direccion}}</p>  
+                                <p><b>Correo:</b> {{$user->dep_cli_email}}</p>  
+                                <p><b>Fono:</b> {{$user->dep_cli_fono}}</p>  
+                                <p><b>Giro:</b> {{$user->cli_giro}}</p>  
                             </div>
-
                         </div>
+                        <hr>
                         <div class="different-address">
                             <div class="ship-different-title">
                                 <h3>
@@ -24,12 +29,10 @@
                                     <div class="country-select clearfix">
                                         <label>Ciudad <span class="required">*</span></label>
                                         <select class="nice-select wide">
-                                            <option data-display="Bangladesh">Bangladesh</option>
-                                            <option value="uk">London</option>
-                                            <option value="rou">Romania</option>
-                                            <option value="fr">French</option>
-                                            <option value="de">Germany</option>
-                                            <option value="aus">Australia</option>
+                                            <option data-display="Talca">Talca</option>
+                                            <option value="Santiago">Santiago</option>
+                                            <option value="Linares">Linares</option>
+                                            <option value="San Javier">San Javier</option>
                                         </select>
                                     </div>
                                 </div>
@@ -107,7 +110,7 @@
                 <div class="your-order">
                     <h3>Tu orden</h3>
                     <div class="your-order-table table-responsive">
-                        <table class="table">
+                        <table class="table" id="tableCheckOut">
                             <thead>
                                 <tr>
                                     <th class="cart-product-name">Producto</th>
@@ -115,23 +118,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="cart_item">
-                                    <td class="cart-product-name"> Vestibulum suscipit<strong class="product-quantity"> × 1</strong></td>
-                                    <td class="cart-product-total"><span class="amount">£165.00</span></td>  
-                                </tr>
-                                <tr class="cart_item">
-                                    <td class="cart-product-name"> Vestibulum suscipit<strong class="product-quantity"> × 1</strong></td>
-                                    <td class="cart-product-total"><span class="amount">£165.00</span></td>  
-                                </tr>
                             </tbody>
                             <tfoot>
                                 <tr class="cart-subtotal">
-                                    <th>Cart Subtotal</th>
-                                    <td><span class="amount">£215.00</span></td>
+                                    <th>SUBTOTAL</th>
+                                    <td><span id="subtotalCheckOut" class="amount">£215.00</span></td>
                                 </tr>
                                 <tr class="order-total">
-                                    <th>Order Total</th>
-                                    <td><strong><span class="amount">£215.00</span></strong></td>
+                                    <th>TOTAL</th>
+                                    <td><strong><span id="totalCheckOut" class="amount">£215.00</span></strong></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -143,20 +138,23 @@
                                 <div class="card-header" id="#payment-1">
                                     <h5 class="panel-title">
                                     <a class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Transferencia Bancaria.
+                                        Transferencia Bancaria
                                     </a>
                                     </h5>
                                 </div>
                                 <div id="collapseOne" class="collapse show" data-parent="#accordion">
                                     <div class="card-body">
-                                        <p>Datos de transferencia</p>
+                                        <p>Banco:</p>
+                                        <p>Numero de Cuenta:</p>
+                                        <p>Tipo de Cuenta:</p>
+                                        <p>Monto:</p>
                                     </div>
                                 </div>
                                 </div>
 
                             </div>
                             <div class="order-button-payment">
-                                <input value="Place order" type="submit">
+                                <input value="Efectuar Compra" type="submit">
                             </div>
                         </div>
                     </div>
@@ -166,3 +164,23 @@
     </div>
 </div>
           
+
+<script>
+
+    let carrito = [];
+    if(localStorage.getItem("carrito")!=null){
+        carrito=localStorage.getItem("carrito");
+        carrito=JSON.parse(carrito);
+    }
+    carrito.forEach(producto => {
+		$('#tableCheckOut > tbody').append(`
+            <tr class="cart_item">
+                <td class="cart-product-name"> `+producto.nombre+`<strong class="product-quantity"> × `+producto.cantidad+`</strong></td>
+                <td class="cart-product-total"><span class="amount">`+producto.total+`</span></td>  
+            </tr>
+		`)
+	
+    });
+
+
+</script>

@@ -7,8 +7,8 @@
                     <div class="product-details-images slider-navigation-1">
                         <div class="lg-image">
                         
-                                @if (file_exists('imageProducts/'.$productos->first()->pro_idn.'.png'))
-                                    <img src="{{ asset('imageProducts/'.$productos->first()->pro_idn.'.png') }}" alt="Product Image">
+                                @if (file_exists('imageProducts/'.$productos->pro_idn.'.png'))
+                                    <img src="{{ asset('imageProducts/'.$productos->pro_idn.'.png') }}" alt="Product Image">
                                 @else
                                     <img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
                                 
@@ -26,17 +26,18 @@
             <div class="col-lg-7 col-md-6">
                 <div class="product-details-view-content pt-60">
                     <div class="product-info">
-                        <h2>{{$productos->first()->pro_nombre}}</h2>
+                        <h2>{{$productos->pro_nombre}}</h2>
                      
                         <div class="product-desc">
                             <p>
-                                <span>{{$productos->first()->pro_nombre}} </span>
+                                <span>{{$productos->pro_nombre}} </span>
                             </p>
                         </div>
+                        @if(Auth::guard('cliente')->check())
                         <div class="price-box pt-20">
-                            <span class="new-price new-price-2">${{$productos->first()->pro_valor_venta1}}</span>
+                            <span class="new-price new-price-2">${{$productos->pro_valor_venta1}}</span>
                         </div>
-                        
+                       
                         <div class="single-add-to-cart">
                             <form action="#" class="cart-quantity">
                                 <div class="quantity">
@@ -50,13 +51,21 @@
                                 <button 
                                 class="add-to-cart"  
                                 style=color:#fff; 
-                                onclick="Añadir('{{$productos->first()->pro_idn}}','{{$productos->first()->pro_nombre}}','{{ $productos->first()->pro_valor_venta1}}','{{1}}' )" 
+                                onclick="Añadir('{{$productos->pro_idn}}','{{$productos->pro_nombre}}','{{ $productos->pro_valor_venta1}}','{{1}}' )" 
                                 >Añadir</button>
                             </form>
                         </div>
-
+                        @else
+                        <small><i>Para ver los precios debe iniciar sesion </i></small>
+                        <br><br>
+                         <button class="btn btn-sm" style="background-color:#0088c6; color:white" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>		
+                        @endif
+                      
                         <div class="block-reassurance">
+                          
                             <ul>
+                                <br>
+                                <li></li>
                                 <li>
                                     <div class="reassurance-item">
                                         <div class="reassurance-icon">
