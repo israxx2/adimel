@@ -39,28 +39,56 @@
 		<div class="container">
               <div class="panel-body">
                   <div class="row">
-					<div class="col-md-2 text-center" style="padding:10px;">
-                     <label class="custom-file-upload btn btn-block btn-xl btn-info" style="padding: 10px; top:30%; position:relative;">
+					<div class="col-lg-2  col-md-6 text-center" style="padding:10px;">
+                     	<label class="custom-file-upload btn btn-block btn-xl btn-info" style="padding: 10px; top:30%; position:relative;">
 							<input type="file" id="upload"/>
 							SELECCIONAR
 						</label>
 						<button class="btn btn-success btn-xl btn-block upload-result" style="padding: 10px; top:30%; position:relative;">
 							<strong>GUARDAR</strong>
 						</button>
+						<br><br>
 					</div>
-
-					<div class="col-lg-3 col-md-4 col-sm-6 mt-40">
-						<div class="card">
-							<div class="product-image" >
+					<div class="col-lg-1 col-md-6" ></div>
+					<div class="col-lg-5 col-md-6">
+						<!-- Product Details Left -->
+					
+						<center><span><i>Vista: "Detalles del producto"</i></span></center>
+						<div class="product-details-left">
+							<div class="product-details-images slider-navigation-1">
+								<div class="lg-image">
 									<div id="upload-demo"  style="padding:20px; display:none;">
-										
 									</div>
 									<div id="imagen"  style="padding:10px;">
+										@if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
+											<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}"  width="460px" height="460px" alt="Product Image">
+										@else
+											<img src="{{ asset('imageProducts/noimage.png') }}" width="460px" height="460px" alt="Product Image">
+										
+										@endif
+									</div>
+								</div>
+							
+								
+							</div>
+			   
+						</div>
+						<!--// Product Details Left -->
+					</div>
+					<div class="col-lg-1 col-md-6">
+						<br>
+					</div>
+					<div class="col-lg-3 col-md-6 col-sm-6 mt-40">
+						<center><span> <i>Vista: "Lista de productos" </i></span></center>
+						<div class="card">
+							<div class="product-image" >
+									
+									<div id="imagen-2"  style="padding:10px;">
 										<center>
 											@if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
-												<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" width="240px" height="240px" alt="Product Image">
+												<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" width="250px" height="240px" alt="Product Image">
 											@else
-												<img src="{{ asset('imageProducts/noimage.png') }}" width="240px" height="240px" alt="Product Image">
+												<img src="{{ asset('imageProducts/noimage.png') }}" width="250px" height="240px" alt="Product Image">
 											
 											@endif
 										</center>
@@ -77,6 +105,7 @@
 							</div>
 						</div>
 					</div>
+				
 				
                   </div>
               </div>
@@ -102,15 +131,11 @@
     $uploadCrop = $('#upload-demo').croppie({
     
         enableExif: true,
-        viewport: {
-            width: 270,
-            height: 270,
-            type: 'square'
-        },
-        boundary: {
-            width: 270,
-            height: 270
-        }
+		viewport: { width: 460, height: 460 },
+		boundary: { width: 500, height: 500 },
+		showZoomer: false,
+		enableOrientation: true
+	
     
     });
 
@@ -142,18 +167,18 @@
             size: 'viewport'
     
         }).then(function (resp) {
-    
             $.ajax({
                 url: "/admin/imagen",
                 type: "POST",
                 data: {"image":resp, "id":window.location.pathname.split("/")[3]},
                 success: function () {
-                 
-
 					document.getElementById("upload-demo").style.display = "none"; 
-					html = '<img src="' + resp + '" width="240px" height="240px"  />';
+					html = '<img src="' + resp + '"  />';
 					$("#imagen").html(html);
 					document.getElementById("imagen").style.display = "inline"; 
+					html = '<img src="' + resp + '" heigth="240px" width="250px" style="padding-top:10px;"/>';
+					$("#imagen-2").html(html);
+					document.getElementById("imagen-2").style.display = "inline"; 
 				}
             });
         });
