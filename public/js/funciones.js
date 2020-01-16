@@ -25,11 +25,11 @@ function addProducto(index,id,nombre,precio,cantidad){
 
     $(".minicart-product-list").append(`
     <li id="`+index+`">
-        <a href="single-product.html" class="minicart-product-image">
+        <a href="/viewProduct/`+id+`" class="minicart-product-image">
             <img src="/imageProducts/`+id+`.png" alt="cart products">
         </a>
         <div class="minicart-product-details">
-            <h6><a href="single-product.html">`+nombre+`</a></h6>
+            <h6><a href="/viewProduct/`+id+`">`+nombre+`</a></h6>
             <span id="cantidad-`+index+`">$`+precio+` x `+cantidad+`</span>
         </div>
         <button class="close" onclick="Eliminar('`+index+`')">

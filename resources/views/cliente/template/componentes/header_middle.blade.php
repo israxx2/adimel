@@ -19,9 +19,17 @@
 				<form action="#" id="buscar" class="hm-searchbox">
 					{{-- <select class="nice-select select-search-category" onchange="changeCategoria(this)"> --}}
 						<select class="nice-select select-search-category" id="categoria" >
-							<option value="0" selected>TODOS</option> 
+							<option value="0">TODOS</option> 
 							@foreach($categorias as $c)
-							<option value={{$c->rub_idn}}>{{strtoupper($c->rub_nombre)}}</option>  
+								@if(isset($cat))
+									@if($c->rub_idn==$cat->rub_idn)
+										<option value={{$c->rub_idn}} selected>{{strtoupper($c->rub_nombre)}}</option>  
+									@else
+										<option value={{$c->rub_idn}}>{{strtoupper($c->rub_nombre)}}</option>  
+									@endif
+								@else
+									<option value={{$c->rub_idn}}>{{strtoupper($c->rub_nombre)}}</option> 
+								@endif
 							@endforeach
 						</select>
 						<input type="text" id="texto" placeholder="Buscar un articulo ...">
@@ -90,8 +98,7 @@
 			e.preventDefault();
 			let categoria=$("#categoria").val();
 			let texto=$("#texto").val();
-			console.log(texto)
-
+			location.href="/categoria/"+categoria+"?s="+texto
 
 		});
 

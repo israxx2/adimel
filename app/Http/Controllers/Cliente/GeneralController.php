@@ -242,28 +242,30 @@ class GeneralController extends Controller
 		->with('similaryProducts', $similaryProducts);
 	}
 
-	public function categoria($id) {
+	public function categoria($id, Request $request) {
+		$buscar=$request->s;
+	
 		$productos= DB::table('PRODUCTOS')
 		->where([
-			['rub_idn', $id]
+			['rub_idn', $id],
+			['pro_nombre','like', '%'.$buscar.'%'],
 		])->paginate(8);
-
+		
 		$categorias = DB::table('RUBRO')
 		->where([
 			['rub_estado', 1],
 			['rub_idn', '!=', 0],
 			['rub_idn', '!=', 8],
 		])->get();
-
+		
 		$cat = DB::table('RUBRO')
 		->where([
 			['rub_idn', $id],
-		])->get();
-
+		])->first();
 
 		return view('cliente.filterProducts')
 		->with('categorias', $categorias)
-		->with('cat', $cat->first())
+		->with('cat', $cat)
 		->with('productos', $productos);
 	}
 

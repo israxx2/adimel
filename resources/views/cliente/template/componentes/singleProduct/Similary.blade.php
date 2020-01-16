@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="product_desc">
                                     <div class="product_desc_info">
-                                        <h4><a class="product_name" href="viewProduct/{{$s->pro_idn}}">{{$s->pro_nombre}}</a></h4>
+                                        <h4><a class="product_name" href="/viewProduct/{{$s->pro_idn}}">{{$s->pro_nombre}}</a></h4>
                                         @if(Auth::guard('cliente')->check())
                                             <div class="price-box">									
                                                 <span class="new-price">${{$s->pro_valor_venta1}}</span>

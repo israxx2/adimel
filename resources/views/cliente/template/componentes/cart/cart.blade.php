@@ -52,8 +52,8 @@
 		$('#tablaCarrito > tbody').append(`
             <tr id="tr-`+producto.index+`" >
                 <td class="li-product-remove"><a onclick="Eliminar('`+producto.index+`')"><i class="fa fa-times"></i></a></td>
-                <td class="li-product-thumbnail"><a href="#"><img width="90px" heigth="90px" src="/imageProducts/`+producto.id+`.png" alt="ProductoImagen"></a></td>
-                <td class="li-product-name"><a href="#">`+producto.nombre+`</a></td>
+                <td class="li-product-thumbnail"><a href="/viewProduct/`+producto.id+`"><img width="90px" heigth="90px" src="/imageProducts/`+producto.id+`.png" alt="ProductoImagen"></a></td>
+                <td class="li-product-name"><a href="/viewProduct/`+producto.id+`">`+producto.nombre+`</a></td>
                 <td class="li-product-price"><span class="amount">`+producto.precio+`</span></td>
                 <td class="quantity">
                     <div class="cart-plus-minus" onclick="changeCantidad(this,`+producto.index+`)">
