@@ -10,12 +10,17 @@ use Illuminate\Support\Facades\Auth;
 
 class GeneralController extends Controller
 {
+
+
 	public function inicio()
 	{
 		$productos= DB::table('PRODUCTOS')
 		->where('pro_stock', '>', 0)
 		->paginate(16);
-
+		
+		$productos=ToCLP($productos);
+		
+		
 		$categorias = DB::table('RUBRO')
 		->where([
 			['rub_estado', 1],
@@ -218,7 +223,8 @@ class GeneralController extends Controller
 		->where([
 			['pro_idn', $id],
 			['pro_stock', '>', 0]
-		])->first();
+		])->get();
+		$productos=ToCLP($productos)->first();
 		
 		$similaryProducts = DB::table('PRODUCTOS')
 		->where([
@@ -226,7 +232,7 @@ class GeneralController extends Controller
 			['rub_idn', '=', $productos->rub_idn],
 			['pro_idn', '!=',$id],
 		])->take(5)->get();
-	
+		$similaryProducts=ToCLP($similaryProducts);
 
 	
 		$categorias = DB::table('RUBRO')
@@ -250,6 +256,7 @@ class GeneralController extends Controller
 			['rub_idn', $id],
 			['pro_nombre','like', '%'.$buscar.'%'],
 		])->paginate(8);
+		$productos=ToCLP($productos);
 		
 		$categorias = DB::table('RUBRO')
 		->where([
@@ -301,4 +308,31 @@ class GeneralController extends Controller
 			return false;
 	}
 
+
+	/**
+	* Cambia el valor a peso chileno
+	* @param array
+	* @return array
+	*/
+	
+}
+ function ToCLP($productos){
+	foreach ($productos as $p) {
+		$valor= (string)$p->pro_valor_venta1;
+		$largo= strlen($valor);
+		if($largo==4){
+			$newValor= $valor[0].'.'.$valor[1].$valor[2].$valor[3];
+			$p->pro_valor_venta1= $newValor;
+		}
+		if($largo==5){
+			$newValor= $valor[0].'.'.$valor[1].$valor[2].$valor[3].$valor[4];
+			$p->pro_valor_venta1= $newValor;
+		}
+		if($largo==6){
+			$newValor= $valor[0].'.'.$valor[1].$valor[2].$valor[3].$valor[4].$valor[5];
+			$p->pro_valor_venta1= $newValor;
+		}
+	
+	}
+	return $productos;
 }
