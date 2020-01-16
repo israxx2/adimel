@@ -254,6 +254,7 @@ class GeneralController extends Controller
 		$productos= DB::table('PRODUCTOS')
 		->where([
 			['rub_idn', $id],
+			['pro_stock', '>', 0],
 			['pro_nombre','like', '%'.$buscar.'%'],
 		])->paginate(8);
 		$productos=ToCLP($productos);
