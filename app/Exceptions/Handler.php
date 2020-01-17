@@ -48,4 +48,18 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $exception);
     }
+
+    // protected function unauthenticated($request, AuthenticationException $exception)
+    // {
+    //     if ($request->expectsJson()) {
+    //         return response()->json(['error' => 'Unauthenticated.'], 401);
+    //     }
+    //     if ($request->is('funcionario') || $request->is('adimel/*')) {
+    //         return redirect()->guest('/adimel-login');
+    //     }
+    //     if ($request->is('cliente') || $request->is('/*')) {
+    //         return redirect()->guest('/');
+    //     }
+    //     return redirect()->guest(route('adimel.inicio'));
+    // }
 }

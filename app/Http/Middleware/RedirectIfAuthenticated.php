@@ -18,8 +18,14 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        if ($guard == "cliente" && Auth::guard($guard)->check()) {
+            return back();
+        }
+        if ($guard == "funcionario" && Auth::guard($guard)->check()) {
+            return redirect('/adimel');
+        }
         if (Auth::guard($guard)->check()) {
-            return redirect(RouteServiceProvider::HOME);
+            return redirect('/home');
         }
 
         return $next($request);

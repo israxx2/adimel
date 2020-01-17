@@ -84,16 +84,32 @@ class LoginController extends Controller
 
         if($funcionario) {
 
-            if(!$funcionario->password) {
-                $funcionario->password = bcrypt($funcionario->fun_password);
-                $funcionario->save();
-            }
-            dd(Auth::guard('funcionario')->attempt(['fun_rut' => $request->rut, 'password' => $request->password], $request->filled('remember')));
+            $funcionario->password = bcrypt($funcionario->fun_password);
+            $funcionario->save();
+
             if (Auth::guard('funcionario')->attempt(['fun_rut' => $request->rut, 'password' => $request->password], $request->filled('remember'))) {
-                return redirect('/admin/productos');
+                return redirect('/adimel');
             }
         } 
 
         return redirect(route('login_view'))->withInput();
+    }
+
+    public function funcionarioLogout(Request $request)
+    {
+        $this->guard('funcionario')->logout();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('/');
+    }
+
+    public function clienteLogout(Request $request)
+    {
+        $this->guard('funcionario')->logout();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('/');
     }
 }

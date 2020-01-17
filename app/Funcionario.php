@@ -55,6 +55,6 @@ class Funcionario extends Authenticatable
     
     public function getAuthPassword()
     {
-        return $this->fun_password;
+        return $this->password;
     }
 }
