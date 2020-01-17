@@ -10,8 +10,8 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown user user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                <img src="{{ asset('adminlte/dist/img/user2-160x160.jpg') }}" class="user-image img-circle elevation-2 alt="User Image">
-                <span class="hidden-xs">Eduardo González</span>
+                <img src="{{ asset('Adminlte/dist/img/user2-160x160.jpg') }}" class="user-image img-circle elevation-2 alt="User Image">
+                <span class="hidden-xs">Bienvenido {{ ucwords(strtolower(Auth::guard('funcionario')->user()->fun_nombre)) }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <!-- User image -->
@@ -28,7 +28,7 @@
                     <div class="float-right">
                         <a href="#" class="btn btn-default btn-flat" onclick="logout();">Salir</a>
 
-                        <form id="logout-form" action="#" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('funcionario.logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
                     </div>
@@ -37,4 +37,5 @@
         </li>
 
     </ul>
+    <script src="{{ asset('AdminLTE/dist/js/logout.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 </nav>

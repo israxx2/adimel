@@ -26,11 +26,13 @@
 		<!-- /.login-logo -->
 		<div class="card">
 			<div class="card-body login-card-body">
+
 				<p class="login-box-msg">Bienvenido a ADIMEL Web</p>
 
-				<form action="../../index3.html" method="post">
+				<form action="{{ route('funcionario.login') }}" method="post">
+					@csrf
 					<div class="input-group mb-3">
-						<input type="text" class="form-control rut" placeholder="Rut">
+						<input type="text" class="form-control rut" placeholder="Rut" name="rut">
 						<div class="input-group-append">
 							<div class="input-group-text">
 								<span class="fas fa-user"></span>
@@ -38,7 +40,7 @@
 						</div>
 					</div>
 					<div class="input-group mb-3">
-						<input type="password" class="form-control" placeholder="Contraseña">
+						<input type="password" class="form-control" placeholder="Contraseña" name="password">
 						<div class="input-group-append">
 							<div class="input-group-text">
 								<span class="fas fa-lock"></span>

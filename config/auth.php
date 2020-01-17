@@ -41,6 +41,11 @@ return [
             'provider' => 'clientes',
         ],
 
+        'funcionario' => [
+            'driver' => 'session',
+            'provider' => 'funcionarios',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -75,6 +80,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Cliente::class,
             'table' => 'DEPENDENCIAS_DEL_CLIENTE',
+        ],
+        'funcionarios' => [
+            'driver' => 'eloquent',
+            'model' => App\Funcionario::class,
+            'table' => 'FUNCIONARIOS',
         ],
         'users' => [
             'driver' => 'eloquent',

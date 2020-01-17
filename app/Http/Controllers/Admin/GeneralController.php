@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+
 class GeneralController extends Controller
 {
+    use AuthenticatesUsers;
     /**
      * Display a listing of the resource.
      *
@@ -106,7 +110,7 @@ class GeneralController extends Controller
         list($type, $data) = explode(';', $data);
         list(, $data)      = explode(',', $data);
         $data = base64_decode($data);
-      
+
         $path = public_path() . "/imageProducts/" . $id . '.png';
         error_log($path);
         file_put_contents($path, $data);
@@ -124,14 +128,18 @@ class GeneralController extends Controller
         $file = $request->file('file');
         $filename = $request->file('file')->getClientOriginalName();
         $extension=\File::extension($filename);
-      
-       
+
+
         $path = public_path() . "/mercado/" .$tipo .$filename;
         error_log($path);
         $request->file('file')->move(public_path('/mercado'), $tipo.'.'.$extension);
         return response()->json(['success'=>'done']);
     }
     
-
+    public function funcionarioLogout(request $request) {
+        $this->guard('funcionario')->logout();
+        $request->session()->invalidate();
+        return $this->loggedOut($request) ?: redirect('/');
+    }
 
 }

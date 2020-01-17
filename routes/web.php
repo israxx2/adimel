@@ -12,13 +12,22 @@
 */
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Funcionario;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => false]);
 
-Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
 
-Route::get('/adimel-login', 'Auth\LoginController@showLoginForm');
+Route::get('/adimel-login', 'Auth\LoginController@adimelLogin')->name('login_view');
+Route::post('/funcionario/login', 'Auth\LoginController@funcionarioLogin')->name('funcionario.login');
+
+
+Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
+Route::post('/cliente/logout', function() {
+	$this->guard('cliente')->logout();
+	$request->session()->invalidate();
+	return $this->loggedOut($request) ?: redirect('/');
+})->name('cliente.logout');
 
 Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
 
@@ -41,12 +50,11 @@ Route::post('/nueva-cuenta', 'Cliente\GeneralController@storeCreateAccount')->na
 
 
 
-Route::group(['prefix' => 'admin'], function(){
+Route::group(['prefix' => 'adimel'], function(){
 
 	Route::get('/', function () {
 		return view('admin.home');
 	})->name('admin');
-
 	//Productos
 	Route::get('/productos', 'Admin\GeneralController@index')->name('admin.productos.index');
 	//ofertas
@@ -73,20 +81,33 @@ Route::group(['prefix' => 'admin'], function(){
 	Route::get('imagen', 'Admin\GeneralController@imagenes');
 
 	Route::post('imagen', 'Admin\GeneralController@imageCropPost');
+
+	Route::post('/funcionario/logout', 'Admin\GeneralController@funcionarioLogout')->name('funcionario.logout');
 });
 
 Route::get('/test', function () {
 
-	// $users = DB::table('CLIENTE')
+	// $users = DB::table('FUNCIONARIOS')
 	// ->take('20')
 	// ->get();
-	// dd($users);
+	dd(Auth::guard('funcionario')->user());
+	Auth::guard('funcionario')->logout();
+	return redirect('/');
+	$funcionario = Funcionario::find(144);
+	dd($funcionario);
+	$funcionario->password = bcrypt('13-2-912');
+	$funcionario->save();
+	$funcionario = Funcionario::take('10')->get();
+	dd($funcionario);
 
+	Auth::guard('funcionario')->setUser($funcionario);
+	
+	dd(Auth::guard('funcionario')->user()->fun_nombre);
 	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
 	->where('cli_idn', '19105900-K')
 	->get();
-	dd($dep);
-	dd(Auth::guard('cliente')->user());
+	
+	
 	//metodos para el cliente logueado
 	// Auth::guard('cliente')->user()     --Retorna al usuario logueado
 	// Auth::guard('cliente')->id()       --Retorna la id
