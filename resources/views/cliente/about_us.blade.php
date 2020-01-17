@@ -21,7 +21,6 @@
 
 @include('cliente.template.componentes.breadcrumb_area', ['pages' => ['Inicio', '¿Quienes Somos?']])
 @include('cliente.template.componentes.about')
-@include('cliente.template.componentes.team')
 
 @endsection
 

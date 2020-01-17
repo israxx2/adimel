@@ -1,5 +1,5 @@
 @extends('cliente.template.app')
-@section('titulo', 'Quienes Somos')
+@section('titulo', 'Productos')
 
 @section('header')
 

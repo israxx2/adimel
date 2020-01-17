@@ -111,7 +111,7 @@ class GeneralController extends Controller
         list(, $data)      = explode(',', $data);
         $data = base64_decode($data);
 
-        $path = public_path() . "/imageProducts/" . $id . '.png';
+        $path = public_path() . "/uploads/productos/" . $id . '.png';
         error_log($path);
         file_put_contents($path, $data);
         return response()->json(['success'=>'done']);
@@ -122,6 +122,10 @@ class GeneralController extends Controller
     {
         return view('admin.mercado.index');
     }
+    public function ofertas()
+    {
+        return view('admin.ofertas.index');
+    }
     public function UploadFile(Request $request)
     {   
         $tipo=$request->tipo;
@@ -130,7 +134,7 @@ class GeneralController extends Controller
         $extension=\File::extension($filename);
 
 
-        $path = public_path() . "/mercado/" .$tipo .$filename;
+        $path = public_path() . "/uploads/mercado/" .$tipo .$filename;
         error_log($path);
         $request->file('file')->move(public_path('/mercado'), $tipo.'.'.$extension);
         return response()->json(['success'=>'done']);

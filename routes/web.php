@@ -58,7 +58,7 @@ Route::group(['prefix' => 'adimel'], function(){
 	//Productos
 	Route::get('/productos', 'Admin\GeneralController@index')->name('admin.productos.index');
 	//ofertas
-	Route::get('/ofertas', 'Admin\GeneralController@index')->name('admin.ofertas.index');
+	Route::get('/ofertas', 'Admin\GeneralController@ofertas')->name('admin.ofertas.index');
 	//mercado
 	Route::get('/mercado', 'Admin\GeneralController@mercado')->name('admin.mercado.index');
 	//uploadfile Mercado Publico

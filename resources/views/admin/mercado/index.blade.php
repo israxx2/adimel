@@ -121,7 +121,7 @@
         });
 
         $.ajax({
-            url: "/admin/uploadfile",
+            url: "/adimel/uploadfile",
             type: "POST",
             data:  formData,
             cache: false,

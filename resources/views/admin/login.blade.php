@@ -21,25 +21,25 @@
 <body class="hold-transition login-page">
 	<div class="login-box">
 		<div class="login-logo">
-			<a href="../../index2.html"><b>ADIMEL</b> Web</a>
+			<a href="../../index2.html"><b>ADIMEL</b> WEB</a>
 		</div>
 		<!-- /.login-logo -->
 		<div class="card">
 			<div class="card-body login-card-body">
 
-				<p class="login-box-msg">Bienvenido a ADIMEL Web</p>
+				<p class="login-box-msg">Bienvenido al Panel de Administración</p>
 
 				<form action="{{ route('funcionario.login') }}" method="post">
 					@csrf
-					<div class="input-group mb-3">
-						<input type="text" class="form-control rut" placeholder="Rut" name="rut">
-						<div class="input-group-append">
+					<div class="input-group mb-3 col-12" >
+						<input type="text" class="form-control rut" placeholder="Rut" name="rut" >
+						<div class="input-group-append" >
 							<div class="input-group-text">
 								<span class="fas fa-user"></span>
 							</div>
 						</div>
 					</div>
-					<div class="input-group mb-3">
+					<div class="input-group mb-3 col-12">
 						<input type="password" class="form-control" placeholder="Contraseña" name="password">
 						<div class="input-group-append">
 							<div class="input-group-text">

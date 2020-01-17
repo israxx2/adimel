@@ -93,7 +93,7 @@
 				{"data": "pro_nombre"},
 				{"data": "pro_stock"},
 				{"render" : function (data, type, row){
-					html = '<div class="btn-group"><a data-toggle="tooltip" data-placement="top" title="Editar Producto" class="btn btn-warning btn-flat" href="/admin/producto/'+row['pro_codigo']+'/edit/"><i class="fas fa-edit"></i></i></a></div>';
+					html = '<div class="btn-group"><a data-toggle="tooltip" data-placement="top" title="Editar Producto" class="btn btn-warning btn-flat" href="/adimel/producto/'+row['pro_codigo']+'/edit/"><i class="fas fa-edit"></i></i></a></div>';
 					$('[data-toggle="tooltip"]').tooltip();
 					return html;
 				},

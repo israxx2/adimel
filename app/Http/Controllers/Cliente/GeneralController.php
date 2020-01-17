@@ -21,15 +21,21 @@ class GeneralController extends Controller
 		$productos=ToCLP($productos);
 		
 		
+		$offer1=DB::table('PRODUCTOS')
+		->where('pro_stock', '>', 0)
+		->get()->first();
+		
+
 		$categorias = DB::table('RUBRO')
 		->where([
 			['rub_estado', 1],
 			['rub_idn', '!=', 0],
 			['rub_idn', '!=', 8],
 		])->get();
-
+		
 		return view('cliente.index')
 		->with('categorias', $categorias)
+		->with('offer1', $offer1)
 		->with('productos', $productos);
 	}
 

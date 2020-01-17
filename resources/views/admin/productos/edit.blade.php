@@ -60,10 +60,10 @@
 									<div id="upload-demo"  style="padding:20px; display:none;">
 									</div>
 									<div id="imagen"  style="padding:10px;">
-										@if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
-											<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}"  width="460px" height="460px" alt="Product Image">
+										@if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
+											<img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}"  width="460px" height="460px" alt="Product Image">
 										@else
-											<img src="{{ asset('imageProducts/noimage.png') }}" width="460px" height="460px" alt="Product Image">
+											<img src="{{ asset('uploads/productos/noimage.png') }}" width="460px" height="460px" alt="Product Image">
 										
 										@endif
 									</div>
@@ -85,10 +85,10 @@
 									
 									<div id="imagen-2"  style="padding:10px;">
 										<center>
-											@if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
-												<img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" width="250px" height="240px" alt="Product Image">
+											@if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
+												<img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}" width="250px" height="240px" alt="Product Image">
 											@else
-												<img src="{{ asset('imageProducts/noimage.png') }}" width="250px" height="240px" alt="Product Image">
+												<img src="{{ asset('uploads/productos/noimage.png') }}" width="250px" height="240px" alt="Product Image">
 											
 											@endif
 										</center>
@@ -168,7 +168,7 @@
     
         }).then(function (resp) {
             $.ajax({
-                url: "/admin/imagen",
+                url: "/adimel/imagen",
                 type: "POST",
                 data: {"image":resp, "id":window.location.pathname.split("/")[3]},
                 success: function () {

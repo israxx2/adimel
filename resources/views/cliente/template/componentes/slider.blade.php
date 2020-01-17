@@ -25,14 +25,14 @@
 				<div class="slider-area slider-area-3 pt-sm-30 pt-xs-30 pb-xs-30">
 					<div class="slider-active owl-carousel">
 						<!-- Begin Single Slide Area -->
-						<div class="single-slide align-center-left animation-style-01 bg-7">
+						<div class="single-slide align-center-left animation-style-01 bg-7" style="background-image: url(uploads/productos/{{$offer1->pro_idn}}.png);">
 							<div class="slider-progress"></div>
 							<div class="slider-content">
-								<h5>OFERTA! <span>- 20%</span> esta semana</h5>
-								<h2>Producto 1 </h2>
-								<h3>Precio oferta <span> $589.000</span></h3>
+								<h5>OFERTA! <span>- 20%</span></h5>
+								<h2>{{$offer1->pro_nombre}} </h2>
+								<h3>Precio oferta <span> ${{$offer1->pro_valor_venta1}} </span></h3>
 								<div class="default-btn slide-btn">
-									<a class="links" href="shop-left-sidebar.html">COMPRAR AHORA</a>
+									<a class="links" href="/viewProduct/{{$offer1->pro_idn}}">COMPRAR AHORA</a>
 								</div>
 							</div>
 						</div>
@@ -63,3 +63,4 @@
 		</div>
 	</div>
 </div>
+
