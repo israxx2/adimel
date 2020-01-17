@@ -3,20 +3,49 @@
             <div class="content-wraper pt-60 pb-60 pt-sm-30">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-12 order-1 order-lg-2">
+                      
+                        <!-- Begin Category Menu Area -->
+                        <div class="col-lg-3">
+                            <!--Category Menu Start-->
+                            <div class="category-menu category-menu-2">
+                                <div class="category-heading">
+                                    <h2 class="categories-toggle"><span>CATEGORIAS</span></h2>
+                                </div>
+                                <div id="cate-toggle" class="category-menu-list">
+                                    <ul>
+                                        
+                                        @foreach($categorias as $c)
+                                            @if ($cat->rub_idn==$c->rub_idn)
+                                                <li style="background-color: antiquewhite;"><a href="/categoria/{{$c->rub_idn}}">{{strtoupper($c->rub_nombre)}}</a></li>
+                                            @else
+                                                <li><a href="/categoria/{{$c->rub_idn}}">{{strtoupper($c->rub_nombre)}}</a></li>
+                                    
+                                            @endif
+                                        @endforeach
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--Category Menu End-->
+                        </div>
+
+                        <div class="col-lg-9 order-1 order-lg-2">
                             <!-- Begin Li's Banner Area -->
                             <div class="single-banner shop-page-banner">
+                                
                                 <a href="#">
-                                    <img src="/imageProducts/2.jpg" alt="Li's Static Banner">
+                                    <img src="/uploads/productos/2.jpg" alt="Li's Static Banner">
                                 </a>
                             </div>
+                 
+
                             <!-- Li's Banner Area End Here -->
                             <!-- shop-top-bar start -->
                             <div class="shop-top-bar mt-30">
                                 <div class="shop-bar-inner">
                                 </div>
                                 <!-- product-select-box start -->
-                                <div class="product-select-box">
+                                {{-- <div class="product-select-box">
                                     <div class="product-short">
                                         <p>Ordenar Por:</p>
                                         <select class="nice-select">
@@ -26,7 +55,7 @@
                                             
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!-- product-select-box end -->
                             </div>
                             <!-- shop-top-bar end -->
@@ -43,10 +72,10 @@
                                                             <div class="product-image">
                                                                 <a href="/viewProduct/{{$p->pro_idn}}">
                             
-                                                                    @if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
-                                                                        <img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" alt="Product Image" height="240px">
+                                                                    @if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
+                                                                        <img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}" alt="Product Image" height="240px">
                                                                     @else
-                                                                        <img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
+                                                                        <img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
                                                                     @endif
                                                                 </a>
                                                             </div>
@@ -91,10 +120,10 @@
                                                         <div class="product-image">
                                                             <a href="/viewProduct/{{$p->pro_idn}}">
 
-                                                                @if (file_exists('imageProducts/'.$p->pro_idn.'.png'))
-                                                                    <img src="{{ asset('imageProducts/'.$p->pro_idn.'.png') }}" alt="Product Image">
+                                                                @if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
+                                                                    <img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}" alt="Product Image">
                                                                 @else
-                                                                    <img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
+                                                                    <img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
                                                                 
                                                                 @endif
                                                             </a>

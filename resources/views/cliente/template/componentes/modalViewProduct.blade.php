@@ -10,10 +10,10 @@
 						<!-- Product Details Left -->
 						<div class="product-details-left">
 						
-							@if (file_exists('imageProducts/'.$productos->first()->pro_idn.'.png'))
-								<img src="{{ asset('imageProducts/'.$productos->first()->pro_idn.'.png') }}" width="240px" height="240px" alt="Product Image">
+							@if (file_exists('uploads/productos/'.$productos->first()->pro_idn.'.png'))
+								<img src="{{ asset('uploads/productos/'.$productos->first()->pro_idn.'.png') }}" width="240px" height="240px" alt="Product Image">
 							@else
-								<img src="{{ asset('imageProducts/noimage.png') }}" width="240px" height="240px" alt="Product Image">
+								<img src="{{ asset('uploads/productos/noimage.png') }}" width="240px" height="240px" alt="Product Image">
 							
 							@endif
 					

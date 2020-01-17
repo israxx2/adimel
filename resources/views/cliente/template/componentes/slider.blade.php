@@ -28,37 +28,11 @@
 						<div class="single-slide align-center-left animation-style-01 bg-7">
 							<div class="slider-progress"></div>
 							<div class="slider-content">
-								<h5>Sale Offer <span>-20% Off</span> This Week</h5>
-								<h2>Chamcham Galaxy S9 | S9+</h2>
-								<h3>Starting at <span>$589.00</span></h3>
+								<h5>OFERTA! <span>- 20%</span> esta semana</h5>
+								<h2>Producto 1 </h2>
+								<h3>Precio oferta <span> $589.000</span></h3>
 								<div class="default-btn slide-btn">
-									<a class="links" href="shop-left-sidebar.html">Shopping Now</a>
-								</div>
-							</div>
-						</div>
-						<!-- Single Slide Area End Here -->
-						<!-- Begin Single Slide Area -->
-						<div class="single-slide align-center-left animation-style-02 bg-8">
-							<div class="slider-progress"></div>
-							<div class="slider-content">
-								<h5>Sale Offer <span>Black Friday</span> This Week</h5>
-								<h2>Work Desk Surface Studio 2018</h2>
-								<h3>Starting at <span>$1599.00</span></h3>
-								<div class="default-btn slide-btn">
-									<a class="links" href="shop-left-sidebar.html">Shopping Now</a>
-								</div>
-							</div>
-						</div>
-						<!-- Single Slide Area End Here -->
-						<!-- Begin Single Slide Area -->
-						<div class="single-slide align-center-left animation-style-01 bg-9">
-							<div class="slider-progress"></div>
-							<div class="slider-content">
-								<h5>Sale Offer <span>-10% Off</span> This Week</h5>
-								<h2>Phantom 4 Pro+ Obsidian</h2>
-								<h3>Starting at <span>$809.00</span></h3>
-								<div class="default-btn slide-btn">
-									<a class="links" href="shop-left-sidebar.html">Shopping Now</a>
+									<a class="links" href="shop-left-sidebar.html">COMPRAR AHORA</a>
 								</div>
 							</div>
 						</div>

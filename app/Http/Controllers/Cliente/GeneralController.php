@@ -28,7 +28,7 @@ class GeneralController extends Controller
 			['rub_idn', '!=', 8],
 		])->get();
 
-		return view('cliente.index-3')
+		return view('cliente.index')
 		->with('categorias', $categorias)
 		->with('productos', $productos);
 	}

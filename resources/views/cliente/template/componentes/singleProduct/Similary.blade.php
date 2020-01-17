@@ -16,10 +16,10 @@
                             <!-- single-product-wrap start -->
                             <div class="single-product-wrap">
                                 <div class="product-image">
-                                    @if (file_exists('imageProducts/'.$s->pro_idn.'.png'))
-                                        <img src="{{ asset('imageProducts/'.$s->pro_idn.'.png') }}" alt="Product Image">
+                                    @if (file_exists('uploads/productos/'.$s->pro_idn.'.png'))
+                                        <img src="{{ asset('uploads/productos/'.$s->pro_idn.'.png') }}" alt="Product Image">
                                     @else
-                                        <img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
+                                        <img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
                                     
                                     @endif
                                 </div>

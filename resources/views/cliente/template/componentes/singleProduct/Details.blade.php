@@ -7,10 +7,10 @@
                     <div class="product-details-images slider-navigation-1">
                         <div class="lg-image">
                         
-                                @if (file_exists('imageProducts/'.$productos->pro_idn.'.png'))
-                                    <img src="{{ asset('imageProducts/'.$productos->pro_idn.'.png') }}" alt="Product Image">
+                                @if (file_exists('uploads/productos/'.$productos->pro_idn.'.png'))
+                                    <img src="{{ asset('uploads/productos/'.$productos->pro_idn.'.png') }}" alt="Product Image">
                                 @else
-                                    <img src="{{ asset('imageProducts/noimage.png') }}" alt="Product Image">
+                                    <img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
                                 
                                 @endif
                          
