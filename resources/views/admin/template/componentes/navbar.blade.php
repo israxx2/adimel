@@ -11,7 +11,7 @@
         <li class="nav-item dropdown user user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 <img src="{{ asset('Adminlte/dist/img/user2-160x160.jpg') }}" class="user-image img-circle elevation-2 alt="User Image">
-                <span class="hidden-xs">Eduardo González</span>
+                <span class="hidden-xs">{{ strtoupper(Auth::guard('funcionario')->user()->fun_nombre) }}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <!-- User image -->

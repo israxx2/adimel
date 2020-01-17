@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Cliente;
+use App\Funcionario;
 
 class LoginController extends Controller
 {
@@ -40,8 +41,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('guest:cliente')->except('logout');
+        $this->middleware('guest:funcionario')->except('logout');
     }
 
+    public function adimelLogin()
+    {
+        return view('admin.login');
+    }
 
     public function clienteLogin(Request $request)
     {
@@ -61,5 +67,33 @@ class LoginController extends Controller
         }
         //dd("falló");
         return back()->withInput($request->only('rut'));
+    }
+
+    public function funcionarioLogin(Request $request)
+    {
+        //dd($request->input());
+        $this->validate($request, [
+            'rut'       => 'required',
+            'password'  => 'required|min:6'
+        ]);
+
+        $funcionario = Funcionario::where('fun_rut', strtoupper($request->rut))
+        ->where('fun_password', $request->password)->first();
+
+        //dd($funcionario);
+
+        if($funcionario) {
+
+            if(!$funcionario->password) {
+                $funcionario->password = bcrypt($funcionario->fun_password);
+                $funcionario->save();
+            }
+            dd(Auth::guard('funcionario')->attempt(['fun_rut' => $request->rut, 'password' => $request->password], $request->filled('remember')));
+            if (Auth::guard('funcionario')->attempt(['fun_rut' => $request->rut, 'password' => $request->password], $request->filled('remember'))) {
+                return redirect('/admin/productos');
+            }
+        } 
+
+        return redirect(route('login_view'))->withInput();
     }
 }

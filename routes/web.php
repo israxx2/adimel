@@ -12,13 +12,16 @@
 */
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Funcionario;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => false]);
 
+
+Route::get('/adimel-login', 'Auth\LoginController@adimelLogin')->name('login_view');
+Route::post('/funcionario/login', 'Auth\LoginController@funcionarioLogin')->name('funcionario.login');
 Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
 
-Route::get('/adimel-login', 'Auth\LoginController@showLoginForm');
 
 Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
 
@@ -69,16 +72,21 @@ Route::group(['prefix' => 'admin'], function(){
 
 Route::get('/test', function () {
 
-	// $users = DB::table('CLIENTE')
+	// $users = DB::table('FUNCIONARIOS')
 	// ->take('20')
 	// ->get();
-	// dd($users);
+	//dd(Auth::guard('funcionario')->user());
+	$funcionario = Funcionario::find(145);
+	dd($funcionario);
 
+	Auth::guard('funcionario')->setUser($funcionario);
+	
+	dd(Auth::guard('funcionario')->user()->fun_nombre);
 	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
 	->where('cli_idn', '19105900-K')
 	->get();
-	dd($dep);
-	dd(Auth::guard('cliente')->user());
+	
+	
 	//metodos para el cliente logueado
 	// Auth::guard('cliente')->user()     --Retorna al usuario logueado
 	// Auth::guard('cliente')->id()       --Retorna la id
