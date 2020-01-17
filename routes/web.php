@@ -48,10 +48,18 @@ Route::group(['prefix' => 'admin'], function(){
 	})->name('admin');
 
 	//Productos
-	Route::get('/productos', 'Admin\ProductoController@index')->name('admin.productos.index');
+	Route::get('/productos', 'Admin\GeneralController@index')->name('admin.productos.index');
+	//ofertas
+	Route::get('/ofertas', 'Admin\GeneralController@index')->name('admin.ofertas.index');
+	//mercado
+	Route::get('/mercado', 'Admin\GeneralController@mercado')->name('admin.mercado.index');
+	//uploadfile Mercado Publico
+	Route::post('/uploadfile', 'Admin\GeneralController@UploadFile');
+
+
 
 	//Usuarios
-	Route::resource('producto', 'Admin\ProductoController', ['names' => [
+	Route::resource('producto', 'Admin\GeneralController', ['names' => [
 		'index' 	=> 'admin.producto.index',
 		'create' 	=> 'admin.producto.create',
 		'store' 	=> 'admin.producto.store',
@@ -62,9 +70,9 @@ Route::group(['prefix' => 'admin'], function(){
 	]]);
 
 		//Imagenes
-	Route::get('imagen', 'Admin\ProductoController@imagenes');
+	Route::get('imagen', 'Admin\GeneralController@imagenes');
 
-	Route::post('imagen', 'Admin\ProductoController@imageCropPost');
+	Route::post('imagen', 'Admin\GeneralController@imageCropPost');
 });
 
 Route::get('/test', function () {

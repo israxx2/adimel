@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class ProductoController extends Controller
+use Illuminate\Support\Facades\Storage;
+class GeneralController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -112,5 +113,25 @@ class ProductoController extends Controller
         return response()->json(['success'=>'done']);
 
     }
+
+    public function mercado()
+    {
+        return view('admin.mercado.index');
+    }
+    public function UploadFile(Request $request)
+    {   
+        $tipo=$request->tipo;
+        $file = $request->file('file');
+        $filename = $request->file('file')->getClientOriginalName();
+        $extension=\File::extension($filename);
+      
+       
+        $path = public_path() . "/mercado/" .$tipo .$filename;
+        error_log($path);
+        $request->file('file')->move(public_path('/mercado'), $tipo.'.'.$extension);
+        return response()->json(['success'=>'done']);
+    }
+    
+
 
 }
