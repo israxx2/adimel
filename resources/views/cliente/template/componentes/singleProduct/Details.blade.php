@@ -43,16 +43,16 @@
                                 <div class="quantity">
                                     <label>Cantidad</label>
                                     <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" value="1" type="text">
-                                        <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                        <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                        <input class="cart-plus-minus-box" disabled value="1" type="text">
+                                        <div class="dec qtybutton"  ><i  class="fa fa-angle-down" ></i></div>
+                                        <div class="inc qtybutton" ><i  class="fa fa-angle-up"></i></div>
                                     </div>
                                 </div>
                                 <button 
                                 class="add-to-cart"  
                                 style=color:#fff; 
-                                onclick="Añadir('{{$productos->pro_idn}}','{{$productos->pro_nombre}}','{{ $productos->pro_valor_venta1}}','{{1}}' )" 
-                                >Añadir</button>
+                                onclick="funcion(this,'{{$productos->pro_idn}}','{{$productos->pro_nombre}}','{{ $productos->pro_valor_venta1}}')" 
+                                >AÑADIR</button>
                             </form>
                         </div>
                         @else
@@ -98,3 +98,11 @@
         </div>
     </div>
 </div>
+
+<script>
+
+function funcion(e,id,nombre,precio){
+    cantidad=e.form[0].value;
+    Añadir(id,nombre,precio,cantidad);
+}
+</script>

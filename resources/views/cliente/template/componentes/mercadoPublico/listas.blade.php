@@ -7,8 +7,11 @@
 				<div class="col-lg-4 col-md-3 col-sm-6 pb-xs-45">
 					<div class="li-shipping-inner-box">
 						<div class="shipping-icon">
-							<img src="{{ asset('listdownload.png') }}" height="50px" alt="Shipping Icon">
-						</div>
+							<a href="{{ asset('mercado/productos.jpg') }}" target="_blank">
+								<img src="{{ asset('listdownload.png') }}"  height="50px" alt="Shipping Icon">
+							</a>
+
+							</div>
 						<div class="shipping-text">
 							<h2>LISTA DE PRODUCTOS</h2>
 							<p>And free returns. See checkout for delivery dates.</p>
@@ -21,7 +24,9 @@
 				<div class="col-lg-4 col-md-3 col-sm-6 pb-xs-45">
 					<div class="li-shipping-inner-box">
 						<div class="shipping-icon">
-							<img src="{{ asset('offer.png') }}" height="55px" alt="Shipping Icon">
+							<a href="{{ asset('mercado/ofertas.jpeg') }}" target="_blank">
+								<img src="{{ asset('offer.png') }}" height="55px" alt="Shipping Icon">
+							</a>
 						</div>
 						<div class="shipping-text">
 							<h2>OFERTAS CONVENIO</h2>

@@ -26,7 +26,7 @@
 											<h4><a class="product_name" href="viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
 											@if(Auth::guard('cliente')->check())
 												<div class="price-box">									
-													<span class="new-price">${{$p->pro_valor_venta1}}</span>
+													<span class="new-price" value="{{$p->pro_valor_venta1}}">${{$p->pro_valor_venta1}}</span>
 												</div>
 											@else
 												<center><small><i>Para ver los precios debe iniciar sesion</i></small></center>
@@ -73,4 +73,5 @@
 		</div>
 	</div>
 </div>
+
 

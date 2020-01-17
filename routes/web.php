@@ -20,8 +20,14 @@ Auth::routes(['register' => false]);
 
 Route::get('/adimel-login', 'Auth\LoginController@adimelLogin')->name('login_view');
 Route::post('/funcionario/login', 'Auth\LoginController@funcionarioLogin')->name('funcionario.login');
-Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
 
+
+Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
+Route::post('/cliente/logout', function() {
+	$this->guard('cliente')->logout();
+	$request->session()->invalidate();
+	return $this->loggedOut($request) ?: redirect('/');
+})->name('cliente.logout');
 
 Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
 
@@ -44,17 +50,24 @@ Route::post('/nueva-cuenta', 'Cliente\GeneralController@storeCreateAccount')->na
 
 
 
-Route::group(['prefix' => 'admin'], function(){
+Route::group(['prefix' => 'adimel'], function(){
 
 	Route::get('/', function () {
 		return view('admin.home');
 	})->name('admin');
-
 	//Productos
-	Route::get('/productos', 'Admin\ProductoController@index')->name('admin.productos.index');
+	Route::get('/productos', 'Admin\GeneralController@index')->name('admin.productos.index');
+	//ofertas
+	Route::get('/ofertas', 'Admin\GeneralController@index')->name('admin.ofertas.index');
+	//mercado
+	Route::get('/mercado', 'Admin\GeneralController@mercado')->name('admin.mercado.index');
+	//uploadfile Mercado Publico
+	Route::post('/uploadfile', 'Admin\GeneralController@UploadFile');
+
+
 
 	//Usuarios
-	Route::resource('producto', 'Admin\ProductoController', ['names' => [
+	Route::resource('producto', 'Admin\GeneralController', ['names' => [
 		'index' 	=> 'admin.producto.index',
 		'create' 	=> 'admin.producto.create',
 		'store' 	=> 'admin.producto.store',
@@ -65,9 +78,11 @@ Route::group(['prefix' => 'admin'], function(){
 	]]);
 
 		//Imagenes
-	Route::get('imagen', 'Admin\ProductoController@imagenes');
+	Route::get('imagen', 'Admin\GeneralController@imagenes');
 
-	Route::post('imagen', 'Admin\ProductoController@imageCropPost');
+	Route::post('imagen', 'Admin\GeneralController@imageCropPost');
+
+	Route::post('/funcionario/logout', 'Admin\GeneralController@funcionarioLogout')->name('funcionario.logout');
 });
 
 Route::get('/test', function () {
@@ -75,8 +90,14 @@ Route::get('/test', function () {
 	// $users = DB::table('FUNCIONARIOS')
 	// ->take('20')
 	// ->get();
-	//dd(Auth::guard('funcionario')->user());
-	$funcionario = Funcionario::find(145);
+	dd(Auth::guard('funcionario')->user());
+	Auth::guard('funcionario')->logout();
+	return redirect('/');
+	$funcionario = Funcionario::find(144);
+	dd($funcionario);
+	$funcionario->password = bcrypt('13-2-912');
+	$funcionario->save();
+	$funcionario = Funcionario::take('10')->get();
 	dd($funcionario);
 
 	Auth::guard('funcionario')->setUser($funcionario);
