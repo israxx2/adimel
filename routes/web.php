@@ -15,40 +15,31 @@ use App\User;
 use App\Funcionario;
 use Illuminate\Support\Facades\Auth;
 
-Auth::routes(['register' => false]);
-
-
+//Autentificacion
 Route::get('/adimel-login', 'Auth\LoginController@adimelLogin')->name('login_view');
 Route::post('/funcionario/login', 'Auth\LoginController@funcionarioLogin')->name('funcionario.login');
-
-
 Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
-Route::post('/cliente/logout', function() {
-	$this->guard('cliente')->logout();
-	$request->session()->invalidate();
-	return $this->loggedOut($request) ?: redirect('/');
-})->name('cliente.logout');
-
-Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
-
-Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
-
-Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
-
-Route::get('/contacto', 'Cliente\GeneralController@viewContacto');
-
-Route::get('/cart', 'Cliente\GeneralController@cart');
-
-Route::get('/checkout', 'Cliente\GeneralController@checkout');
-
-Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
-
-Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
-
+Route::post('/cliente/logout', 'Cliente\GeneralController@clienteLogout')->name('cliente.logout');
 Route::get('/nueva-cuenta', 'Cliente\GeneralController@viewCreateAccount')->name('cliente.create_account');
 Route::post('/nueva-cuenta', 'Cliente\GeneralController@storeCreateAccount')->name('cliente.create_account.store');
 
+//////////////////////////
+//// ADIMEL Cliente //////
+//////////////////////////
 
+Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
+Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
+Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
+Route::get('/contacto', 'Cliente\GeneralController@viewContacto');
+Route::get('/cart', 'Cliente\GeneralController@cart');
+Route::get('/checkout', 'Cliente\GeneralController@checkout');
+Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
+Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
+
+
+////////////////////////////////
+//// ADIMEL Administrador //////
+////////////////////////////////
 
 Route::group(['prefix' => 'adimel'], function(){
 
@@ -63,33 +54,28 @@ Route::group(['prefix' => 'adimel'], function(){
 	Route::get('/mercado', 'Admin\GeneralController@mercado')->name('admin.mercado.index');
 	//uploadfile Mercado Publico
 	Route::post('/uploadfile', 'Admin\GeneralController@UploadFile');
-
-
-
-	//Usuarios
-	Route::resource('producto', 'Admin\GeneralController', ['names' => [
-		'index' 	=> 'admin.producto.index',
-		'create' 	=> 'admin.producto.create',
-		'store' 	=> 'admin.producto.store',
-		'destroy' 	=> 'admin.producto.destroy',
-		'show' 		=> 'admin.producto.show',
-		'edit' 		=> 'admin.producto.edit',
-		'update' 	=> 'admin.producto.update',
-	]]);
-
-		//Imagenes
+	//Imagenes
 	Route::get('imagen', 'Admin\GeneralController@imagenes');
-
 	Route::post('imagen', 'Admin\GeneralController@imageCropPost');
-
 	Route::post('/funcionario/logout', 'Admin\GeneralController@funcionarioLogout')->name('funcionario.logout');
 });
 
+
+
+//////////////////////
+//// Rutas test //////
+//////////////////////
 Route::get('/test', function () {
 
-	// $users = DB::table('FUNCIONARIOS')
-	// ->take('20')
-	// ->get();
+	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+	->where('cli_idn', '19105900-K')
+	->get();
+	dd($dep);
+	$users = DB::table('FUNCIONARIOS')
+	->take('10')
+	->get();
+
+	
 	dd(Auth::guard('funcionario')->user());
 	Auth::guard('funcionario')->logout();
 	return redirect('/');

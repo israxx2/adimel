@@ -51,22 +51,36 @@ class LoginController extends Controller
 
     public function clienteLogin(Request $request)
     {
+        $data = array('status' => true, 'errors' => null);
         //Le quita los puntos y deja todo mayusculas el rut:
         //Ej: 19.105.900-k -> 19105900-K
-        $request->merge(['rut' => strtoupper(str_replace('.', '', $request->rut))]);
+        $request->merge(['login_rut' => strtoupper(str_replace('.', '', $request->login_rut))]);
 
         //Valida
-        $this->validate($request, [
-            'rut'   => 'required',
-            'pw'    => 'required|min:6'
-        ]);
-
-        //Si se crea el guardia (si se loguea) .....
-        if (Auth::guard('cliente')->attempt(['cli_idn' => $request->rut, 'password' => $request->pw], $request->filled('remember'))) {
-            return redirect('/');
+        $reglas['login_rut'] = "required";
+        $msjs['login_rut.required'] = "El rut es obligatorio";
+        $reglas['login_pw'] = 'required';
+        $msjs['login_pw.required'] = "La contraseña es obligatoria.";
+        
+        $validator = \Validator::make($request->all(), $reglas, $msjs);
+        if ($validator->fails())
+        {
+            $data['errors'] = response()->json(['errors'=>$validator->errors()]);
+            return $data;
         }
-        //dd("falló");
-        return back()->withInput($request->only('rut'));
+        //Si se crea el guardia (si se loguea) .....
+        if (!Auth::guard('cliente')->attempt(['cli_idn' => $request->login_rut, 'password' => $request->login_pw], $request->filled('remember'))) {
+
+            $data['errors'] = [
+                'original' => [
+                    'errors' => [
+                        'login_rut' => ['Las credenciales no coinciden.']
+                    ]
+                ]                
+            ];
+
+        } 
+        return $data;
     }
 
     public function funcionarioLogin(Request $request)

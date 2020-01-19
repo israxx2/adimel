@@ -5442,16 +5442,16 @@ span.required {
 }
 .form-group.has-error input {
 	border-color: #dd4b39;
-	box-shadow: none;
+	/*box-shadow: none;*/
 }
 
-.has-error label {
+/*.has-error label {
 	color: #dd4b39;
 }
 .has-error input {
 	border-color: #dd4b39;
 	box-shadow: none;
-}
+}*/
 
 .text-error {
 	color: #dd4b39;

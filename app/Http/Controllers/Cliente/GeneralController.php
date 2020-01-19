@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
 class GeneralController extends Controller
@@ -37,6 +38,12 @@ class GeneralController extends Controller
 		->with('categorias', $categorias)
 		->with('offer1', $offer1)
 		->with('productos', $productos);
+	}
+
+	public function clienteLogout(request $request) {
+		Auth::guard('cliente')->logout();
+		$request->session()->invalidate();
+		return redirect('/');
 	}
 
 	public function viewCreateAccount()
@@ -82,7 +89,7 @@ class GeneralController extends Controller
 		}
 
         //Se busca al cliente x si existe
-        $cliente = DB::table('CLIENTE')
+		$cliente = DB::table('CLIENTE')
 		->where('cli_rut', $request->rut)->first();
 
 		
@@ -122,28 +129,33 @@ class GeneralController extends Controller
 					'dep_cli_nombre' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
 					'cli_giro' 			=> "PARTICULAR",
 					//'dep_cli_direccion' => " ",
-					//'seg_div_pol_idn' => " ",
+					'seg_div_pol_idn' => "000",
 					//'dep_cli_fono' => " ",
 					//'dep_cli_fax' => " ",
 					//'dep_cli_casilla' => " ",
 					//'dep_cli_enc_atencion' => " ",
-					//'cat_idn' => " ",
-					//'zon_idn' => " ",
-					//'dep_cli_descuento' => " ",
-					//'ven_idn' => " ",
+					'cat_idn' => "99", 
+					'zon_idn' => "100",
+					'dep_cli_descuento' => "0",
+					'ven_idn' => "N",
 					'dep_cli_email' => strtoupper($request->email),
 					'dep_cli_web' => "1",
-					//'por_uti_idn' => " ",
+					'por_uti_idn' => "1",
 					'dep_cli_estado' => "1",
 					//'dep_cli_monaut' => " ",
-					//'pla_pag_idn' => " ",
-					//'for_pag_idn' => " ",
-					//'dep_cli_saldo_favor' => " ",
+					'pla_pag_idn' => "100",
+					'for_pag_idn' => "1",
+					//1'dep_cli_saldo_favor' => " ",
 					//'dep_cli_ciudad' => " ",
 					//'dep_plazo_pago' => " ",
 					//'dep_cli_usuario_web' => " ",
 					'password' => bcrypt($request->pw)
 				]
+
+				//CORRELATIVO ID DEPENDENCIAS_DEL_CLIENTE,,, corre_correlativo
+				//detalle_orden_de_venta_agrega
+				//atributo tipo en cliente
+				//orden de venta
 			);
 
 				//dd("todo ok");
@@ -208,80 +220,80 @@ class GeneralController extends Controller
 
 	public function checkout() {
 		$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-				->where('dep_cli_idn',1 /*Auth::guard('cliente')->id()*/)->first();
+	->where('dep_cli_idn',1 /*Auth::guard('cliente')->id()*/)->first();
 	
 
-		$categorias = DB::table('RUBRO')
-		->where([
-			['rub_estado', 1],
-			['rub_idn', '!=', 0],
-			['rub_idn', '!=', 8],
-		])->get();
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
 
-		return view('cliente.checkout')
-		->with('user', $user)
-		->with('categorias', $categorias);
-	}
+	return view('cliente.checkout')
+	->with('user', $user)
+	->with('categorias', $categorias);
+}
 
-	public function viewProduct($id) {
+public function viewProduct($id) {
 		//0000003070147
-		$productos= DB::table('PRODUCTOS')
-		->where([
-			['pro_idn', $id],
-			['pro_stock', '>', 0]
-		])->get();
-		$productos=ToCLP($productos)->first();
-		
-		$similaryProducts = DB::table('PRODUCTOS')
-		->where([
-			['pro_stock', '>', 0],
-			['rub_idn', '=', $productos->rub_idn],
-			['pro_idn', '!=',$id],
-		])->take(5)->get();
-		$similaryProducts=ToCLP($similaryProducts);
+	$productos= DB::table('PRODUCTOS')
+	->where([
+		['pro_idn', $id],
+		['pro_stock', '>', 0]
+	])->get();
+	$productos=ToCLP($productos)->first();
+
+	$similaryProducts = DB::table('PRODUCTOS')
+	->where([
+		['pro_stock', '>', 0],
+		['rub_idn', '=', $productos->rub_idn],
+		['pro_idn', '!=',$id],
+	])->take(5)->get();
+	$similaryProducts=ToCLP($similaryProducts);
 
 	
-		$categorias = DB::table('RUBRO')
-		->where([
-			['rub_estado', 1],
-			['rub_idn', '!=', 0],
-			['rub_idn', '!=', 8],
-		])->get();
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
 
-		return view('cliente.single-product')
-		->with('categorias', $categorias)
-		->with('productos', $productos)
-		->with('similaryProducts', $similaryProducts);
-	}
+	return view('cliente.single-product')
+	->with('categorias', $categorias)
+	->with('productos', $productos)
+	->with('similaryProducts', $similaryProducts);
+}
 
-	public function categoria($id, Request $request) {
-		$buscar=$request->s;
+public function categoria($id, Request $request) {
+	$buscar=$request->s;
 	
-		$productos= DB::table('PRODUCTOS')
-		->where([
-			['rub_idn', $id],
-			['pro_stock', '>', 0],
-			['pro_nombre','like', '%'.$buscar.'%'],
-		])->paginate(8);
-		$productos=ToCLP($productos);
-		
-		$categorias = DB::table('RUBRO')
-		->where([
-			['rub_estado', 1],
-			['rub_idn', '!=', 0],
-			['rub_idn', '!=', 8],
-		])->get();
-		
-		$cat = DB::table('RUBRO')
-		->where([
-			['rub_idn', $id],
-		])->first();
+	$productos= DB::table('PRODUCTOS')
+	->where([
+		['rub_idn', $id],
+		['pro_stock', '>', 0],
+		['pro_nombre','like', '%'.$buscar.'%'],
+	])->paginate(8);
+	$productos=ToCLP($productos);
 
-		return view('cliente.filterProducts')
-		->with('categorias', $categorias)
-		->with('cat', $cat)
-		->with('productos', $productos);
-	}
+	$categorias = DB::table('RUBRO')
+	->where([
+		['rub_estado', 1],
+		['rub_idn', '!=', 0],
+		['rub_idn', '!=', 8],
+	])->get();
+
+	$cat = DB::table('RUBRO')
+	->where([
+		['rub_idn', $id],
+	])->first();
+
+	return view('cliente.filterProducts')
+	->with('categorias', $categorias)
+	->with('cat', $cat)
+	->with('productos', $productos);
+}
 
 	/**
 	* Comprueba si el rut ingresado es valido
@@ -323,23 +335,7 @@ class GeneralController extends Controller
 	*/
 	
 }
- function ToCLP($productos){
-	foreach ($productos as $p) {
-		$valor= (string)$p->pro_valor_venta1;
-		$largo= strlen($valor);
-		if($largo==4){
-			$newValor= $valor[0].'.'.$valor[1].$valor[2].$valor[3];
-			$p->pro_valor_venta1= $newValor;
-		}
-		if($largo==5){
-			$newValor= $valor[0].'.'.$valor[1].$valor[2].$valor[3].$valor[4];
-			$p->pro_valor_venta1= $newValor;
-		}
-		if($largo==6){
-			$newValor= $valor[0].'.'.$valor[1].$valor[2].$valor[3].$valor[4].$valor[5];
-			$p->pro_valor_venta1= $newValor;
-		}
-	
-	}
+function ToCLP($productos){
+	// |
 	return $productos;
 }

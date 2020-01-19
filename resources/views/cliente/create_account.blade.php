@@ -31,7 +31,7 @@
 							<div class="col-sm-12">
 								<p>Se ha asociado su cuenta WEB con sus datos ya almacenados en nuestra base de datos</p>
 							</div>
-							<div class="form-group col-md-12 col-12 mb-20">
+							<div class="form-group col-md-12 col-12 mb-20 rut-f">
 								<label>RUT</label>
 								<input class="mb-0 rut" type="text" name="rut" id="rut" placeholder="">
 							</div>
@@ -80,6 +80,9 @@
 
 @section('script')
 <script type="text/javascript">
+	jQuery(document).ready(function($) {
+		
+	});
 	$('#form-create-account').submit(function(event) {
 		event.preventDefault();
 		$form = $(this);
@@ -105,9 +108,28 @@
 				if(data.errors == null) {
 					//YA EXISTE
 					if(Boolean(data.existe)) {
-						alert(data.existe);
+						toastr.error('El rut ya está en uso.', 'Ups...', 
+						{
+							timeOut: 5000,
+							progressBar: true,
+							"positionClass": "toast-bottom-right",
+						});
+						$form_group = $('.rut-f');
+						console.log($form_group);
+						$form_group.addClass('has-error');
+						var html = '<p class="text-error">El rut ya está en uso!</p>';
+						$form_group.append(html);
 					} else {
-						alert("Se ha creado la cuenta con éxito");
+						toastr.success('Inicia sesión con tus datos', 'CUENTA CREADA!', 
+						{
+							timeOut: 5000,
+							progressBar: true,
+							"positionClass": "toast-bottom-right",
+						});
+						var html = "<br><br><h4>Cuenta creada con éxito!</h4><h5>Ahora puedes iniciar sesión para comprar en Adimel</h5>"
+						var div = $("#form-create-account").parent();
+						$("#form-create-account").remove();
+						div.append(html);
 					}
 					//ERRORES DE VALIDACIÓN
 				}  else {
@@ -115,7 +137,7 @@
 
 					$.each(errors , function( index, msj ) {
 						//alert( index + ": " + value );
-						var elem = $('#'+index);
+						var elem = $('#'+index);						
 						if(elem.is('input')) {
 							$form_group = elem.parent('.form-group');
 							$form_group.addClass('has-error');

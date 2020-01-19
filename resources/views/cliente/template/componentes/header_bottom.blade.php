@@ -10,10 +10,21 @@
 							<li><a href="/quienes-somos">QUIÉNES SOMOS</a></li>
 							<li><a href="/contacto">CONTACTO</a></li>
 							<li><a href="/mercadoPublico">MERCADO PUBLICO</a></li>
-							<!-- Begin Header Bottom Menu Information Area -->
+
+							@if(Auth::guard('cliente')->check())
+							
+							<li class="hb-info f-right p-0 d-sm-none d-lg-block" onclick="logout();">
+								<a href="#"> CERRAR SESIÓN
+								</a>
+								<form id="logout-form" action="{{ route('cliente.logout') }}" method="POST" style="display: none;">
+									@csrf
+								</form>
+							</li>
+							@else
 							<li class="hb-info f-right p-0 d-sm-none d-lg-block">
 								<span style="color: #ffffff">Encuéntranos en Calle 6 Ote. 640, Talca, Maule</span>
 							</li>
+							@endif
 							<!-- Header Bottom Menu Information Area End Here -->
 						</ul>
 					</nav>
@@ -23,3 +34,4 @@
 		</div>
 	</div>
 </div>
+<script src="{{ asset('AdminLTE/dist/js/logout.js') }}" type="text/javascript" charset="utf-8" async defer></script>

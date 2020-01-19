@@ -31,6 +31,8 @@
 <link rel="stylesheet" href="{{ asset('electro/style.css') }}">
 <!-- Responsive CSS -->
 <link rel="stylesheet" href="{{ asset('electro/css/responsive.css') }}">
+<!-- Toastr JS -->
+<link rel="stylesheet" href="{{ asset('electro/css/toastr.min.css') }}">
 <!-- Modernizr js -->
 <script src="{{ asset('electro/js/vendor/modernizr-2.8.3.min.js') }}"></script>
 @endif
