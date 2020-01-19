@@ -111,20 +111,23 @@ class GeneralController extends Controller
 				}
 			//SI NO EXISTE....
 			} else {
-				
+				$id_cliente = DB::table('CORRELATIVOS')
+				->where('corre_idn', 1042)->first()->corre_correlativo + 1;
+
+				//dd($id_cliente); 1217
+				$id_dep_del_cli = DB::table('CORRELATIVOS')
+				->where('corre_idn', 1043)->first()->corre_correlativo + 1;
+
 				DB::table('CLIENTE')->insert(
-					['cli_idn' 			=> strtoupper(str_replace('.', '', $request->rut)),
+					['cli_idn' 			=> strval($id_cliente), //strtoupper(str_replace('.', '', $request->rut))
 					'cli_rut' 			=> strtoupper($request->rut),
 					'cli_razon_social' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
 					'cli_giro' 			=> "PARTICULAR",
 					'cli_traslado' 		=> 0]
 				);
 
-				$dep_cli_idn = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-				->select([DB::raw('MAX(CAST(dep_cli_idn AS int)) AS dep_cli_idn')])->first()->dep_cli_idn + 1;
-
 				DB::table('DEPENDENCIAS_DEL_CLIENTE')->insert(
-					['dep_cli_idn' 		=> strval($dep_cli_idn),
+					['dep_cli_idn' 		=> strval($id_dep_del_cli),
 					'cli_idn' 			=> strtoupper(str_replace('.', '', $request->rut)),
 					'dep_cli_nombre' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
 					'cli_giro' 			=> "PARTICULAR",
@@ -150,14 +153,19 @@ class GeneralController extends Controller
 					//'dep_plazo_pago' => " ",
 					//'dep_cli_usuario_web' => " ",
 					'password' => bcrypt($request->pw)
-				]
+				]);
 
+				DB::table('CORRELATIVOS')
+				->where('corre_idn', 1042)
+				->update(['corre_correlativo' => $id_cliente]);
+
+				$b = DB::table('CORRELATIVOS')
+				->where('corre_idn', 1043)
+				->update(['corre_correlativo' => $id_dep_del_cli]);
 				//CORRELATIVO ID DEPENDENCIAS_DEL_CLIENTE,,, corre_correlativo
 				//detalle_orden_de_venta_agrega
 				//atributo tipo en cliente
 				//orden de venta
-			);
-
 				//dd("todo ok");
 			}
 			
