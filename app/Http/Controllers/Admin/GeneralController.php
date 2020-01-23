@@ -27,9 +27,9 @@ class GeneralController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function configuracion()
     {
-        //
+        return view('admin.configuracion.index');
     }
 
     /**

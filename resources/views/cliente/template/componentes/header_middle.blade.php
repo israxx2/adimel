@@ -17,7 +17,8 @@
 			<div class="col-lg-9" style="padding-top:10px">
 				<!-- Begin Header Middle Searchbox Area -->
 				<form action="#" id="buscar" class="hm-searchbox">
-					{{-- <select class="nice-select select-search-category" onchange="changeCategoria(this)"> --}}
+					<div>
+						{{-- <select class="nice-select select-search-category" onchange="changeCategoria(this)"> --}}
 						<select class="nice-select select-search-category" id="categoria" >
 							<option value="0">TODOS</option> 
 							@foreach($categorias as $c)
@@ -32,8 +33,14 @@
 								@endif
 							@endforeach
 						</select>
-						<input type="text" id="texto" placeholder="Buscar un articulo ...">
+						<div>
+							<input type="text" id="texto" placeholder="Buscar un articulo ...">
+						</div>
+						
 						<button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+						
+					</div>
+					
 					</form>
 					<!-- Header Middle Searchbox Area End Here -->
 

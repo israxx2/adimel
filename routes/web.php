@@ -58,6 +58,8 @@ Route::group(['prefix' => 'adimel'], function(){
 	Route::get('imagen', 'Admin\GeneralController@imagenes');
 	Route::post('imagen', 'Admin\GeneralController@imageCropPost');
 	Route::post('/funcionario/logout', 'Admin\GeneralController@funcionarioLogout')->name('funcionario.logout');
+	//Configuracion
+	Route::get('/configuracion', 'Admin\GeneralController@configuracion')->name('admin.configuracion.index');
 });
 
 
@@ -151,4 +153,28 @@ Route::get('/test', function () {
 	// "dep_plazo_pago" => "0"
 	// "dep_cli_usuario_web" => null
 	// "dep_cli_clave_web" => null
+});
+
+Route::get('/oferta', function() {
+	$o = DB::table('DESCUENTO_PRODUCTO')
+	->take('10')->get();
+
+	dd($o);
+
+	// +"des_pro_idn": "101"
+	// +"pro_idn": "98"
+	// +"des_pro_precio": "1200.0"
+	// +"des_pro_estado": "0"
+	// +"des_pro_fecha_inicio": "2016-06-07 00:00:00"
+	// +"des_pro_fecha_termino": "2016-06-30 00:00:00"
+	// +"des_pro_fecha_ingreso": "2016-06-07 14:55:00"
+	// +"des_pro_stock": "2.0"
+	// +"pro_codigo": "78020040"
+	
+	/*
+	
+
+
+
+	*/
 });

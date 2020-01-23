@@ -41,6 +41,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.configuracion.index') }}" class="nav-link">                        
+                        <i class="nav-icon fa fa-fw fa-cog"></i>
+                        <p>
+                            Configuración
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
