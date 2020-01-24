@@ -178,3 +178,34 @@ Route::get('/oferta', function() {
 
 	*/
 });
+
+Route::get('/asd', function() {
+
+	//Helper para ver Configuracion
+
+	/* Método get(string)
+	* Entrada: Id de la configuracion
+	* Salida: Instancia de la configuración
+	*/
+	$configuracion = Config::get('email');
+	dd($configuracion);
+
+	//Crear Nueva Configuracion (Llamar al Modelo Configuración)
+
+	$configuracion = new App\Configuracion();
+
+	//id
+	$configuracion->conf_idn 			= 'facebook';
+	
+	//Value del Campo
+	$configuracion->titulo 				= 'www.facebook.com/adimel';
+	
+	//Rut de la ultima persona que modifico
+	$configuracion->modificado_por 		= '19105900-K';
+	
+	//Estado de la configuracion (1 por defecto)
+	//$configuracion->estado 				= 1;
+
+	//Guardar Configuración
+	//$configuracion->save();
+});
