@@ -59,7 +59,8 @@ Route::group(['prefix' => 'adimel'], function(){
 	Route::post('imagen', 'Admin\GeneralController@imageCropPost');
 	Route::post('/funcionario/logout', 'Admin\GeneralController@funcionarioLogout')->name('funcionario.logout');
 	//Configuracion
-	Route::get('/configuracion', 'Admin\GeneralController@configuracion')->name('admin.configuracion.index');
+	Route::get('/configuracion', 'Admin\ConfiguracionController@index')->name('admin.configuracion.index');
+	Route::post('/configuracion', 'Admin\ConfiguracionController@store')->name('admin.configuracion.store');
 });
 
 
@@ -187,8 +188,8 @@ Route::get('/asd', function() {
 	* Entrada: Id de la configuracion
 	* Salida: Instancia de la configuración
 	*/
-	$configuracion = Config::get('email');
-	dd($configuracion);
+	// $configuracion = Config::get('email');
+	// dd($configuracion);
 
 	//Crear Nueva Configuracion (Llamar al Modelo Configuración)
 
@@ -208,4 +209,27 @@ Route::get('/asd', function() {
 
 	//Guardar Configuración
 	//$configuracion->save();
+
+
+	$configuracion = new App\Configuracion();
+	$configuracion->conf_idn 			= 'correo';
+	$configuracion->titulo 				= 'www.facebook.com/adimel';
+	$configuracion->modificado_por 		= '19105900-K';
+});
+
+Route::get('/asdf', function() {
+
+	$ofer = DB::table('DESCUENTO_PRODUCTO')
+	->take('10')
+	->get();
+
+	$prod = DB::table('PRODUCTOS')
+	->select('PRODUCTOS.pro_codigo', 'PRODUCTOS.pro_idn', 'PRODUCTOS.pro_nombre', 'PRODUCTOS.pro_stock', 'PRODUCTOS.pro_stock_minimo', 'PRODUCTOS.pro_stock_maximo', 'PRODUCTOS.pro_valor_venta1', 'DESCUENTO_PRODUCTO.des_pro_precio', 'DESCUENTO_PRODUCTO.des_pro_estado', 'DESCUENTO_PRODUCTO.des_pro_fecha_inicio', 'DESCUENTO_PRODUCTO.des_pro_fecha_termino', 'DESCUENTO_PRODUCTO.des_pro_stock')
+	->leftJoin('DESCUENTO_PRODUCTO', 'PRODUCTOS.pro_codigo', '=', 'DESCUENTO_PRODUCTO.pro_codigo')
+	->where('DESCUENTO_PRODUCTO.des_pro_estado', null)
+	->orWhere('DESCUENTO_PRODUCTO.des_pro_estado', 1)
+	->take('500')
+	->get();
+
+	dd($prod);
 });

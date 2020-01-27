@@ -22,7 +22,7 @@
 							</li>
 							@else
 							<li class="hb-info f-right p-0 d-sm-none d-lg-block">
-								<span style="color: #ffffff">Encuéntranos en Calle 6 Ote. 640, Talca, Maule</span>
+								<span style="color: #ffffff">{{ Config::get('msj_inicio')->titulo }}</span>
 							</li>
 							@endif
 							<!-- Header Bottom Menu Information Area End Here -->

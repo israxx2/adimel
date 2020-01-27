@@ -23,67 +23,78 @@
 					<div class="card-header">
 						<h3 class="card-title">Editar Configuración</h3>
 					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group" style="margin-left: 20px; margin-bottom: 35px;">
-									<label>Correo Electrónico</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">a</span>
+					<form method="POST" action="{{ route('admin.configuracion.store') }}">
+						<div class="card-body">
+							@csrf
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group" style="margin-left: 20px; margin-bottom: 35px;">
+										<label>Correo Electrónico</label>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+											</div>
+											<input type="text" class="form-control" name="correo" placeholder="Ingrese Correo Electrónico..." value="{{ Config::get('correo')->titulo }}">
 										</div>
-										<input type="text" class="form-control" placeholder="Ingrese Correo Electrónico...">
 									</div>
-								</div>
-							</div>						
+								</div>						
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group" style="margin-left: 20px; margin-bottom: 35px;">
+										<label>Dirección</label>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><i class="fas fa-home"></i></span>
+											</div>
+											<input type="text" class="form-control" name="direccion" placeholder="Ingrese una dirección..." value="{{ Config::get('direccion')->titulo }}">
+										</div>
+									</div>
+								</div>						
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group" style="margin-left: 20px; margin-bottom: 35px;">
+										<label>Teléfono</label>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+											</div>
+											<input type="text" class="form-control" name="telefono" placeholder="Ingrese un Teléfono..." value="{{ Config::get('telefono')->titulo }}">
+										</div>
+									</div>
+								</div>						
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group" style="margin-left: 20px; margin-bottom: 35px;">
+										<label>Mensaje Barra Inicio</label>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text"><i class="fas fa-book-open"></i></span>
+											</div>
+											<input type="text" class="form-control" name="msj_inicio" placeholder="Ingrese mensaje..." value="{{ Config::get('msj_inicio')->titulo }}">
+										</div>
+									</div>
+								</div>						
+							</div>
+
 						</div>
 
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group" style="margin-left: 20px; margin-bottom: 35px;">
-									<label>Dirección</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">a</span>
-										</div>
-										<input type="text" class="form-control" placeholder="Ingrese una dirección...">
-									</div>
-								</div>
-							</div>						
-						</div>
-
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group" style="margin-left: 20px; margin-bottom: 35px;">
-									<label>Teléfono</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">a</span>
-										</div>
-										<input type="text" class="form-control" placeholder="Ingrese un Teléfono...">
-									</div>
-								</div>
-							</div>						
-						</div>
-						
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group" style="margin-left: 20px; margin-bottom: 35px;">
-									<label>Mensaje Barra Inicio</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">@</span>
-										</div>
-										<input type="text" class="form-control" placeholder="Ingrese mensaje..." value="Encuéntranos en Calle 6 Ote. 640, Talca, Maule">
-									</div>
-								</div>
-							</div>						
-						</div>
-						
-					</div>
+					
 					<div class="card-footer">
-						The footer of the card
+						<div class="container-fluid">
+							<div class="row d-flex justify-content-center">
+								<div class="col-sm-4">
+									<button type="submit" class="btn btn-flat btn-primary btn-block">Registrar</button>
+								</div>
+							</div>								
+						</div>
 					</div>
+					</form>
 				</div>
 
 			</div>
