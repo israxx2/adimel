@@ -15,40 +15,31 @@ use App\User;
 use App\Funcionario;
 use Illuminate\Support\Facades\Auth;
 
-Auth::routes(['register' => false]);
-
-
+//Autentificacion
 Route::get('/adimel-login', 'Auth\LoginController@adimelLogin')->name('login_view');
 Route::post('/funcionario/login', 'Auth\LoginController@funcionarioLogin')->name('funcionario.login');
-
-
 Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
-Route::post('/cliente/logout', function() {
-	$this->guard('cliente')->logout();
-	$request->session()->invalidate();
-	return $this->loggedOut($request) ?: redirect('/');
-})->name('cliente.logout');
-
-Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
-
-Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
-
-Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
-
-Route::get('/contacto', 'Cliente\GeneralController@viewContacto');
-
-Route::get('/cart', 'Cliente\GeneralController@cart');
-
-Route::get('/checkout', 'Cliente\GeneralController@checkout');
-
-Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
-
-Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
-
+Route::post('/cliente/logout', 'Cliente\GeneralController@clienteLogout')->name('cliente.logout');
 Route::get('/nueva-cuenta', 'Cliente\GeneralController@viewCreateAccount')->name('cliente.create_account');
 Route::post('/nueva-cuenta', 'Cliente\GeneralController@storeCreateAccount')->name('cliente.create_account.store');
 
+//////////////////////////
+//// ADIMEL Cliente //////
+//////////////////////////
 
+Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
+Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
+Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
+Route::get('/contacto', 'Cliente\GeneralController@viewContacto');
+Route::get('/cart', 'Cliente\GeneralController@cart');
+Route::get('/checkout', 'Cliente\GeneralController@checkout');
+Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
+Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
+
+
+////////////////////////////////
+//// ADIMEL Administrador //////
+////////////////////////////////
 
 Route::group(['prefix' => 'adimel'], function(){
 
@@ -63,33 +54,31 @@ Route::group(['prefix' => 'adimel'], function(){
 	Route::get('/mercado', 'Admin\GeneralController@mercado')->name('admin.mercado.index');
 	//uploadfile Mercado Publico
 	Route::post('/uploadfile', 'Admin\GeneralController@UploadFile');
-
-
-
-	//Usuarios
-	Route::resource('producto', 'Admin\GeneralController', ['names' => [
-		'index' 	=> 'admin.producto.index',
-		'create' 	=> 'admin.producto.create',
-		'store' 	=> 'admin.producto.store',
-		'destroy' 	=> 'admin.producto.destroy',
-		'show' 		=> 'admin.producto.show',
-		'edit' 		=> 'admin.producto.edit',
-		'update' 	=> 'admin.producto.update',
-	]]);
-
-		//Imagenes
+	//Imagenes
 	Route::get('imagen', 'Admin\GeneralController@imagenes');
-
 	Route::post('imagen', 'Admin\GeneralController@imageCropPost');
-
 	Route::post('/funcionario/logout', 'Admin\GeneralController@funcionarioLogout')->name('funcionario.logout');
+	//Configuracion
+	Route::get('/configuracion', 'Admin\ConfiguracionController@index')->name('admin.configuracion.index');
+	Route::post('/configuracion', 'Admin\ConfiguracionController@store')->name('admin.configuracion.store');
 });
 
+
+
+//////////////////////
+//// Rutas test //////
+//////////////////////
 Route::get('/test', function () {
 
-	// $users = DB::table('FUNCIONARIOS')
-	// ->take('20')
-	// ->get();
+	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+	->where('cli_idn', '19105900-K')
+	->get();
+	dd($dep);
+	$users = DB::table('FUNCIONARIOS')
+	->take('10')
+	->get();
+
+	
 	dd(Auth::guard('funcionario')->user());
 	Auth::guard('funcionario')->logout();
 	return redirect('/');
@@ -165,4 +154,82 @@ Route::get('/test', function () {
 	// "dep_plazo_pago" => "0"
 	// "dep_cli_usuario_web" => null
 	// "dep_cli_clave_web" => null
+});
+
+Route::get('/oferta', function() {
+	$o = DB::table('DESCUENTO_PRODUCTO')
+	->take('10')->get();
+
+	dd($o);
+
+	// +"des_pro_idn": "101"
+	// +"pro_idn": "98"
+	// +"des_pro_precio": "1200.0"
+	// +"des_pro_estado": "0"
+	// +"des_pro_fecha_inicio": "2016-06-07 00:00:00"
+	// +"des_pro_fecha_termino": "2016-06-30 00:00:00"
+	// +"des_pro_fecha_ingreso": "2016-06-07 14:55:00"
+	// +"des_pro_stock": "2.0"
+	// +"pro_codigo": "78020040"
+	
+	/*
+	
+
+
+
+	*/
+});
+
+Route::get('/asd', function() {
+
+	//Helper para ver Configuracion
+
+	/* Método get(string)
+	* Entrada: Id de la configuracion
+	* Salida: Instancia de la configuración
+	*/
+	// $configuracion = Config::get('email');
+	// dd($configuracion);
+
+	//Crear Nueva Configuracion (Llamar al Modelo Configuración)
+
+	$configuracion = new App\Configuracion();
+
+	//id
+	$configuracion->conf_idn 			= 'facebook';
+	
+	//Value del Campo
+	$configuracion->titulo 				= 'www.facebook.com/adimel';
+	
+	//Rut de la ultima persona que modifico
+	$configuracion->modificado_por 		= '19105900-K';
+	
+	//Estado de la configuracion (1 por defecto)
+	//$configuracion->estado 				= 1;
+
+	//Guardar Configuración
+	//$configuracion->save();
+
+
+	$configuracion = new App\Configuracion();
+	$configuracion->conf_idn 			= 'correo';
+	$configuracion->titulo 				= 'www.facebook.com/adimel';
+	$configuracion->modificado_por 		= '19105900-K';
+});
+
+Route::get('/asdf', function() {
+
+	$ofer = DB::table('DESCUENTO_PRODUCTO')
+	->take('10')
+	->get();
+
+	$prod = DB::table('PRODUCTOS')
+	->select('PRODUCTOS.pro_codigo', 'PRODUCTOS.pro_idn', 'PRODUCTOS.pro_nombre', 'PRODUCTOS.pro_stock', 'PRODUCTOS.pro_stock_minimo', 'PRODUCTOS.pro_stock_maximo', 'PRODUCTOS.pro_valor_venta1', 'DESCUENTO_PRODUCTO.des_pro_precio', 'DESCUENTO_PRODUCTO.des_pro_estado', 'DESCUENTO_PRODUCTO.des_pro_fecha_inicio', 'DESCUENTO_PRODUCTO.des_pro_fecha_termino', 'DESCUENTO_PRODUCTO.des_pro_stock')
+	->leftJoin('DESCUENTO_PRODUCTO', 'PRODUCTOS.pro_codigo', '=', 'DESCUENTO_PRODUCTO.pro_codigo')
+	->where('DESCUENTO_PRODUCTO.des_pro_estado', null)
+	->orWhere('DESCUENTO_PRODUCTO.des_pro_estado', 1)
+	->take('500')
+	->get();
+
+	dd($prod);
 });

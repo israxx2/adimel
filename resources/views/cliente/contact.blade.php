@@ -6,6 +6,7 @@
 @include('cliente.template.componentes.header_middle')
 @include('cliente.template.componentes.header_bottom')
 <!-- Begin Mobile Menu Area -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <div class="mobile-menu-area d-lg-none d-xl-none col-12">
 	<div class="container"> 
 		<div class="row">
@@ -22,7 +23,7 @@
 @include('cliente.template.componentes.breadcrumb_area', ['pages' => ['Inicio', 'Contacto']])
 
 <div class="container mb-60">
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13003.49912621912!2d-71.6588077!3d-35.4331318!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb865bcedc7bbf941!2sLibrer%C3%ADa%20Adimel!5e0!3m2!1ses-419!2scl!4v1576811132686!5m2!1ses-419!2scl" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13003.49912621912!2d-71.6588077!3d-35.4331318!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb865bcedc7bbf941!2sLibrer%C3%ADa%20Adimel!5e0!3m2!1ses-419!2scl!4v1576811132686!5m2!1ses-419!2scl" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
 </div>
 
 
@@ -69,6 +70,7 @@
                                 <label>Tu Mensaje</label>
                                 <textarea name="contactMessage" id="contactMessage"></textarea>
                             </div>
+                            <div class="g-recaptcha" data-sitekey="6LceONEUAAAAAOB8X-YJE2C33p8zODSNNR64JkP2"></div>
                             <div class="form-group">
                                 <button type="submit" value="submit" id="submit" class="li-btn-3" name="submit">Enviar</button>
                             </div>
@@ -90,3 +92,15 @@
 @include('cliente.template.componentes.footer_bottom')
 
 @endsection
+
+
+<script type="text/javascript">
+  var onloadCallback = function() {
+    //alert("grecaptcha is ready!");
+};
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+async defer>
+</script>
+

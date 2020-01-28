@@ -17,7 +17,8 @@
 			<div class="col-lg-9" style="padding-top:10px">
 				<!-- Begin Header Middle Searchbox Area -->
 				<form action="#" id="buscar" class="hm-searchbox">
-					{{-- <select class="nice-select select-search-category" onchange="changeCategoria(this)"> --}}
+					<div>
+						{{-- <select class="nice-select select-search-category" onchange="changeCategoria(this)"> --}}
 						<select class="nice-select select-search-category" id="categoria" >
 							<option value="0">TODOS</option> 
 							@foreach($categorias as $c)
@@ -32,8 +33,14 @@
 								@endif
 							@endforeach
 						</select>
-						<input type="text" id="texto" placeholder="Buscar un articulo ...">
+						<div>
+							<input type="text" id="texto" placeholder="Buscar un articulo ...">
+						</div>
+						
 						<button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+						
+					</div>
+					
 					</form>
 					<!-- Header Middle Searchbox Area End Here -->
 
@@ -79,12 +86,12 @@
 		</div>
 	</div>
 
-	<div style="position:fixed; top:303px; z-index:10000; right:17px">
+<!-- 	<div style="position:fixed; top:303px; z-index:10000; right:17px">
 		<button class="btn btn-xs" style="background:#1BD741" onclick="location.href='http://web.whatsapp.com/send?text=&phone=+56982226526&abid=+56982226526'">
 			<i class="fa fa-whatsapp"style="font-size:35px; color:#fff" ></i>
 		</button>
 
-	</div>
+	</div> -->
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 

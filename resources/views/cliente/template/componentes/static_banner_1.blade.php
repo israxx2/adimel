@@ -5,7 +5,7 @@
 			<div class="col-lg-4 col-md-4 text-center">
 				<div class="single-banner pb-xs-30">
 					<a href="#">
-						<img src="{{ asset('electro/images/banner/1_3.jpg') }}" alt="Li's Static Banner">
+						<img src="{{ asset('uploads/productos/noimage.jpg') }}" alt="Li's Static Banner">
 					</a>
 				</div>
 			</div>
@@ -14,7 +14,7 @@
 			<div class="col-lg-4 col-md-4 text-center">
 				<div class="single-banner pb-xs-30">
 					<a href="#">
-						<img src="{{ asset('electro/images/banner/1_4.jpg') }}" alt="Li's Static Banner">
+						<img src="{{ asset('uploads/productos/noimage.jpg') }}" alt="Li's Static Banner">
 					</a>
 				</div>
 			</div>
@@ -23,7 +23,7 @@
 			<div class="col-lg-4 col-md-4 text-center">
 				<div class="single-banner">
 					<a href="#">
-						<img src="{{ asset('electro/images/banner/1_5.jpg') }}" alt="Li's Static Banner">
+						<img src="{{ asset('uploads/productos/noimage.jpg') }}" alt="Li's Static Banner">
 					</a>
 				</div>
 			</div>
