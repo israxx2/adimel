@@ -15,7 +15,7 @@ class HelperServiceProvider extends ServiceProvider
     {
         $Config = app_path('Helpers/Config.php');
         $Prod = app_path('Helpers/Prod.php');
-        $Fam = app_path('Helpers/Fam.php');
+        $Rub = app_path('Helpers/Rub.php');
 
         if (file_exists($Config)) {
             require_once($Config);
@@ -25,7 +25,7 @@ class HelperServiceProvider extends ServiceProvider
             require_once($Prod);
         }
 
-        if (file_exists($Fam)) {
+        if (file_exists($Rub)) {
             require_once($Fam);
         }
 
