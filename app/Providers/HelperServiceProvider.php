@@ -26,7 +26,7 @@ class HelperServiceProvider extends ServiceProvider
         }
 
         if (file_exists($Rub)) {
-            require_once($Fam);
+            require_once($Rub);
         }
 
     }
