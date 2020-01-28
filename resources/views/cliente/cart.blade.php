@@ -1,7 +1,7 @@
 
 
 @extends('cliente.template.app')
-@section('titulo', 'Quienes Somos')
+@section('titulo', 'Carrito')
 
 @section('header')
 
