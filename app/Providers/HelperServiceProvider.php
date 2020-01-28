@@ -13,9 +13,20 @@ class HelperServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $file = app_path('Helpers/Config.php');
-        if (file_exists($file)) {
-            require_once($file);
+        $Config = app_path('Helpers/Config.php');
+        $Prod = app_path('Helpers/Prod.php');
+        $Fam = app_path('Helpers/Fam.php');
+
+        if (file_exists($Config)) {
+            require_once($Config);
+        }
+
+        if (file_exists($Prod)) {
+            require_once($Prod);
+        }
+
+        if (file_exists($Fam)) {
+            require_once($Fam);
         }
 
     }

@@ -230,6 +230,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Config' => App\Helpers\Config::class,
+        'Prod' => App\Helpers\Prod::class,
+        'Fam' => App\Helpers\Fam::class,
 
     ],
 

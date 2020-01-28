@@ -33,21 +33,13 @@ class User extends Authenticatable
     protected $table = 'DEPENDENCIAS_DEL_CLIENTE';
     protected $primaryKey = 'dep_cli_idn';
     public $incrementing = false;
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+    
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
     public $timestamps = false;
-    /**
-    * Get the password for the user.
-    *
-    * @return string
-    */
+
     public function getAuthIdentifier()
     {
         return $this->getKey();

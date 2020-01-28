@@ -14,4 +14,10 @@ class Producto extends Model
 	protected $primaryKey = 'pro_idn';
 	public $incrementing = false;
 	public $timestamps = false;
+
+	public function familia()
+    {
+        return $this->belongsTo('App\Familia', 'fam_idn');
+    }
+
 }
