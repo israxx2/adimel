@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Familia extends Model
+class Rubro extends Model
 {
     protected $fillable = [
 		'FAM_IDN ', 'FAM_DETALLE ', 'FAM_ESTADO',

@@ -174,3 +174,4 @@ Route::get('/asdf', function() {
 	Fam::get('50')->productos; //Retorna los productos de esa Familia
 
 });
+

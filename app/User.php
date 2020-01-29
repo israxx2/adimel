@@ -45,4 +45,8 @@ class User extends Authenticatable
         return $this->getKey();
     }
     
+    public function carrito()
+    {
+        return $this->hasMany('App\Carrito', 'dep_cli_idn');
+    }
 }
