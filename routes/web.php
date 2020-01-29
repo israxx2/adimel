@@ -36,7 +36,14 @@ Route::get('/checkout', 'Cliente\GeneralController@checkout');
 Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
 Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
 
+//////////////////////
+//// CARRITO	//////
+//////////////////////
 
+Route::get('/getCarrito', 'Cliente\GeneralController@getCarrito');
+Route::post('/addCarrito', 'Cliente\GeneralController@addCarrito');
+Route::post('/deleteCarrito', 'Cliente\GeneralController@deleteCarrito');
+Route::post('/editCarrito', 'Cliente\GeneralController@editCarrito');
 ////////////////////////////////
 //// ADIMEL Administrador //////
 ////////////////////////////////

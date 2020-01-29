@@ -51,7 +51,7 @@
                                 <button 
                                 class="add-to-cart"  
                                 style=color:#fff; 
-                                onclick="funcion(this,'{{$productos->pro_idn}}','{{$productos->pro_nombre}}','{{ $productos->pro_valor_venta1}}')" 
+                                onclick="funcion(this,'{{$productos->pro_idn}}')" 
                                 >AÑADIR</button>
                             </form>
                         </div>
@@ -101,8 +101,10 @@
 
 <script>
 
-function funcion(e,id,nombre,precio){
+function funcion(e,id){
+  
     cantidad=e.form[0].value;
-    Añadir(id,nombre,precio,cantidad);
+
+    addProducto(id,cantidad);
 }
 </script>

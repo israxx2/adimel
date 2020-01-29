@@ -45,38 +45,52 @@
 					<!-- Header Middle Searchbox Area End Here -->
 
 					@if(Auth::guard('cliente')->check())
-					<div class="header-middle-right">
-						<ul class="hm-menu">
-							<li class="hm-minicart"  >
-								<div class="hm-minicart-trigger" style="background-color:#0088C6">
-									<span class="item-icon"></span>
-									<span class="item-text" >
-										<span id="subtotal1">$0</span>
-										<span id="cantidad" class="cart-item-count" style="background-color:#ffdc04; color:#0088C6 "><b>0</b></span>
-									</span>
-								</div>
-								<span></span>
-								<div class="minicart">
-									<ul class="minicart-product-list">
-
-									</ul>
-									<p class="minicart-total">SUBTOTAL: <span id="subtotal2">$0</span></p>
-									<div class="minicart-button">
-										<a href="/cart" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-											<span>VER CARRO</span>
-										</a>
-										<a href="/checkout" class="li-button li-button-fullwidth li-button-sm">
-											<span>COMPRAR</span>
-										</a>
+						<div class="header-middle-right">
+							<ul class="hm-menu">
+								<li class="hm-minicart" id="carritoSuperior">
+									
+									<div class="hm-minicart-trigger" style="background-color:#0088C6">
+										<span class="item-icon"></span>
+										<span class="item-text" >
+											<span id="subtotal1">$0</span>
+											<span id="cantidad" class="cart-item-count" style="background-color:#ffdc04; color:#0088C6 "><b>{{Auth::guard('cliente')->user()->carrito->count()}}</b></span>
+										</span>
 									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
+									<span></span>
+									<div class="minicart" >
+										<ul class="minicart-product-list" id="minicart1">
+											@foreach (Auth::guard('cliente')->user()->carrito as $p)
+												<li id={{$p->prod_codigo}}>
+													<a href="/viewProduct/{{$p->prod_codigo}}" class="minicart-product-image">
+														<img src="/uploads/productos/{{$p->prod_codigo}}.png" alt="cart products">
+													</a>
+													<div class="minicart-product-details">
+														<h6><a href="/viewProduct/{{$p->prod_codigo}}">{{$p->prod_nombre}}</a></h6>
+														<span id="cantidad-`+index+`">${{$p->precio}} x {{$p->cantidad}}</span>
+													</div>
+													<button class="close" onclick="removeProducto({{$p->prod_codigo}})">
+														<i class="fa fa-close"></i>
+													</button>
+												</li>
+											@endforeach
+										</ul>
+										<p class="minicart-total">SUBTOTAL: <span id="subtotal2">$0</span></p>
+										<div class="minicart-button">
+											<a href="/cart" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+												<span>VER CARRO</span>
+											</a>
+											<a href="/checkout" class="li-button li-button-fullwidth li-button-sm">
+												<span>COMPRAR</span>
+											</a>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
 					@else
-					<div class="header-middle-right">
-						<button class="li-btn-2" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
-					</div>
+						<div class="header-middle-right">
+							<button class="li-btn-2" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
+						</div>
 					@endif
 
 

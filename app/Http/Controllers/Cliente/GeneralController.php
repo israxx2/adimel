@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Carrito;
+use App\Producto;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -251,6 +253,7 @@ public function viewProduct($id) {
 		['pro_stock', '>', 0]
 	])->get();
 	$productos=ToCLP($productos)->first();
+	
 
 	$similaryProducts = DB::table('PRODUCTOS')
 	->where([
@@ -336,14 +339,103 @@ public function categoria($id, Request $request) {
 	}
 
 
-	/**
-	* Cambia el valor a peso chileno
-	* @param array
-	* @return array
-	*/
+	public function getCarrito() {
 	
+		$carrito2=Auth::guard('cliente')->user()->carrito;
+		foreach($carrito2 as $item) {
+			$item->precio= $item->producto->pro_valor_venta1;
+		}
+		return response()->json($carrito2);
+
+	}
+
+	public function addCarrito(Request $request) {
+
+		//dd(	DB::table('web_carrito')->get());
+		$Producto = DB::table('PRODUCTOS')
+		->where([['pro_codigo', $request->producto]])->first();
+
+		$item = Carrito::where([
+			['dep_cli_idn', Auth::guard('cliente')->id()],
+			['prod_codigo', $request->producto]]
+			)->first();
+		
+		if($item){
+		
+			$item->cantidad=$item->cantidad+$request->cantidad;
+			$item->update();
+		}
+		else{
+		
+			$carrito= new Carrito();
+			$carrito->dep_cli_idn= Auth::guard('cliente')->id();
+			$carrito->prod_codigo= $request->producto;
+			$carrito->prod_nombre= $Producto->pro_nombre;
+			//$carrito->precio= $Producto->pro_valor_venta1;
+			$carrito->cantidad= $request->cantidad;
+			$carrito->save();
+			
+		}
+		$carrito2=Auth::guard('cliente')->user()->carrito;
+		foreach($carrito2 as $item) {
+			$item->precio= $item->producto->pro_valor_venta1;
+		}
+	
+	
+		return response()->json($carrito2);
+		
+
+	}
+	
+	public function deleteCarrito(Request $request) {
+
+	
+		$carrito=Carrito::where(
+			[
+				['dep_cli_idn',Auth::guard('cliente')->id()],
+				['prod_codigo',$request->producto],
+			]
+		)->delete();
+
+		$carrito2=Auth::guard('cliente')->user()->carrito;
+		foreach($carrito2 as $item) {
+			$item->precio= $item->producto->pro_valor_venta1;
+		}
+	
+	
+		return response()->json($carrito2);
+
+	}
+
+	public function editCarrito(Request $request) {
+
+		$item = Carrito::where([
+			['dep_cli_idn', Auth::guard('cliente')->id()],
+			['prod_codigo', $request->producto]]
+			)->first();
+		
+	
+		$item->cantidad=$request->cantidad;
+		$item->update();
+	
+		$carrito2=Auth::guard('cliente')->user()->carrito;
+		foreach($carrito2 as $item) {
+			$item->precio= $item->producto->pro_valor_venta1;
+		}
+	
+	
+		return response()->json($carrito2);
+
+	}
+
+
 }
+
+
+
 function ToCLP($productos){
 	// |
 	return $productos;
 }
+
+
