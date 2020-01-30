@@ -21,8 +21,8 @@
             <div id="product-details" class="tab-pane" role="tabpanel">
                 <div class="product-details-manufacturer">
                     <a href="#">
-                        @if (file_exists('uploads/productos/'.$productos->first()->pro_idn.'.png'))
-                            <img src="{{ asset('uploads/productos/'.$productos->first()->pro_idn.'.png') }}" width="240px" height="240px" alt="Product Image">
+                        @if (file_exists('uploads/productos/'.$productos->first()->pro_codigo.'.png'))
+                            <img src="{{ asset('uploads/productos/'.$productos->first()->pro_codigo.'.png') }}" width="240px" height="240px" alt="Product Image">
                         @else
                             <img src="{{ asset('uploads/productos/noimage.png') }}" width="240px" height="240px" alt="Product Image">
                         

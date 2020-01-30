@@ -10,10 +10,10 @@
 							<!-- single-product-wrap start -->
 							<div class="single-product-wrap">
 								<div class="product-image">
-									<a href="viewProduct/{{$p->pro_idn}}">
+									<a href="viewProduct/{{$p->pro_codigo}}">
 
-										@if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
-											<img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}" alt="Product Image" height="240px">
+										@if (file_exists('uploads/productos/'.$p->pro_codigo.'.png'))
+											<img src="{{ asset('uploads/productos/'.$p->pro_codigo.'.png') }}" alt="Product Image" height="240px">
 										@else
 											<img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
 										@endif
@@ -23,7 +23,7 @@
 							
 									<div class="product_desc">
 										<div class="product_desc_info">
-											<h4><a class="product_name" href="viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
+											<h4><a class="product_name" href="viewProduct/{{$p->pro_codigo}}">{{$p->pro_nombre}}</a></h4>
 											@if(Auth::guard('cliente')->check())
 												<div class="price-box">									
 													<span class="new-price" value="{{$p->pro_valor_venta1}}">${{$p->pro_valor_venta1}}</span>
@@ -35,7 +35,7 @@
 									
 										<div class="add-actions">
 											@if(Auth::guard('cliente')->check())
-												<button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="addProducto('{{$p->pro_idn}}','{{1}} ')"><span>AÑADIR</span></button>										
+												<button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="addProducto('{{$p->pro_codigo}}','{{1}} ')"><span>AÑADIR</span></button>										
 											@else
 												<button class="btn btn-sm btn-block" style="background-color:#0088c6; color:white" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
 											@endif

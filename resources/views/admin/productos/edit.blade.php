@@ -60,8 +60,8 @@
 									<div id="upload-demo"  style="padding:20px; display:none;">
 									</div>
 									<div id="imagen"  style="padding:10px;">
-										@if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
-											<img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}"  width="460px" height="460px" alt="Product Image">
+										@if (file_exists('uploads/productos/'.$p->pro_codigo.'.png'))
+											<img src="{{ asset('uploads/productos/'.$p->pro_codigo.'.png') }}"  width="460px" height="460px" alt="Product Image">
 										@else
 											<img src="{{ asset('uploads/productos/noimage.png') }}" width="460px" height="460px" alt="Product Image">
 										
@@ -85,8 +85,8 @@
 									
 									<div id="imagen-2"  style="padding:10px;">
 										<center>
-											@if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
-												<img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}" width="250px" height="240px" alt="Product Image">
+											@if (file_exists('uploads/productos/'.$p->pro_codigo.'.png'))
+												<img src="{{ asset('uploads/productos/'.$p->pro_codigo.'.png') }}" width="250px" height="240px" alt="Product Image">
 											@else
 												<img src="{{ asset('uploads/productos/noimage.png') }}" width="250px" height="240px" alt="Product Image">
 											
@@ -97,7 +97,7 @@
 								</div>
 							<div class="product_desc">
 								<div class="product_desc_info" style="padding:20px;">
-									<h4><a class="product_name" href="/viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
+									<h4><a class="product_name" href="/viewProduct/{{$p->pro_codigo}}">{{$p->pro_nombre}}</a></h4>
 									<div class="price-box">
 										<span class="new-price">${{$p->pro_valor_venta1}}</span>
 									</div>

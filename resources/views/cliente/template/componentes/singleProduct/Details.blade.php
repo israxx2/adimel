@@ -7,8 +7,8 @@
                     <div class="product-details-images slider-navigation-1">
                         <div class="lg-image">
                         
-                                @if (file_exists('uploads/productos/'.$productos->pro_idn.'.png'))
-                                    <img src="{{ asset('uploads/productos/'.$productos->pro_idn.'.png') }}" alt="Product Image">
+                                @if (file_exists('uploads/productos/'.$productos->pro_codigo.'.png'))
+                                    <img src="{{ asset('uploads/productos/'.$productos->pro_codigo.'.png') }}" alt="Product Image">
                                 @else
                                     <img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
                                 
@@ -51,7 +51,7 @@
                                 <button 
                                 class="add-to-cart"  
                                 style=color:#fff; 
-                                onclick="funcion(this,'{{$productos->pro_idn}}')" 
+                                onclick="funcion(this,'{{$productos->pro_codigo}}')" 
                                 >AÑADIR</button>
                             </form>
                         </div>

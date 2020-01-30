@@ -7,7 +7,7 @@
 				<div class="col-lg-4 col-md-3 col-sm-6 pb-xs-45">
 					<div class="li-shipping-inner-box">
 						<div class="shipping-icon">
-							<a href="{{ asset('mercado/productos.jpg') }}" target="_blank">
+							<a href="{{ asset('mercado/productos.xlsx') }}" target="_blank">
 								<img src="{{ asset('listdownload.png') }}"  height="50px" alt="Shipping Icon">
 							</a>
 
@@ -24,7 +24,7 @@
 				<div class="col-lg-4 col-md-3 col-sm-6 pb-xs-45">
 					<div class="li-shipping-inner-box">
 						<div class="shipping-icon">
-							<a href="{{ asset('mercado/ofertas.jpeg') }}" target="_blank">
+							<a href="{{ asset('mercado/ofertas.xlsx') }}" target="_blank">
 								<img src="{{ asset('offer.png') }}" height="55px" alt="Shipping Icon">
 							</a>
 						</div>

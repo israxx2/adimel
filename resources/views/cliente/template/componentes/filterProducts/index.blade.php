@@ -70,10 +70,10 @@
                                                         <!-- single-product-wrap start -->
                                                         <div class="single-product-wrap">
                                                             <div class="product-image">
-                                                                <a href="/viewProduct/{{$p->pro_idn}}">
+                                                                <a href="/viewProduct/{{$p->pro_codigo}}">
                             
-                                                                    @if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
-                                                                        <img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}" alt="Product Image" height="240px">
+                                                                    @if (file_exists('uploads/productos/'.$p->pro_codigo.'.png'))
+                                                                        <img src="{{ asset('uploads/productos/'.$p->pro_codigo.'.png') }}" alt="Product Image" height="240px">
                                                                     @else
                                                                         <img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
                                                                     @endif
@@ -83,7 +83,7 @@
                                                         
                                                                 <div class="product_desc">
                                                                     <div class="product_desc_info">
-                                                                        <h4><a class="product_name" href="/viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
+                                                                        <h4><a class="product_name" href="/viewProduct/{{$p->pro_codigo}}">{{$p->pro_nombre}}</a></h4>
                                                                         @if(Auth::guard('cliente')->check())
                                                                             <div class="price-box">									
                                                                                 <span class="new-price">${{$p->pro_valor_venta1}}</span>
@@ -95,7 +95,7 @@
                                                                 
                                                                     <div class="add-actions">
                                                                         @if(Auth::guard('cliente')->check())
-                                                                            <button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="Añadir('{{$p->pro_idn}}','{{$p->pro_nombre}}','{{ $p->pro_valor_venta1}}','{{1}} ')"><span>AÑADIR</span></button>										
+                                                                            <button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="addProducto('{{$p->pro_codigo}}','{{1}}')"><span>AÑADIR</span></button>										
                                                                         @else
                                                                             <button class="btn btn-sm btn-block" style="background-color:#0088c6; color:white" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
                                                                         @endif
@@ -111,61 +111,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- <div id="list-view" class="tab-pane fade product-list-view" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col">
-                                                @foreach ($productos as $p)
-                                                <div class="row product-layout-list">
-                                                    <div class="col-lg-3 col-md-5 ">
-                                                        <div class="product-image">
-                                                            <a href="/viewProduct/{{$p->pro_idn}}">
-
-                                                                @if (file_exists('uploads/productos/'.$p->pro_idn.'.png'))
-                                                                    <img src="{{ asset('uploads/productos/'.$p->pro_idn.'.png') }}" alt="Product Image">
-                                                                @else
-                                                                    <img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
-                                                                
-                                                                @endif
-                                                            </a>
-                                                           
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-5 col-md-7">
-                                                        <div class="product_desc">
-                                                            <div class="product_desc_info">
-                                                                <h4><a class="product_name" href="/viewProduct/{{$p->pro_idn}}">{{$p->pro_nombre}}</a></h4>
-                                                           
-                                                                @if(Auth::guard('cliente')->check())
-                                                                    <div class="price-box">									
-                                                                        <span class="new-price">${{$p->pro_valor_venta1}}</span>
-                                                                    </div>
-                                                                @else
-                                                                    <small><i>Para ver los precios debe iniciar sesion</i></small>
-                                                                @endif
-                                                                <br>
-                                                                <p>{{$p->pro_nombre}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-3">
-                                                     
-                                                            <ul class="add-actions-link">
-                                                                
-                                                                    @if(Auth::guard('cliente')->check())
-                                                                        <button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="Añadir('{{$p->pro_idn}}','{{$p->pro_nombre}}','{{ $p->pro_valor_venta1}}','{{1}} ')"><span>AÑADIR</span></button>										
-                                                                    @else
-                                                                        <button class="btn btn-sm btn-block" style="background-color:#0088c6; color:white" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
-                                                                    @endif
-                                                            
-
-                                                             </ul>
-                                                      
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div> --}}
+ 
                                     <div class="paginatoin-area">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6">

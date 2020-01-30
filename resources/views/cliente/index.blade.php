@@ -37,12 +37,6 @@
 @section('footer')
 
 	@include('cliente.template.componentes.footer_middle')
-	@include('cliente.template.componentes.footer_bottom')
 
 @endsection
-
-@section('modal')
-	@include('cliente.template.componentes.modalViewProduct')
-@endsection
-
 

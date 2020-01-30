@@ -27,6 +27,4 @@
 @section('footer')
 
     @include('cliente.template.componentes.footer_middle')
-    @include('cliente.template.componentes.footer_bottom')
-
 @endsection

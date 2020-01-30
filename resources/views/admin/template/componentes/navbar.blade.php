@@ -36,5 +36,5 @@
         </li>
 
     </ul>
-    <script src="{{ asset('AdminLTE/dist/js/logout.js') }}" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="{{ asset('adminlte/dist/js/logout.js') }}" type="text/javascript" charset="utf-8" async defer></script>
 </nav>

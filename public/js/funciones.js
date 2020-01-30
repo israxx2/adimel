@@ -38,7 +38,8 @@ function ActualizarVista(carrito){
         $(".minicart-product-list").append(`
         <li id="`+producto.prod_codigo+`">
             <a href="/viewProduct/`+producto.prod_codigo+`" class="minicart-product-image">
-                <img src="/uploads/productos/`+producto.prod_codigo+`.png" alt="cart products">
+           
+                <img src="/uploads/productos/`+producto.prod_codigo+`.png" alt="Producto">  
             </a>
             <div class="minicart-product-details">
                 <h6><a href="/viewProduct/`+producto.prod_codigo+`">`+producto.prod_nombre+`</a></h6>
@@ -92,6 +93,7 @@ function changeCantidad(e,id_prod){
 }
 
 function addProducto(id_prod,cantidad){
+    console.log(id_prod,cantidad)
 	$.ajaxSetup({
 
 		headers: {
@@ -133,3 +135,14 @@ function removeProducto(id_prod){
 
 }
 
+
+function imageExists(image_url){
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
+}

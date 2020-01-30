@@ -54,7 +54,7 @@ class GeneralController extends Controller
     {
         $productos= DB::table('PRODUCTOS')
         ->where([
-            ['pro_idn', $id],
+            ['pro_codigo', $id],
         ])->get();
 
         return view('admin.productos.edit')
@@ -116,17 +116,18 @@ class GeneralController extends Controller
     {
         return view('admin.ofertas.index');
     }
+
     public function UploadFile(Request $request)
     {   
         $tipo=$request->tipo;
         $file = $request->file('file');
         $filename = $request->file('file')->getClientOriginalName();
-        $extension=\File::extension($filename);
+  
 
 
         $path = public_path() . "/uploads/mercado/" .$tipo .$filename;
         error_log($path);
-        $request->file('file')->move(public_path('/mercado'), $tipo.'.'.$extension);
+        $request->file('file')->move(public_path('/mercado'), $tipo.'.xlsx');
         return response()->json(['success'=>'done']);
     }
     

@@ -21,20 +21,13 @@
 			</div>
 			<!-- Category Menu Area End Here -->
 			<!-- Begin Slider Area -->
+			{{-- style="background-image: url(uploads/productos/{{$offer1->pro_codigo}}.png);" --}}
 			<div class="col-lg-6 col-md-8">
 				<div class="slider-area slider-area-3 pt-sm-30 pt-xs-30 pb-xs-30">
 					<div class="slider-active owl-carousel">
 						<!-- Begin Single Slide Area -->
-						<div class="single-slide align-center-left animation-style-01 bg-7" style="background-image: url(uploads/productos/{{$offer1->pro_idn}}.png);">
+						<div class="single-slide align-center-left animation-style-01 bg-7" >
 							<div class="slider-progress"></div>
-							<div class="slider-content">
-								<!-- <h5>OFERTA! <span>- 20%</span></h5> -->
-								<!-- <h2>{{$offer1->pro_nombre}} </h2>
-								<h3>Precio oferta <span> ${{$offer1->pro_valor_venta1}} </span></h3> -->
-								<div class="default-btn slide-btn">
-									<!-- <a class="links" href="/viewProduct/{{$offer1->pro_idn}}">COMPRAR AHORA</a> -->
-								</div>
-							</div>
 						</div>
 						<!-- Single Slide Area End Here -->
 					</div>
@@ -51,12 +44,12 @@
 				<div class="li-banner mt-15 mt-sm-30 mt-xs-25 mb-xs-5" style="height:145px;">
 					<a href="#">
 						
-						<img src="{{ asset('uploads/productos/noimage.jpg') }}" alt="">
+						<img src="{{ asset('uploads/productos/'.$offer1->pro_codigo.'.png') }}" alt="">
 					</a>
 				</div>
 				<div class="li-banner mt-15 mt-sm-30 mt-xs-25 mb-xs-3" style="height:145px;">
 					<a href="#">
-						<img src="{{ asset('uploads/productos/noimage.jpg') }}" alt="">
+						<img src="{{ asset('uploads/productos/'.$offer1->pro_codigo.'.png') }}" alt="">
 					</a>
 				</div>
 			</div>

@@ -230,81 +230,81 @@ class GeneralController extends Controller
 
 	public function checkout() {
 		$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-	->where('dep_cli_idn',1 /*Auth::guard('cliente')->id()*/)->first();
+		->where('dep_cli_idn',1 /*Auth::guard('cliente')->id()*/)->first();
 	
 
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
+		$categorias = DB::table('RUBRO')
+		->where([
+			['rub_estado', 1],
+			['rub_idn', '!=', 0],
+			['rub_idn', '!=', 8],
+		])->get();
 
-	return view('cliente.checkout')
-	->with('user', $user)
-	->with('categorias', $categorias);
-}
+		return view('cliente.checkout')
+		->with('user', $user)
+		->with('categorias', $categorias);
+	}
 
-public function viewProduct($id) {
-		//0000003070147
-	$productos= DB::table('PRODUCTOS')
-	->where([
-		['pro_idn', $id],
-		['pro_stock', '>', 0]
-	])->get();
-	$productos=ToCLP($productos)->first();
-	
+	public function viewProduct($id) {
+			//0000003070147
+		$productos= DB::table('PRODUCTOS')
+		->where([
+			['pro_codigo', $id],
+			['pro_stock', '>', 0]
+		])->get();
+		$productos=ToCLP($productos)->first();
+		
 
-	$similaryProducts = DB::table('PRODUCTOS')
-	->where([
-		['pro_stock', '>', 0],
-		['rub_idn', '=', $productos->rub_idn],
-		['pro_idn', '!=',$id],
-	])->take(5)->get();
-	$similaryProducts=ToCLP($similaryProducts);
+		$similaryProducts = DB::table('PRODUCTOS')
+		->where([
+			['pro_stock', '>', 0],
+			['rub_idn', '=', $productos->rub_idn],
+			['pro_codigo', '!=',$id],
+		])->take(5)->get();
+		$similaryProducts=ToCLP($similaryProducts);
 
-	
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
+		
+		$categorias = DB::table('RUBRO')
+		->where([
+			['rub_estado', 1],
+			['rub_idn', '!=', 0],
+			['rub_idn', '!=', 8],
+		])->get();
 
-	return view('cliente.single-product')
-	->with('categorias', $categorias)
-	->with('productos', $productos)
-	->with('similaryProducts', $similaryProducts);
-}
+		return view('cliente.single-product')
+		->with('categorias', $categorias)
+		->with('productos', $productos)
+		->with('similaryProducts', $similaryProducts);
+	}
 
-public function categoria($id, Request $request) {
-	$buscar=$request->s;
-	
-	$productos= DB::table('PRODUCTOS')
-	->where([
-		['rub_idn', $id],
-		['pro_stock', '>', 0],
-		['pro_nombre','like', '%'.$buscar.'%'],
-	])->paginate(8);
-	$productos=ToCLP($productos);
+	public function categoria($id, Request $request) {
+		$buscar=$request->s;
+		
+		$productos= DB::table('PRODUCTOS')
+		->where([
+			['rub_idn', $id],
+			['pro_stock', '>', 0],
+			['pro_nombre','like', '%'.$buscar.'%'],
+		])->paginate(8);
+		$productos=ToCLP($productos);
 
-	$categorias = DB::table('RUBRO')
-	->where([
-		['rub_estado', 1],
-		['rub_idn', '!=', 0],
-		['rub_idn', '!=', 8],
-	])->get();
+		$categorias = DB::table('RUBRO')
+		->where([
+			['rub_estado', 1],
+			['rub_idn', '!=', 0],
+			['rub_idn', '!=', 8],
+		])->get();
 
-	$cat = DB::table('RUBRO')
-	->where([
-		['rub_idn', $id],
-	])->first();
+		$cat = DB::table('RUBRO')
+		->where([
+			['rub_idn', $id],
+		])->first();
 
-	return view('cliente.filterProducts')
-	->with('categorias', $categorias)
-	->with('cat', $cat)
-	->with('productos', $productos);
-}
+		return view('cliente.filterProducts')
+		->with('categorias', $categorias)
+		->with('cat', $cat)
+		->with('productos', $productos);
+	}
 
 	/**
 	* Comprueba si el rut ingresado es valido
@@ -355,6 +355,7 @@ public function categoria($id, Request $request) {
 		$Producto = DB::table('PRODUCTOS')
 		->where([['pro_codigo', $request->producto]])->first();
 
+	
 		$item = Carrito::where([
 			['dep_cli_idn', Auth::guard('cliente')->id()],
 			['prod_codigo', $request->producto]]
@@ -371,13 +372,16 @@ public function categoria($id, Request $request) {
 			$carrito->dep_cli_idn= Auth::guard('cliente')->id();
 			$carrito->prod_codigo= $request->producto;
 			$carrito->prod_nombre= $Producto->pro_nombre;
-			//$carrito->precio= $Producto->pro_valor_venta1;
 			$carrito->cantidad= $request->cantidad;
 			$carrito->save();
 			
 		}
+
 		$carrito2=Auth::guard('cliente')->user()->carrito;
+		
+		
 		foreach($carrito2 as $item) {
+			
 			$item->precio= $item->producto->pro_valor_venta1;
 		}
 	
@@ -389,7 +393,7 @@ public function categoria($id, Request $request) {
 	
 	public function deleteCarrito(Request $request) {
 
-	
+		//::truncate();
 		$carrito=Carrito::where(
 			[
 				['dep_cli_idn',Auth::guard('cliente')->id()],

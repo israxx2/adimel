@@ -16,8 +16,8 @@
                             <!-- single-product-wrap start -->
                             <div class="single-product-wrap">
                                 <div class="product-image">
-                                    @if (file_exists('uploads/productos/'.$s->pro_idn.'.png'))
-                                        <img src="{{ asset('uploads/productos/'.$s->pro_idn.'.png') }}" alt="Product Image">
+                                    @if (file_exists('uploads/productos/'.$s->pro_codigo.'.png'))
+                                        <img src="{{ asset('uploads/productos/'.$s->pro_codigo.'.png') }}" alt="Product Image">
                                     @else
                                         <img src="{{ asset('uploads/productos/noimage.png') }}" alt="Product Image">
                                     
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="product_desc">
                                     <div class="product_desc_info">
-                                        <h4><a class="product_name" href="/viewProduct/{{$s->pro_idn}}">{{$s->pro_nombre}}</a></h4>
+                                        <h4><a class="product_name" href="/viewProduct/{{$s->pro_codigo}}">{{$s->pro_nombre}}</a></h4>
                                         @if(Auth::guard('cliente')->check())
                                             <div class="price-box">									
                                                 <span class="new-price">${{$s->pro_valor_venta1}}</span>
@@ -37,7 +37,7 @@
                                 
                                     <div class="add-actions">
                                         @if(Auth::guard('cliente')->check())
-                                            <button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="Añadir('{{$s->pro_idn}}','{{$s->pro_nombre}}','{{ $s->pro_valor_venta1}}','{{1}} ')"><span>AÑADIR</span></button>										
+                                            <button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="Añadir('{{$s->pro_codigo}}','{{$s->pro_nombre}}','{{ $s->pro_valor_venta1}}','{{1}} ')"><span>AÑADIR</span></button>										
                                         @else
                                             <button class="btn btn-sm btn-block" style="background-color:#0088c6; color:white" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
                                         @endif

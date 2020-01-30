@@ -11,7 +11,7 @@ class Producto extends Model
 	];
 
 	protected $table = 'PRODUCTOS';
-	protected $primaryKey = 'pro_idn';
+	protected $primaryKey = 'pro_codigo';
 	public $incrementing = false;
 	public $timestamps = false;
 

@@ -21,17 +21,14 @@
 
 @section('body')
 
-@include('cliente.template.componentes.breadcrumb_area', ['pages' => ['Inicio', 'Carrito']])
+	@include('cliente.template.componentes.breadcrumb_area', ['pages' => ['Inicio', 'Carrito']])
 
-@include('cliente.template.componentes.cart.cart')
+	@include('cliente.template.componentes.cart.cart')
 
 @endsection
 
 
 
 @section('footer')
-
-@include('cliente.template.componentes.footer_middle')
-@include('cliente.template.componentes.footer_bottom')
-
+	@include('cliente.template.componentes.footer_middle')
 @endsection

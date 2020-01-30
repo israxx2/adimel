@@ -69,6 +69,10 @@ Route::group(['prefix' => 'adimel'], function(){
 	//Configuracion
 	Route::get('/configuracion', 'Admin\ConfiguracionController@index')->name('admin.configuracion.index');
 	Route::post('/configuracion', 'Admin\ConfiguracionController@store')->name('admin.configuracion.store');
+
+	Route::resource('producto', 'Admin\GeneralController', ['names' => ['edit' => 'admin.producto.edit']]);
+
+
 });
 
 
