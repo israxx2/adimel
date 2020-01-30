@@ -16,7 +16,9 @@ use App\Carrito;
 use App\Funcionario;
 use Illuminate\Support\Facades\Auth;
 
-//Autentificacion
+//////////////////////////
+//// AUTH			//////
+//////////////////////////
 Route::get('/adimel-login', 'Auth\LoginController@adimelLogin')->name('login_view');
 Route::post('/funcionario/login', 'Auth\LoginController@funcionarioLogin')->name('funcionario.login');
 Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
@@ -27,7 +29,6 @@ Route::post('/nueva-cuenta', 'Cliente\GeneralController@storeCreateAccount')->na
 //////////////////////////
 //// ADIMEL Cliente //////
 //////////////////////////
-
 Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
 Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
 Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
@@ -40,11 +41,12 @@ Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
 //////////////////////
 //// CARRITO	//////
 //////////////////////
+Route::get('/getCarrito', 'Cliente\CarritoController@getCarrito');
+Route::post('/addCarrito', 'Cliente\CarritoController@addCarrito');
+Route::post('/deleteCarrito', 'Cliente\CarritoController@deleteCarrito');
+Route::post('/editCarrito', 'Cliente\CarritoController@editCarrito');
 
-Route::get('/getCarrito', 'Cliente\GeneralController@getCarrito');
-Route::post('/addCarrito', 'Cliente\GeneralController@addCarrito');
-Route::post('/deleteCarrito', 'Cliente\GeneralController@deleteCarrito');
-Route::post('/editCarrito', 'Cliente\GeneralController@editCarrito');
+
 ////////////////////////////////
 //// ADIMEL Administrador //////
 ////////////////////////////////
@@ -74,6 +76,10 @@ Route::group(['prefix' => 'adimel'], function(){
 
 
 });
+
+
+
+
 
 
 
@@ -173,17 +179,21 @@ Route::get('/asd', function() {
 });
 
 Route::get('/asdf', function() {
-	//dd(App\Producto::take('50')->get());
 
-	//dd(Carrito::getCarrito(6347));
+
+	
 	
 	$iva = DB::table('IVA')->where('iva_activo', 1)->first();
 
+
 	$ord_ven_idn = DB::table('CORRELATIVOS')->select('*')->where('corre_tipo', 29)->first()->corre_correlativo;
+	
+	//dd(DB::table('ORDEN_DE_VENTA')->where('ord_ven_idn',(string)$a)->first());
+
+	$dep_cli_idn = Auth::guard('cliente')->id();
 	$fun_rut = '148';
 	$iva_idn = $iva->iva_idn;
-	$dep_cli_idn = Auth::guard('cliente')->id();
-	$ven_idn = 'WW'; //ID WEB --EDITAR
+	$ven_idn = '0'; //ID WEB --EDITAR //solo acepta enteros
 	$tip_ven_idn = '5';
 	$rec_idn = '1';
 	$ord_ven_neto = 999; //Total de la compra
@@ -192,12 +202,40 @@ Route::get('/asdf', function() {
 	$ord_ven_num_ordcom = '0';
 	$fecha_ingreso = date( 'Y-m-d');
 
+
 	DB::table('ORDEN_DE_VENTA')
 	->insert([
-		['ord_ven_idn' 				=> $ord_ven_idn],
-		['iva_idn' 					=> $iva_idn],
-		['fun_rut' 					=> $fun_rut],
+		['ord_ven_idn' 				=> "153855"],
 		['dep_cli_idn' 				=> $dep_cli_idn],
+		["ord_ven_descuento"		=> "0"],
+		["tip_doc_idn"				=> "0"],
+		['ord_ven_fecha_ingreso'	=>	"000"],
+		['iva_idn' 					=> $iva_idn],
+		["ord_ven_total_venta"		=> "170"],
+		["for_pag_idn"				=> "1"],
+		["ord_ven_cajero"			=> 0],
+		["ord_ven_estado"			=> 0],
+		["ord_ven_rut_retira"		=> "0"],
+		["ord_ven_nombre_retira"	=> "0"],
+		["pla_pag_idn"				=> "100"],
+		["ord_ven_aju_din"			=> "0"],
+		["ord_ven_dinero"			=> 0],
+		["ord_ven_des_pesos"		=> "0"],
+		["ven_idn_comi"				=> "0"],
+		["ord_tra_idn"				=> ""],
+		["emp_idn"					=> "1"],
+		["ord_ven_valor_exento"		=> 0],
+		["fecha_entrega"			=> strtotime($fecha_ingreso)],
+		["comentario"				=> 0],
+		["reserva"					=> "0"],
+		["tip_des_idn"				=> 0],
+		["tip_tras_idn"				=> 0],
+		["cot_idn"					=> "0"],
+		["dias"						=> "0"],
+		["fecha_vencimiento"		=> strtotime($fecha_ingreso)],
+		["ord_ven_reservado"		=> 0],
+		["ord_ven_cot_idn"			=> 0],
+		['fun_rut' 					=> $fun_rut],
 		['ven_idn' 					=> $ven_idn],
 		['tip_ven_idn' 				=> $tip_ven_idn],
 		['rec_idn' 					=> $rec_idn],
@@ -208,22 +246,22 @@ Route::get('/asdf', function() {
 	]);
 
 	dd("entro");
-	dd();
 
 
-	$carrito = Carrito::all();
-	dd($carrito);
-	dd(Auth::guard('cliente')->id());
-	//Los helpers: App\Helpers
-	//Ahí puedes hecharle un ojo
+
+	// $carrito = Carrito::all();
+	// dd($carrito);
+	// dd(Auth::guard('cliente')->id());
+	// //Los helpers: App\Helpers
+	// //Ahí puedes hecharle un ojo
 	
-	Prod::all(); //Retorna todos los productos
-	Prod::all('50'); //Retorna todos los productos filtrados por una FAMILIA (fam_idn)
-	Prod::get('4711421815062')->familia; //Ver Familia de un Producto
+	// Prod::all(); //Retorna todos los productos
+	// Prod::all('50'); //Retorna todos los productos filtrados por una FAMILIA (fam_idn)
+	// Prod::get('4711421815062')->familia; //Ver Familia de un Producto
 
-	Fam::all(); //retorna todas las Familias
-	Fam::get('50'); //Retorna la Familia con fam_idn 50
-	Fam::get('50')->productos; //Retorna los productos de esa Familia
+	// Fam::all(); //retorna todas las Familias
+	// Fam::get('50'); //Retorna la Familia con fam_idn 50
+	// Fam::get('50')->productos; //Retorna los productos de esa Familia
 
 });
 
