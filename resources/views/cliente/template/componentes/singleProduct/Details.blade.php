@@ -35,7 +35,17 @@
                         </div>
                         @if(Auth::guard('cliente')->check())
                         <div class="price-box pt-20">
-                            <span class="new-price new-price-2">${{$productos->pro_valor_venta1}}</span>
+                           
+                            @if($productos->isOffer()->des_pro_estado!=null)
+                                								
+                                <span class="new-price" value="{{$productos->pro_valor_venta1}}" style="color:red;">Antes: <strike>${{$productos->pro_valor_venta1}}</strike> </span>
+                                <br><br>
+                                <span class="new-price" style="color:green;"><strong>Ahora: ${{$productos->isOffer()->des_pro_precio}}</strong></span>
+                            
+                            @else						
+                                 <span class="new-price new-price-2">${{$productos->pro_valor_venta1}}</span>
+                            @endif
+                            
                         </div>
                        
                         <div class="single-add-to-cart">

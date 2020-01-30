@@ -21,7 +21,13 @@
                                     <td class="li-product-remove"><a onclick="removeProducto('{{$p->prod_codigo}}')"><i class="fa fa-times"></i></a></td>
                                     <td class="li-product-thumbnail"><a href="/viewProduct/{{$p->prod_codigo}}"><img width="90px" heigth="90px" src="/uploads/productos/{{{$p->prod_codigo}}}.png" alt="ProductoImagen"></a></td>
                                     <td class="li-product-name"><a href="/viewProduct/{{$p->prod_codigo}}">{{$p->prod_nombre}}</a></td>
-                                    <td class="li-product-price"><span class="amount">{{$p->producto->pro_valor_venta1}}</span></td>
+                                    @if($p->producto->isOffer()->des_pro_estado!=null)
+
+                                        <td class="li-product-price"><span class="amount">{{$p->producto->isOffer()->des_pro_precio}}</span></td>
+                                    @else						
+                                     <td class="li-product-price"><span class="amount">{{$p->producto->pro_valor_venta1}}</span></td>
+                                    @endif
+                              
                                     <td class="quantity">
                                         <div class="cart-plus-minus" onclick='changeCantidad(this,"{{$p->prod_codigo}}")'>
                                             <input disabled class="cart-plus-minus-box"  value="{{$p->cantidad}}" type="text">
@@ -33,8 +39,17 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="product-subtotal"><span class="amount" id="total5-{{$p->prod_codigo}}">{{$p->cantidad*$p->producto->pro_valor_venta1}}</span></td>
-                                </tr>
+                                    @if($p->producto->isOffer()->des_pro_estado!=null)
+
+                                        <td class="product-subtotal"><span class="amount" id="total5-{{$p->prod_codigo}}">{{$p->cantidad*$p->producto->isOffer()->des_pro_precio}}</span></td>
+                                
+                                    @else						
+                                        <td class="product-subtotal"><span class="amount" id="total5-{{$p->prod_codigo}}">{{$p->cantidad*$p->producto->pro_valor_venta1}}</span></td>
+                                
+                                    @endif
+                          
+
+                                   </tr>
                                 @endforeach
                             </tbody>
                         </table>

@@ -121,18 +121,28 @@
                                 @foreach (Auth::guard('cliente')->user()->carrito as $p)
                                 <tr class="cart_item">
                                     <td class="cart-product-name">{{$p->prod_nombre}}<strong class="product-quantity"> × {{$p->cantidad}}</strong></td>
-                                    <td class="cart-product-total"><span class="amount">{{$p->cantidad*$p->producto->pro_valor_venta1}}</span></td>  
+                                    @if($p->producto->isOffer()->des_pro_estado!=null)
+
+                                        <td class="cart-product-total"><span class="amount">{{$p->cantidad*$p->producto->isOffer()->des_pro_precio}}</span></td>  
+                                    @else						
+                                        <td class="cart-product-total"><span class="amount">{{$p->cantidad*$p->producto->pro_valor_venta1}}</span></td>  
+                                    @endif
+
+                                    
+
+
+
                                 </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr class="cart-subtotal">
                                     <th>SUBTOTAL</th>
-                                    <td><span id="subtotalCheckOut" class="amount">£215.00</span></td>
+                                    <td><span id="subtotalCheckOut" class="amount">0</span></td>
                                 </tr>
                                 <tr class="order-total">
                                     <th>TOTAL</th>
-                                    <td><strong><span id="totalCheckOut" class="amount">£215.00</span></strong></td>
+                                    <td><strong><span id="totalCheckOut" class="amount">0</span></strong></td>
                                 </tr>
                             </tfoot>
                         </table>

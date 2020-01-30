@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\DB;
 class Producto extends Model
 {
 	protected $fillable = [
@@ -18,6 +18,26 @@ class Producto extends Model
 	public function familia()
     {
         return $this->belongsTo('App\Familia', 'fam_idn');
+	}
+	
+	public function isOffer()
+    {	
+
+		
+		$prod = DB::table('PRODUCTOS')
+		->select('PRODUCTOS.pro_codigo','PRODUCTOS.pro_nombre', 'PRODUCTOS.pro_stock', 'PRODUCTOS.pro_stock_minimo', 'PRODUCTOS.pro_stock_maximo', 'PRODUCTOS.pro_valor_venta1', 'DESCUENTO_PRODUCTO.des_pro_precio', 'DESCUENTO_PRODUCTO.des_pro_estado', 'DESCUENTO_PRODUCTO.des_pro_fecha_inicio', 'DESCUENTO_PRODUCTO.des_pro_fecha_termino', 'DESCUENTO_PRODUCTO.des_pro_stock')
+		->leftjoin('DESCUENTO_PRODUCTO', 'PRODUCTOS.pro_codigo', '=', 'DESCUENTO_PRODUCTO.pro_codigo')
+		->where([
+			['PRODUCTOS.pro_codigo', $this->pro_codigo]
+		])
+		->first();
+	
+		return $prod;	
+	
     }
+
+
+
+
 
 }

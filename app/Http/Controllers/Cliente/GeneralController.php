@@ -17,16 +17,19 @@ class GeneralController extends Controller
 
 	public function inicio()
 	{
-		$productos= DB::table('PRODUCTOS')
-		->where('pro_stock', '>', 0)
-		->paginate(16);
+	
+		$productos= Producto::where([
+			['pro_stock', '>', 0],
+		])->paginate(16);
+			
+		//3545 tiene oferta
 		
 		$productos=ToCLP($productos);
 		
 		
-		$offer1=DB::table('PRODUCTOS')
-		->where('pro_stock', '>', 0)
-		->get()->first();
+		$offer1=Producto::where([
+			['pro_stock', '>', 0]
+		])->first();
 		
 
 		$categorias = DB::table('RUBRO')
@@ -247,16 +250,14 @@ class GeneralController extends Controller
 
 	public function viewProduct($id) {
 			//0000003070147
-		$productos= DB::table('PRODUCTOS')
-		->where([
+		$productos= Producto::where([
 			['pro_codigo', $id],
 			['pro_stock', '>', 0]
 		])->get();
 		$productos=ToCLP($productos)->first();
 		
 
-		$similaryProducts = DB::table('PRODUCTOS')
-		->where([
+		$similaryProducts = Producto::where([
 			['pro_stock', '>', 0],
 			['rub_idn', '=', $productos->rub_idn],
 			['pro_codigo', '!=',$id],
@@ -280,8 +281,7 @@ class GeneralController extends Controller
 	public function categoria($id, Request $request) {
 		$buscar=$request->s;
 		
-		$productos= DB::table('PRODUCTOS')
-		->where([
+		$productos= Producto::where([
 			['rub_idn', $id],
 			['pro_stock', '>', 0],
 			['pro_nombre','like', '%'.$buscar.'%'],
@@ -342,9 +342,7 @@ class GeneralController extends Controller
 	public function getCarrito() {
 	
 		$carrito2=Auth::guard('cliente')->user()->carrito;
-		foreach($carrito2 as $item) {
-			$item->precio= $item->producto->pro_valor_venta1;
-		}
+		$carrito2=modificarCarrito($carrito2);
 		return response()->json($carrito2);
 
 	}
@@ -352,8 +350,7 @@ class GeneralController extends Controller
 	public function addCarrito(Request $request) {
 
 		//dd(	DB::table('web_carrito')->get());
-		$Producto = DB::table('PRODUCTOS')
-		->where([['pro_codigo', $request->producto]])->first();
+		$Producto = Producto::where([['pro_codigo', $request->producto]])->first();
 
 	
 		$item = Carrito::where([
@@ -378,17 +375,10 @@ class GeneralController extends Controller
 		}
 
 		$carrito2=Auth::guard('cliente')->user()->carrito;
-		
-		
-		foreach($carrito2 as $item) {
-			
-			$item->precio= $item->producto->pro_valor_venta1;
-		}
-	
+		$carrito2=modificarCarrito($carrito2);
 	
 		return response()->json($carrito2);
-		
-
+	
 	}
 	
 	public function deleteCarrito(Request $request) {
@@ -402,11 +392,7 @@ class GeneralController extends Controller
 		)->delete();
 
 		$carrito2=Auth::guard('cliente')->user()->carrito;
-		foreach($carrito2 as $item) {
-			$item->precio= $item->producto->pro_valor_venta1;
-		}
-	
-	
+		$carrito2=modificarCarrito($carrito2);
 		return response()->json($carrito2);
 
 	}
@@ -423,10 +409,7 @@ class GeneralController extends Controller
 		$item->update();
 	
 		$carrito2=Auth::guard('cliente')->user()->carrito;
-		foreach($carrito2 as $item) {
-			$item->precio= $item->producto->pro_valor_venta1;
-		}
-	
+		$carrito2=modificarCarrito($carrito2);
 	
 		return response()->json($carrito2);
 
@@ -442,4 +425,16 @@ function ToCLP($productos){
 	return $productos;
 }
 
+function modificarCarrito($carrito2){
+	foreach($carrito2 as $item) {
+		if($item->producto->isOffer()->des_pro_estado==null){
+			$item->precio= $item->producto->pro_valor_venta1;
+		}
+		else{
+			$item->precio= $item->producto->isOffer()->des_pro_precio;
+		}
+		
+	}
+	return $carrito2;
+}
 

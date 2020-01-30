@@ -106,8 +106,13 @@ function addProducto(id_prod,cantidad){
         type: "POST",
         data: {producto:id_prod,cantidad:cantidad},
         success: function (response) {
-         
             ActualizarVista(response)
+            toastr.success('Producto agregado', 
+            {
+                timeOut: 5000,
+                progressBar: true,
+                "positionClass": "toast-bottom-right",
+            });
         }
     });
 
@@ -129,6 +134,12 @@ function removeProducto(id_prod){
         success: function (response) {
             ActualizarVista(response) ;
             $('#tr-'+id_prod).empty();
+            toastr.success('Producto eliminado', 
+            {
+                timeOut: 5000,
+                progressBar: true,
+                "positionClass": "toast-bottom-right",
+            });
         }
     });
  

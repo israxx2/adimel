@@ -25,9 +25,18 @@
 										<div class="product_desc_info">
 											<h4><a class="product_name" href="viewProduct/{{$p->pro_codigo}}">{{$p->pro_nombre}}</a></h4>
 											@if(Auth::guard('cliente')->check())
-												<div class="price-box">									
-													<span class="new-price" value="{{$p->pro_valor_venta1}}">${{$p->pro_valor_venta1}}</span>
-												</div>
+												@if($p->isOffer()->des_pro_estado!=null)
+													<div class="price-box">									
+														<span class="new-price" value="{{$p->pro_valor_venta1}}" style="color:red;">Antes: <strike>${{$p->pro_valor_venta1}}</strike> </span>
+														<br><br>
+														<span class="new-price" style="color:green;"><strong>Ahora: ${{$p->isOffer()->des_pro_precio}}</strong></span>
+													</div>
+												@else
+													<div class="price-box">									
+														<span class="new-price" value="{{$p->pro_valor_venta1}}">${{$p->pro_valor_venta1}}</span>
+													</div>
+												@endif
+											
 											@else
 												<center><small><i>Para ver los precios debe iniciar sesion</i></small></center>
 											@endif
