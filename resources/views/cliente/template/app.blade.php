@@ -14,11 +14,12 @@
     @include('cliente.template.recursos.link', ['resourceLink' => $resourceLink])  
 </head>
 <body>
+
     <div class="body-wrapper">
         <header>
             @yield('header')
         </header>
-        
+
         @yield('body')
 
         <div class="footer">

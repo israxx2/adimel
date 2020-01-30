@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Carrito extends Model
 {
 	protected $fillable = [
-		'conf_idn ', 'dep_cli_idn ', 'prod_codigo ', 'prod_nombre ', 'cantidad '
+		'car_idn ', 'dep_cli_idn ', 'prod_codigo ', 'prod_nombre ', 'cantidad '
 	];
 
 	protected $table = 'web_carrito';
@@ -30,8 +30,8 @@ class Carrito extends Model
 
 	//entrada: id del cliente
 	//retorna: todos los articulos que pertenecen al carrito
-	public function get($dep_cli_idn) {
-		$carrito = $this->orderBy('conf_idn', 'ASC')
+	public static function getCarrito($dep_cli_idn) {
+		$carrito = Carrito::orderBy('conf_idn', 'ASC')
 		->where('dep_cli_idn', $dep_cli_idn)->get();
 
 		return $carrito;

@@ -12,6 +12,7 @@
 */
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Carrito;
 use App\Funcionario;
 use Illuminate\Support\Facades\Auth;
 
@@ -168,7 +169,47 @@ Route::get('/asd', function() {
 });
 
 Route::get('/asdf', function() {
+	//dd(App\Producto::take('50')->get());
 
+	//dd(Carrito::getCarrito(6347));
+	
+	$iva = DB::table('IVA')->where('iva_activo', 1)->first();
+
+	$ord_ven_idn = DB::table('CORRELATIVOS')->select('*')->where('corre_tipo', 29)->first()->corre_correlativo;
+	$fun_rut = '148';
+	$iva_idn = $iva->iva_idn;
+	$dep_cli_idn = Auth::guard('cliente')->id();
+	$ven_idn = 'WW'; //ID WEB --EDITAR
+	$tip_ven_idn = '5';
+	$rec_idn = '1';
+	$ord_ven_neto = 999; //Total de la compra
+	$ord_ven_iva = 9; //Calcular iva del total
+	$tipo = '1';
+	$ord_ven_num_ordcom = '0';
+	$fecha_ingreso = date( 'Y-m-d');
+
+	DB::table('ORDEN_DE_VENTA')
+	->insert([
+		['ord_ven_idn' 				=> $ord_ven_idn],
+		['iva_idn' 					=> $iva_idn],
+		['fun_rut' 					=> $fun_rut],
+		['dep_cli_idn' 				=> $dep_cli_idn],
+		['ven_idn' 					=> $ven_idn],
+		['tip_ven_idn' 				=> $tip_ven_idn],
+		['rec_idn' 					=> $rec_idn],
+		['ord_ven_neto' 			=> $ord_ven_neto],
+		['ord_ven_iva' 				=> $ord_ven_iva],
+		['ord_ven_num_ordcom' 		=> $ord_ven_num_ordcom],
+		['tipo' 					=> $tipo]
+	]);
+
+	dd("entro");
+	dd();
+
+
+	$carrito = Carrito::all();
+	dd($carrito);
+	dd(Auth::guard('cliente')->id());
 	//Los helpers: App\Helpers
 	//Ahí puedes hecharle un ojo
 	
