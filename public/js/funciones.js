@@ -1,53 +1,57 @@
-ActualizarCarrito();
 
-function Añadir(id,nombre,precio,cantidad){
-  
-    let carrito = GetFromLocalStorage();
-    let total= precio*cantidad;
+inicial();
 
-    let product={
-        index: carrito.length+1,
-        id: id,
-        nombre: nombre,
-        precio: precio,
-        cantidad: cantidad,
-        total: total,
-    }
-    carrito.push(product)
-    SetLocalStorage(carrito);
+function inicial(){
 
-    addProducto(carrito.length,id,nombre,precio,cantidad);
-    CalculateCarrito()
+    $.ajaxSetup({
 
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+		});
+
+    $.ajax({
+        url: "/getCarrito",
+        type: "GET",
+        success: function (carrito) {
+            ActualizarVista(carrito);
+          
+        }
+    });
+
+    
+    
 }
 
-function addProducto(index,id,nombre,precio,cantidad){
-
-    $(".minicart-product-list").append(`
-    <li id="`+index+`">
-        <a href="/viewProduct/`+id+`" class="minicart-product-image">
-            <img src="/imageProducts/`+id+`.png" alt="cart products">
-        </a>
-        <div class="minicart-product-details">
-            <h6><a href="/viewProduct/`+id+`">`+nombre+`</a></h6>
-            <span id="cantidad-`+index+`">$`+precio+` x `+cantidad+`</span>
-        </div>
-        <button class="close" onclick="Eliminar('`+index+`')">
-            <i class="fa fa-close"></i>
-        </button>
-    </li>
-    `)
-
-}
-
-function CalculateCarrito(){
+function ActualizarVista(carrito){
     let subtotal=0;
-    let carrito = GetFromLocalStorage();
+    $(".minicart-product-list").empty();
 
 	carrito.forEach(producto => {
         subtotal= producto.precio*producto.cantidad + subtotal;
-        $("#total5-"+producto.index).text('$'+producto.total); //total por producto
-        $("#cantidad-"+producto.index).text('$'+ producto.precio +'x' +producto.cantidad); //cantidad para carrito cabecera
+
+        $("#total5-"+producto.prod_codigo).text('$'+producto.precio*producto.cantidad); //total por producto
+        $("#cantidad-"+producto.prod_codigo).text('$'+ producto.precio +'x' +producto.cantidad); //cantidad para carrito cabecera
+
+       
+        //añadir elproducto a la parte superior del carrito
+        $(".minicart-product-list").append(`
+        <li id="`+producto.prod_codigo+`">
+            <a href="/viewProduct/`+producto.prod_codigo+`" class="minicart-product-image">
+                <img src="/uploads/productos/`+producto.prod_codigo+`.png" alt="cart products">
+            </a>
+            <div class="minicart-product-details">
+                <h6><a href="/viewProduct/`+producto.prod_codigo+`">`+producto.prod_nombre+`</a></h6>
+                <span id="cantidad-`+producto.prod_codigo+`">$`+producto.precio+` x `+producto.cantidad+`</span>
+            </div>
+            <button class="close" onclick="removeProducto('`+producto.prod_codigo+`')">
+                <i class="fa fa-close"></i>
+            </button>
+        </li>
+        `)
+
+
+
 	});
     //totales para carrito de cabecera
     $("#subtotal1").text('$'+subtotal);
@@ -62,70 +66,69 @@ function CalculateCarrito(){
     $("#totalCheckOut").text('$'+subtotal);
 
     
+    ////////////
+
    
     
 }
 
-function ActualizarCarrito(){
-    let subtotal=0;
-    let carrito = GetFromLocalStorage();
 
-
-	carrito.forEach(producto => {
-        addProducto(producto.index,producto.id,producto.nombre,producto.precio,producto.cantidad)
-    });
-	CalculateCarrito();
-
-        
-}
-
-function Eliminar(index){
-    let carrito = GetFromLocalStorage();
-
-    for (var i = 0; i < carrito.length; i++) {
-        var product = carrito[i];
-        if (product.index== index) {
-            carrito.splice(i, 1);
-        }
-    }
-
-
-    SetLocalStorage(carrito);
-    $("#"+index).remove(); //se remueve del carrito header
-    $("#tr-"+index).remove(); //se remueve de la vista carrito
-    CalculateCarrito();
-
- 
-
-}
-
-function GetFromLocalStorage(){
-
-    let carrito = [];
-    if(localStorage.getItem("carrito")!=null){
-        carrito=localStorage.getItem("carrito");
-        carrito=JSON.parse(carrito);
-    }
-    return carrito;
-}
-
-function SetLocalStorage(carrito){
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-function changeCantidad(e,index){
+function changeCantidad(e,id_prod){
     let newCantidad=e.firstElementChild.value;
-
-    let carrito = GetFromLocalStorage();
-
-    for (var i = 0; i < carrito.length; i++) {
-        var product = carrito[i];
-        if (product.index== index) {
-            carrito[i].cantidad=newCantidad;
-            carrito[i].total=newCantidad*carrito[i].precio;
+    $.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+		});
+    $.ajax({
+        url: "/editCarrito",
+        type: "POST",
+        data: {producto:id_prod,cantidad:newCantidad},
+        success: function (response) {
+            ActualizarVista(response)
         }
-    }
-    SetLocalStorage(carrito);
-    CalculateCarrito();
+    });
 
    
+}
+
+function addProducto(id_prod,cantidad){
+	$.ajaxSetup({
+
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+		});
+
+    $.ajax({
+        url: "/addCarrito",
+        type: "POST",
+        data: {producto:id_prod,cantidad:cantidad},
+        success: function (response) {
+         
+            ActualizarVista(response)
+        }
+    });
+
+
+}
+
+function removeProducto(id_prod){
+	$.ajaxSetup({
+
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+		});
+
+    $.ajax({
+        url: "/deleteCarrito",
+        type: "POST",
+        data: {producto:id_prod},
+        success: function (response) {
+            ActualizarVista(response) 
+        }
+    });
+ 
+
 }

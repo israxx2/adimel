@@ -16,7 +16,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            
+                                @foreach (Auth::guard('cliente')->user()->carrito as $p)
+                                <tr id="tr-{{$p->prod_codigo}}" >
+                                    <td class="li-product-remove"><a onclick="Eliminar('{{$p->prod_codigo}}')"><i class="fa fa-times"></i></a></td>
+                                    <td class="li-product-thumbnail"><a href="/viewProduct/{{$p->prod_codigo}}"><img width="90px" heigth="90px" src="/uploads/productos/{{{$p->prod_codigo}}}.png" alt="ProductoImagen"></a></td>
+                                    <td class="li-product-name"><a href="/viewProduct/{{$p->prod_codigo}}">{{$p->prod_nombre}}</a></td>
+                                    <td class="li-product-price"><span class="amount">{{$p->producto->pro_valor_venta1}}</span></td>
+                                    <td class="quantity">
+                                        <div class="cart-plus-minus" onclick='changeCantidad(this,"{{$p->prod_codigo}}")'>
+                                            <input disabled class="cart-plus-minus-box"  value="{{$p->cantidad}}" type="text">
+                                            <div class="dec qtybutton" >
+                                                <i class="fa fa-angle-down"></i>
+                                            </div>
+                                            <div class="inc qtybutton" >
+                                                <i class="fa fa-angle-up" ></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="product-subtotal"><span class="amount" id="total5-{{$p->prod_codigo}}">{{$p->cantidad*$p->producto->pro_valor_venta1}}</span></td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -39,40 +58,3 @@
     
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script>
-
-    let carrito = [];
-    if(localStorage.getItem("carrito")!=null){
-        carrito=localStorage.getItem("carrito");
-        carrito=JSON.parse(carrito);
-    }
-
-    carrito.forEach(producto => {
-		$('#tablaCarrito > tbody').append(`
-            <tr id="tr-`+producto.index+`" >
-                <td class="li-product-remove"><a onclick="Eliminar('`+producto.index+`')"><i class="fa fa-times"></i></a></td>
-                <td class="li-product-thumbnail"><a href="/viewProduct/`+producto.id+`"><img width="90px" heigth="90px" src="/imageProducts/`+producto.id+`.png" alt="ProductoImagen"></a></td>
-                <td class="li-product-name"><a href="/viewProduct/`+producto.id+`">`+producto.nombre+`</a></td>
-                <td class="li-product-price"><span class="amount">`+producto.precio+`</span></td>
-                <td class="quantity">
-                    <div class="cart-plus-minus" onclick="changeCantidad(this,`+producto.index+`)">
-                        <input disabled class="cart-plus-minus-box"  value="`+producto.cantidad+`" type="text">
-                        <div class="dec qtybutton" >
-                            <i class="fa fa-angle-down"></i>
-                        </div>
-                        <div class="inc qtybutton" >
-                            <i class="fa fa-angle-up" ></i>
-                        </div>
-                    </div>
-                </td>
-                <td class="product-subtotal"><span class="amount" id="total5-`+producto.index+`">`+producto.total+`</span></td>
-            </tr>
-
-			`)
-	
-        });
-
-
-
-</script>

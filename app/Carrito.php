@@ -12,7 +12,7 @@ class Carrito extends Model
 	];
 
 	protected $table = 'web_carrito';
-	protected $primaryKey = 'car_idn';
+	protected $primaryKey = 'conf_idn';
 	//public $incrementing = true;
 	//public $timestamps = false;
 

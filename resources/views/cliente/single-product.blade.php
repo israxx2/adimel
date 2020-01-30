@@ -2,7 +2,6 @@
 @section('titulo', 'Productos')
 
 @section('header')
-
 @include('cliente.template.componentes.header_middle')
 @include('cliente.template.componentes.header_bottom')
 <!-- Begin Mobile Menu Area -->
