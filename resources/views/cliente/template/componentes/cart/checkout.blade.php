@@ -118,6 +118,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach (Auth::guard('cliente')->user()->carrito as $p)
+                                <tr class="cart_item">
+                                    <td class="cart-product-name">{{$p->prod_nombre}}<strong class="product-quantity"> × {{$p->cantidad}}</strong></td>
+                                    <td class="cart-product-total"><span class="amount">{{$p->cantidad*$p->producto->pro_valor_venta1}}</span></td>  
+                                </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr class="cart-subtotal">
@@ -165,22 +171,3 @@
 </div>
           
 
-<script>
-
-    let carrito = [];
-    if(localStorage.getItem("carrito")!=null){
-        carrito=localStorage.getItem("carrito");
-        carrito=JSON.parse(carrito);
-    }
-    carrito.forEach(producto => {
-		$('#tableCheckOut > tbody').append(`
-            <tr class="cart_item">
-                <td class="cart-product-name"> `+producto.nombre+`<strong class="product-quantity"> × `+producto.cantidad+`</strong></td>
-                <td class="cart-product-total"><span class="amount">`+producto.total+`</span></td>  
-            </tr>
-		`)
-	
-    });
-
-
-</script>

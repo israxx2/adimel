@@ -18,7 +18,7 @@
                             <tbody>
                                 @foreach (Auth::guard('cliente')->user()->carrito as $p)
                                 <tr id="tr-{{$p->prod_codigo}}" >
-                                    <td class="li-product-remove"><a onclick="Eliminar('{{$p->prod_codigo}}')"><i class="fa fa-times"></i></a></td>
+                                    <td class="li-product-remove"><a onclick="removeProducto('{{$p->prod_codigo}}')"><i class="fa fa-times"></i></a></td>
                                     <td class="li-product-thumbnail"><a href="/viewProduct/{{$p->prod_codigo}}"><img width="90px" heigth="90px" src="/uploads/productos/{{{$p->prod_codigo}}}.png" alt="ProductoImagen"></a></td>
                                     <td class="li-product-name"><a href="/viewProduct/{{$p->prod_codigo}}">{{$p->prod_nombre}}</a></td>
                                     <td class="li-product-price"><span class="amount">{{$p->producto->pro_valor_venta1}}</span></td>

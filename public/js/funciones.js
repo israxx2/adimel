@@ -26,7 +26,7 @@ function inicial(){
 function ActualizarVista(carrito){
     let subtotal=0;
     $(".minicart-product-list").empty();
-
+ 
 	carrito.forEach(producto => {
         subtotal= producto.precio*producto.cantidad + subtotal;
 
@@ -52,6 +52,7 @@ function ActualizarVista(carrito){
 
 
 
+
 	});
     //totales para carrito de cabecera
     $("#subtotal1").text('$'+subtotal);
@@ -64,16 +65,13 @@ function ActualizarVista(carrito){
     //totales para checkout
     $("#subtotalCheckOut").text('$'+subtotal);
     $("#totalCheckOut").text('$'+subtotal);
-
-    
-    ////////////
-
    
     
 }
 
 
 function changeCantidad(e,id_prod){
+   
     let newCantidad=e.firstElementChild.value;
     $.ajaxSetup({
 		headers: {
@@ -85,6 +83,7 @@ function changeCantidad(e,id_prod){
         type: "POST",
         data: {producto:id_prod,cantidad:newCantidad},
         success: function (response) {
+        
             ActualizarVista(response)
         }
     });
@@ -126,9 +125,11 @@ function removeProducto(id_prod){
         type: "POST",
         data: {producto:id_prod},
         success: function (response) {
-            ActualizarVista(response) 
+            ActualizarVista(response) ;
+            $('#tr-'+id_prod).empty();
         }
     });
  
 
 }
+

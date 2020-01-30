@@ -408,7 +408,7 @@ public function categoria($id, Request $request) {
 	}
 
 	public function editCarrito(Request $request) {
-
+		
 		$item = Carrito::where([
 			['dep_cli_idn', Auth::guard('cliente')->id()],
 			['prod_codigo', $request->producto]]
