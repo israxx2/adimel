@@ -3,20 +3,6 @@
 
 @section('header')
 
-@include('cliente.template.componentes.header_middle')
-@include('cliente.template.componentes.header_bottom')
-<!-- Begin Mobile Menu Area -->
-<div class="mobile-menu-area d-lg-none d-xl-none col-12">
-	<div class="container"> 
-		<div class="row">
-			<div class="mobile-menu">
-			</div>
-		</div>
-	</div>
-</div>
-<!-- Mobile Menu Area End Here -->
-@endsection
-
 @section('body')
 
 <div class="page-section mb-60">
@@ -71,12 +57,6 @@
 
 
 
-@section('footer')
-
-	@include('cliente.template.componentes.footer_middle')
-
-@endsection
-
 @section('script')
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
@@ -100,30 +80,30 @@
 			data: serializedData,
 		})
 		.done(function(data) {
-			console.log(data);
+			//console.log(data);
 			$('.has-error').removeClass('has-error');
 			$('.text-error').remove();
 			if(data.status) {
 				if(data.errors == null) {
 					//YA EXISTE
 					if(Boolean(data.existe)) {
-						toastr.error('El rut ya está en uso.', 'Ups...', 
+						toastr.error('El rut ya está en uso, intente nuevamente', 'Lo sentimos', 
 						{
 							timeOut: 5000,
 							progressBar: true,
-							"positionClass": "toast-bottom-right",
+							"positionClass": "toast-top-right",
 						});
 						$form_group = $('.rut-f');
-						console.log($form_group);
+						// console.log($form_group);
 						$form_group.addClass('has-error');
 						var html = '<p class="text-error">El rut ya está en uso!</p>';
 						$form_group.append(html);
 					} else {
-						toastr.success('Inicia sesión con tus datos', 'CUENTA CREADA!', 
+						toastr.success('Inicia sesión con tus datos', 'CUENTA CREADA', 
 						{
 							timeOut: 5000,
 							progressBar: true,
-							"positionClass": "toast-bottom-right",
+							"positionClass": "toast-top-right",
 						});
 						var html = "<br><br><h4>Cuenta creada con éxito!</h4><h5>Ahora puedes iniciar sesión para comprar en Adimel</h5>"
 						var div = $("#form-create-account").parent();
@@ -150,12 +130,24 @@
 				}
 				
 			} else {
-				alert("Ups... Ha ocurrido un error en nuestros servidores");
+				
+				toastr.error('Error al crear la cuenta, intente mas tarde','Lo sentimos', 
+						{
+							timeOut: 5000,
+							progressBar: true,
+							"positionClass": "toast-top-right",
+						});
 			}
 			$('.register-button').removeAttr('disabled');
 		})
 		.fail(function() {
-			alert("Fallo conexion al servidor");
+			//alert("Fallo conexion al servidor");
+			toastr.error('Error al crear la cuenta, intente mas tarde','Lo sentimos', 
+						{
+							timeOut: 5000,
+							progressBar: true,
+							"positionClass": "toast-top-right",
+						});
 			$('.register-button').removeAttr('disabled');
 		});	
 	});

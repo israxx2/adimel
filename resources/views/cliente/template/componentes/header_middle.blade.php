@@ -72,9 +72,13 @@
 											<a href="/cart" class="li-button li-button-dark li-button-fullwidth li-button-sm">
 												<span>VER CARRO</span>
 											</a>
+											
+											@if(!Auth::guard('cliente')->user()->carrito->isEmpty())
 											<a href="/checkout" class="li-button li-button-fullwidth li-button-sm">
 												<span>COMPRAR</span>
 											</a>
+										 	@endif
+
 										</div>
 									</div>
 								</li>

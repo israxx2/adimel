@@ -469,16 +469,24 @@ Note: main.js, All Default Scripting Languages For This Theme Included In This F
  $(".cart-plus-minus").append('<div class="dec qtybutton"><i class="fa fa-angle-down"></i></div><div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>');
  $(".qtybutton").on("click", function() {
     var $button = $(this);
-    var oldValue = $button.parent().find("input").val();
+	var oldValue = $button.parent().find("input").val();
+	var maxvalue= $button.parent().find("input")[0].max;
+	
     if ($button.hasClass('inc')) {
-       var newVal = parseFloat(oldValue) + 1;
+	   var newVal = parseFloat(oldValue) + 1;
+		// limitar al maximo de stock
+	  	if (newVal > maxvalue) {
+			var newVal = parseFloat(newVal) - 1;
+		} 
+
     } else {
         // Don't allow decrementing below zero
        if (oldValue > 1) {
          var newVal = parseFloat(oldValue) - 1;
          } else {
          newVal = 1;
-       }
+	   }
+	 
        }
     $button.parent().find("input").val(newVal);
    });

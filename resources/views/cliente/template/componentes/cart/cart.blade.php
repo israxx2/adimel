@@ -27,10 +27,10 @@
                                     @else						
                                      <td class="li-product-price"><span class="amount">{{$p->producto->pro_valor_venta1}}</span></td>
                                     @endif
-                              
+                                   
                                     <td class="quantity">
                                         <div class="cart-plus-minus" onclick='changeCantidad(this,"{{$p->prod_codigo}}")'>
-                                            <input disabled class="cart-plus-minus-box"  value="{{$p->cantidad}}" type="text">
+                                            <input disabled class="cart-plus-minus-box" max=" {{$p->producto->pro_stock}}" value="{{$p->cantidad}}" type="text">
                                             <div class="dec qtybutton" >
                                                 <i class="fa fa-angle-down"></i>
                                             </div>
@@ -63,7 +63,9 @@
                                     <li>Subtotal <span id="subtotal3">$0</span></li>
                                     <li>Total <span id="total4">$0</span></li>
                                 </ul>
-                                <a href="/checkout">COMPRAR</a>
+                                @if(!Auth::guard('cliente')->user()->carrito->isEmpty())
+                                    <a href="/checkout">COMPRAR</a>
+                                 @endif
                             </div>
                         </div>
                     </div>

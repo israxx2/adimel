@@ -93,7 +93,7 @@ function changeCantidad(e,id_prod){
 }
 
 function addProducto(id_prod,cantidad){
-    console.log(id_prod,cantidad)
+  
 	$.ajaxSetup({
 
 		headers: {

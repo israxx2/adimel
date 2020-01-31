@@ -17,18 +17,18 @@ use App\Funcionario;
 use Illuminate\Support\Facades\Auth;
 
 //////////////////////////
-//// AUTH			//////
+//// AUTH ADMIN		//////
 //////////////////////////
 Route::get('/adimel-login', 'Auth\LoginController@adimelLogin')->name('login_view');
 Route::post('/funcionario/login', 'Auth\LoginController@funcionarioLogin')->name('funcionario.login');
 Route::post('/cliente/login', 'Auth\LoginController@clienteLogin')->name('cliente.login');
-Route::post('/cliente/logout', 'Cliente\GeneralController@clienteLogout')->name('cliente.logout');
-Route::get('/nueva-cuenta', 'Cliente\GeneralController@viewCreateAccount')->name('cliente.create_account');
-Route::post('/nueva-cuenta', 'Cliente\GeneralController@storeCreateAccount')->name('cliente.create_account.store');
+Route::post('/cliente/logout', 'Cliente\LoginController@clienteLogout')->name('cliente.logout');
+Route::get('/nueva-cuenta', 'Cliente\LoginController@viewCreateAccount')->name('cliente.create_account');
+Route::post('/nueva-cuenta', 'Cliente\LoginController@storeCreateAccount')->name('cliente.create_account.store');
 
 //////////////////////////
-//// ADIMEL Cliente //////
-//////////////////////////
+//// CLIENTE	    //////
+//////////////////// /////
 Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
 Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
 Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
@@ -48,7 +48,7 @@ Route::post('/editCarrito', 'Cliente\CarritoController@editCarrito');
 
 
 ////////////////////////////////
-//// ADIMEL Administrador //////
+//// ADMINISTRADOR		  //////
 ////////////////////////////////
 
 Route::group(['prefix' => 'adimel'], function(){
@@ -76,6 +76,14 @@ Route::group(['prefix' => 'adimel'], function(){
 
 
 });
+
+
+
+
+
+
+
+
 
 
 

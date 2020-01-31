@@ -35,7 +35,7 @@
                         </div>
                         @if(Auth::guard('cliente')->check())
                         <div class="price-box pt-20">
-                           
+                         
                             @if($productos->isOffer()->des_pro_estado!=null)
                                 								
                                 <span class="new-price" value="{{$productos->pro_valor_venta1}}" style="color:red;">Antes: <strike>${{$productos->pro_valor_venta1}}</strike> </span>
@@ -47,13 +47,13 @@
                             @endif
                             
                         </div>
-                       
+                      
                         <div class="single-add-to-cart">
                             <form action="#" class="cart-quantity">
                                 <div class="quantity">
                                     <label>Cantidad</label>
                                     <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" disabled value="1" type="text">
+                                        <input class="cart-plus-minus-box" disabled value="1" max="{{$productos->pro_stock}}" type="text">
                                         <div class="dec qtybutton"  ><i  class="fa fa-angle-down" ></i></div>
                                         <div class="inc qtybutton" ><i  class="fa fa-angle-up"></i></div>
                                     </div>
@@ -63,6 +63,8 @@
                                 style=color:#fff; 
                                 onclick="funcion(this,'{{$productos->pro_codigo}}')" 
                                 >AÑADIR</button>
+                                <br>
+                                <small>Stock desfasado en 30 minutos. Al momento de efectuar la compra se revisará nuevamente</small>
                             </form>
                         </div>
                         @else
