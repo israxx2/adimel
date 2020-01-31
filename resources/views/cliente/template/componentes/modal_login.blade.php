@@ -49,15 +49,14 @@
 			$form = $(this);
 			var $inputs = $form.find("input");
 			var serializedData = $inputs.serialize();
-
+			$('.has-error').removeClass('has-error');
+			$('.text-error').remove();
 			$.ajax({
 				url: "{{ route('cliente.login') }}",
 				type: 'POST',
 				dataType: 'json',
 				data: serializedData
 			}).done(function(data) {
-				$('.has-error').removeClass('has-error');
-				$('.text-error').remove();
 				if(data.status == true) {
 					if(data.errors == null) {
 						location.reload();

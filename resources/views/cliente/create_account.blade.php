@@ -26,13 +26,26 @@
 								<label>Nombre</label>
 								<input class="mb-0" type="text" name="nombre" id="nombre" placeholder="">
 							</div>
-							<div class="form-group col-md-6 col-12 mb-20">
+							<div class="form-group col-md-6 col-12">
 								<label>Apellidos</label>
 								<input class="mb-0" type="text" name="apellidos" id="apellidos" placeholder="">
 							</div>
-							<div class="form-group col-md-12 mb-20">
+							<div class="form-group col-md-8">
 								<label>E-mail</label>
 								<input class="mb-0" type="email" name="email" id="email" placeholder="Ingrese su E-mail">
+							</div>
+							<div class="form-group col-md-4 ">
+								<label>Ciudad</label>
+								<select class="nice-select wide" name="id_ciudad" id="id_ciudad">
+									<option data-display="Talca">Talca</option>
+									<option value="Santiago">Santiago</option>
+									<option value="Linares">Linares</option>
+									<option value="San Javier">San Javier</option>
+								</select>
+							</div>
+							<div class="form-group col-md-12 col-12 mb-20">
+								<label>Dirección</label>
+								<input class="mb-0" type="text" name="direccion" id="direccion" placeholder="Ingrese su dirección">
 							</div>
 							<div class="form-group col-md-6 mb-20">
 								<label>Contraseña</label>

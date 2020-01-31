@@ -8,12 +8,12 @@
                         <h3>Detalles del comprador</h3>
                         <div class="row">
                             <div class="col-md-12">
-                                <p><b>Nombre:</b> {{$user->dep_cli_nombre}}</p>   
-                                <p><b>Ciudad:</b> {{$user->dep_cli_ciudad}}</p>  
-                                <p><b>Dirección:</b> {{$user->dep_cli_direccion}}</p>  
-                                <p><b>Correo:</b> {{$user->dep_cli_email}}</p>  
-                                <p><b>Fono:</b> {{$user->dep_cli_fono}}</p>  
-                                <p><b>Giro:</b> {{$user->cli_giro}}</p>  
+                                <p><b>Nombre:</b> {{ Auth::guard('cliente')->user()->dep_cli_nombre }}</p>   
+                                <p><b>Ciudad:</b> {{ Auth::guard('cliente')->user()->dep_cli_ciudad }}</p>  
+                                <p><b>Dirección:</b> {{ Auth::guard('cliente')->user()->dep_cli_direccion }}</p>  
+                                <p><b>Correo:</b> {{ Auth::guard('cliente')->user()->dep_cli_email }}</p>  
+                                <p><b>Fono:</b> {{ Auth::guard('cliente')->user()->dep_cli_fono }}</p>  
+                                <p><b>Giro:</b> {{ Auth::guard('cliente')->user()->cli_giro }}</p>  
                             </div>
                         </div>
                         <hr>

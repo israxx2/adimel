@@ -93,9 +93,6 @@ class GeneralController extends Controller
 	}
 
 	public function checkout() {
-		$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-		->where('dep_cli_idn',1 /*Auth::guard('cliente')->id()*/)->first();
-	
 
 		$categorias = DB::table('RUBRO')
 		->where([
@@ -105,7 +102,6 @@ class GeneralController extends Controller
 		])->get();
 
 		return view('cliente.checkout')
-		->with('user', $user)
 		->with('categorias', $categorias);
 	}
 

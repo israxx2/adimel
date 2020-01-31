@@ -37,6 +37,7 @@ Route::get('/cart', 'Cliente\GeneralController@cart');
 Route::get('/checkout', 'Cliente\GeneralController@checkout');
 Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
 Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
+Route::post('/cliente/direccion', 'Cliente\GeneralController@nuevaDireccion')->name('cliente.direccion');
 
 //////////////////////
 //// CARRITO	//////
