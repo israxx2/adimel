@@ -59,6 +59,7 @@ class GeneralController extends Controller
 			['rub_idn', '!=', 0],
 			['rub_idn', '!=', 8],
 		])->get();
+
 		return view('cliente.create_account')
 		->with('categorias', $categorias);
 	}
@@ -77,6 +78,10 @@ class GeneralController extends Controller
 
 		$reglas['apellidos'] = "required";
 		$msjs['apellidos.required'] = "Los apellidos son obligatorios.";
+
+		$reglas['direccion'] = "required|min:6";
+		$msjs['direccion.required'] = "La dirección es obligatoria.";
+		$msjs['direccion.min'] 		= "La dirección debe tener mas de 6 caracteres.";
 
 		$reglas['email'] = "required";
 		$msjs['email.required'] = "El E-mail es obligatorio.";
@@ -136,7 +141,7 @@ class GeneralController extends Controller
 					'cli_idn' 			=> strtoupper(str_replace('.', '', $request->rut)),
 					'dep_cli_nombre' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
 					'cli_giro' 			=> "PARTICULAR",
-					//'dep_cli_direccion' => " ",
+					'dep_cli_direccion' => $request->direccion,
 					'seg_div_pol_idn' => "000",
 					//'dep_cli_fono' => " ",
 					//'dep_cli_fax' => " ",
@@ -183,6 +188,15 @@ class GeneralController extends Controller
 
 		return $data;
 	}
+
+	public function direccion() {
+		$data = array('status' => true, 'errors' => null, 'existe' => null);
+
+
+	}
+
+
+
 
 	public function mercadoPublico() {
 		$categorias = DB::table('RUBRO')
@@ -232,9 +246,6 @@ class GeneralController extends Controller
 	}
 
 	public function checkout() {
-		$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-		->where('dep_cli_idn',1 /*Auth::guard('cliente')->id()*/)->first();
-	
 
 		$categorias = DB::table('RUBRO')
 		->where([
@@ -244,7 +255,6 @@ class GeneralController extends Controller
 		])->get();
 
 		return view('cliente.checkout')
-		->with('user', $user)
 		->with('categorias', $categorias);
 	}
 
