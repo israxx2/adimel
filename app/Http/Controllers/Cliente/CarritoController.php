@@ -91,8 +91,32 @@ class CarritoController extends Controller
 	}
 
 	public function efectuarcompra(Request $request) {
+
+		//$request->tipo -> nueva: cliente sin direccion
+		//					crear:  cliente crear nueva direccion de envio
+		//					actual: cliente elige la direccion actual.
 		
-		dd($request->tipo);
+
+		//si es actual entonces -> $request->id_direccion para saber a cual enviar.
+
+		//si es nueva entonces añadir a su unica dependencia que tiene->
+				// $request->tipo
+				// $request->direccion
+				// $request-> ciudad
+				// $request->comuna
+				// $request->telefono
+
+		//si es crear entonces generar nueva dep->
+				// $request->tipo
+				// $request->direccion
+				// $request-> ciudad
+				// $request->comuna
+				// $request->telefono
+
+
+		//$request->comentario   -> comentario de la compra.
+
+	
 		return response()->json(true);
 
 	}
