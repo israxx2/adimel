@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Support\Facades\DB;
 class Cliente extends Authenticatable
 {
 	use Notifiable;
@@ -56,5 +56,15 @@ class Cliente extends Authenticatable
     public function carrito()
     {
         return $this->hasMany('App\Carrito', 'dep_cli_idn');
-    }   
+    } 
+    public function getDirecciones()
+    {
+       
+
+        $direcciones = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+        ->where('cli_idn',  $this->cli_idn)
+        ->get();
+
+        return $direcciones;
+    }  
 }

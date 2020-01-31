@@ -90,6 +90,13 @@ class CarritoController extends Controller
 
 	}
 
+	public function efectuarcompra(Request $request) {
+		
+		dd($request->tipo);
+		return response()->json(true);
+
+	}
+	
 
 }
 

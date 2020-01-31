@@ -35,6 +35,7 @@ Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
 Route::get('/contacto', 'Cliente\GeneralController@viewContacto');
 Route::get('/cart', 'Cliente\GeneralController@cart');
 Route::get('/checkout', 'Cliente\GeneralController@checkout');
+Route::post('/efectuarcompra', 'Cliente\CarritoController@efectuarcompra');
 Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
 Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
 Route::post('/cliente/direccion', 'Cliente\GeneralController@nuevaDireccion')->name('cliente.direccion');
@@ -46,6 +47,7 @@ Route::get('/getCarrito', 'Cliente\CarritoController@getCarrito');
 Route::post('/addCarrito', 'Cliente\CarritoController@addCarrito');
 Route::post('/deleteCarrito', 'Cliente\CarritoController@deleteCarrito');
 Route::post('/editCarrito', 'Cliente\CarritoController@editCarrito');
+
 
 
 ////////////////////////////////

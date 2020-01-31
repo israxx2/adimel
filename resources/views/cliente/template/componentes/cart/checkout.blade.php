@@ -3,104 +3,45 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-12">
-                <form action="#">
+                <form action="">
                     <div class="checkbox-form">
                         <h3>Detalles del comprador</h3>
                         <div class="row">
                             <div class="col-md-12">
-                                <p><b>Nombre:</b> {{ Auth::guard('cliente')->user()->dep_cli_nombre }}</p>   
-                                <p><b>Ciudad:</b> {{ Auth::guard('cliente')->user()->dep_cli_ciudad }}</p>  
-                                <p><b>Dirección:</b> {{ Auth::guard('cliente')->user()->dep_cli_direccion }}</p>  
-                                <p><b>Correo:</b> {{ Auth::guard('cliente')->user()->dep_cli_email }}</p>  
-                                <p><b>Fono:</b> {{ Auth::guard('cliente')->user()->dep_cli_fono }}</p>  
+                                <p><b>Nombre:</b> {{ Auth::guard('cliente')->user()->dep_cli_nombre }}</p>  
+                                <p><b>Correo:</b> {{ Auth::guard('cliente')->user()->dep_cli_email }}</p>   
                                 <p><b>Giro:</b> {{ Auth::guard('cliente')->user()->cli_giro }}</p>  
+                               
+                               
+                                @if(is_null(Auth::guard('cliente')->user()->dep_cli_direccion))
+                                <br>
+                                 <h3>Ingrese Dirección</h3>
+                                    @include('cliente.template.componentes.cart.newDireccion')
+                                @else
+                                  
+                                    <div class="row">
+                                        @foreach(Auth::guard('cliente')->user()->getDirecciones() as $d)
+                                            
+                                            <div class="col-md-1 col-sm-1">
+                                                <input style="height:2px;" type="radio" id="direccion" name="direccion" value="{{$d->dep_cli_idn}}"/>     
+                                            </div>
+                                            <div class="col-md-11 col-sm-11" >
+                                                <label for="direccion">   {{ $d->dep_cli_direccion}}</label>
+                                            </div>
+
+                                         @endforeach
+                                    </div>
+                                    <br>
+                                    @include('cliente.template.componentes.cart.createDireccion') 
+                                    
+                                @endif
                             </div>
                         </div>
-                        <hr>
-                        <div class="different-address">
-                            <div class="ship-different-title">
-                                <h3>
-                                    <label>Enviar a una direccion diferente?</label>
-                                    <input id="ship-box" type="checkbox">
-                                </h3>
-                            </div>
-                            <div id="ship-box-info" class="row">
-                                <div class="col-md-12">
-                                    <div class="country-select clearfix">
-                                        <label>Ciudad <span class="required">*</span></label>
-                                        <select class="nice-select wide">
-                                            <option data-display="Talca">Talca</option>
-                                            <option value="Santiago">Santiago</option>
-                                            <option value="Linares">Linares</option>
-                                            <option value="San Javier">San Javier</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Nombre <span class="required">*</span></label>
-                                        <input placeholder="" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Apellidos <span class="required">*</span></label>
-                                        <input placeholder="" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Compañia</label>
-                                        <input placeholder="" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Direccion <span class="required">*</span></label>
-                                        <input placeholder="Direccion" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <input placeholder="departamento, piso, etc. (opcional)" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Ciudad <span class="required">*</span></label>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Comuna <span class="required">*</span></label>
-                                        <input placeholder="" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Codigo Postal<span class="required">*</span></label>
-                                        <input placeholder="" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Correo<span class="required">*</span></label>
-                                        <input placeholder="" type="email">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="checkout-form-list">
-                                        <label>Telefono  <span class="required">*</span></label>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="order-notes">
-                                <div class="checkout-form-list">
-                                    <label>Comentarios</label>
-                                    <textarea id="checkout-mess" cols="30" rows="10" placeholder="Comentarios relacionados con el despacho de los productos"></textarea>
-                                </div>
+                     
+                        <div class="order-notes">
+                            <div class="checkout-form-list">
+                                <label>Comentario</label>
+                                <textarea id="checkout-mess" cols="30" rows="10" placeholder="Comentarios relacionados con el despacho de los productos"></textarea>
                             </div>
                         </div>
                     </div>
@@ -127,11 +68,6 @@
                                     @else						
                                         <td class="cart-product-total"><span class="amount">{{$p->cantidad*$p->producto->pro_valor_venta1}}</span></td>  
                                     @endif
-
-                                    
-
-
-
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -170,7 +106,7 @@
 
                             </div>
                             <div class="order-button-payment">
-                                <input value="Efectuar Compra" type="submit">
+                                <input value="Efectuar Compra" type="submit" onclick="comprar(this)">
                             </div>
                         </div>
                     </div>
@@ -181,3 +117,65 @@
 </div>
           
 
+<script>
+
+function comprar(e){
+
+    var user ={!! json_encode(Auth::guard('cliente')->user(), JSON_HEX_TAG) !!};
+    let tipo, direccion,ciudad,comuna,telefono,comentario,id_direccion;
+
+    if(!user.dep_cli_direccion){
+        //caso de no tener direccion
+        tipo="nueva"
+        direccion= $('#direccion1').val();
+        ciudad= $('#ciudad1').val();
+        comuna= $('#comuna1').val();
+        telefono= $('#telefono1').val();
+    }
+    else{
+        let check = $('#ship-box')[0].checked;
+        if(check){
+            //caso de tener una direccion y crear otra
+            tipo="crear"
+            direccion= $('#direccion2').val();
+            ciudad= $('#ciudad2').val();
+            comuna= $('#comuna2').val();
+            telefono= $('#telefono2').val();
+        }
+        else{
+            //caso de tener una direccion y enviar a esa mism
+            tipo="actual"
+            id_direccion = $("input[name='direccion']:checked").val();
+        }
+     
+    }
+
+    comentario= $('#checkout-mess').val();
+    data={
+        tipo:tipo,
+        direccion:direccion,
+        ciudad:ciudad,
+        comuna:comuna,
+        telefono:telefono,
+        comentario: comentario,
+        id_direccion:id_direccion
+    }
+
+	$.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+    $.ajax({
+            url: "/efectuarcompra",
+            type: "POST",
+            data: data,
+            success: function () {
+                console.log("enviada")
+            }
+        });
+
+}
+
+</script>
