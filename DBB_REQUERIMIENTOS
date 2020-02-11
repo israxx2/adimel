@@ -1,0 +1,10 @@
+CREATE TABLE web_despacho (
+	desp_idn int IDENTITY(1,1) PRIMARY KEY,
+    dep_cli_idn varchar(10) NOT NULL,
+	seg_div_pol_idn varchar(20) NOT NULL,
+    direccion varchar(511),
+	numero varchar(10),
+	telefono varchar(12),
+	created_at date,
+	updated_at date,
+);
