@@ -35,17 +35,17 @@
 								<input class="mb-0" type="email" name="email" id="email" placeholder="Ingrese su E-mail">
 							</div>
 							<div class="form-group col-md-6 ">
-								<label>Ciudad</label>
-								<select class="nice-select wide" name="id_region" id="id_region">
+								<label>Region</label>
+								<select class="nice-select wide" name="id_region" id="id_region" onchange="changeRegion(this)">
 									@foreach($regiones as $r)
-									<option value="{{ $r->div_pol_idn }}">{!! ucwords(strtolower($r->div_pol_nombre)) !!}</option>
+										<option value="{{ $r->div_pol_idn }}">{!! ucwords(strtolower($r->div_pol_nombre)) !!}</option>
 									@endforeach
 								</select>
 							</div>
 							<div class="form-group col-md-6 ">
 								<label>Ciudad</label>
-								<select class="nice-select wide" name="id_ciudad" id="id_ciudad" disabled>
-									<option data-display="Seleccione una Ciudad">Seleccione una Ciudad</option>
+								<select class="nice-select wide" name="id_ciudad" id="idCiudad" >
+									<option disabled>Seleccione una Ciudad</option>
 								</select>
 							</div>
 							<div class="form-group col-md-12 col-12 mb-20">
@@ -71,7 +71,7 @@
 	</div>
 </div>
 
-<div class="row" style="justify-content: center;">
+{{-- <div class="row" style="justify-content: center;">
 	<div class="col-sm-6">
 		<p>id's: 1, 2, 3, 4, ....</p>
 		<input type="text" name="id_test" id="id_test" value="10">
@@ -80,20 +80,16 @@
 		<ul id="cont_ciudades">
 		</ul>
 	</div>
-</div>
+</div> --}}
 @endsection
 
 
 
 @section('script')
 <script type="text/javascript">
-	jQuery(document).ready(function($) {
-		
-	});
 
-	$('#test').click(function() {
-		var id_region = $('#id_test').val();
-		
+	function changeRegion(e){
+		let id_region= e.value
 		url = '{{ route("api.ciudades", ["id_region" => ":id_region"]) }}'
 		url = url.replace(":id_region", id_region);
 		$.ajax({
@@ -102,26 +98,58 @@
 			dataType: 'json',
 		})
 		.done(function(data) {
-			console.log(data);
+			
 
 			var html = '';
+			
+			$.each(data, function(index, value) {
+				// html += '<li>{';
+				// html += 'seg_div_pol_idn: '+value.seg_div_pol_idn;
+				// html += ', seg_div_pol_nombre: '+value.seg_div_pol_nombre;
+				// html += ', div_pol_idn: '+value.div_pol_idn;
+				// html += '}</li>';
 
-			$.each(data.ciudades, function(index, value) {
-				html += '<li>{';
-				html += 'seg_div_pol_idn: '+value.seg_div_pol_idn;
-				html += ', seg_div_pol_nombre: '+value.seg_div_pol_nombre;
-				html += ', div_pol_idn: '+value.div_pol_idn;
-				html += '}</li>';
+				html += `<option value=`+value.seg_div_pol_idn+`>`+value.seg_div_pol_nombre+`</option>`
+			
 			});
+			$('#idCiudad').empty().append(html);
+			console.log($('#idCiudad')[0]);
 
-			$('#cont_ciudades').empty().append(html);
+			
 		});
 		
-	});
 
-	$('.option').click(function() {
+	}
 
-	});
+	// $('#test').click(function() {
+	// 	var id_region = $('#id_test').val();
+		
+	// 	url = '{{ route("api.ciudades", ["id_region" => ":id_region"]) }}'
+	// 	url = url.replace(":id_region", id_region);
+	// 	$.ajax({
+	// 		url: url,
+	// 		type: 'get',
+	// 		dataType: 'json',
+	// 	})
+	// 	.done(function(data) {
+	// 		console.log(data);
+
+	// 		var html = '';
+
+	// 		$.each(data.ciudades, function(index, value) {
+	// 			html += '<li>{';
+	// 			html += 'seg_div_pol_idn: '+value.seg_div_pol_idn;
+	// 			html += ', seg_div_pol_nombre: '+value.seg_div_pol_nombre;
+	// 			html += ', div_pol_idn: '+value.div_pol_idn;
+	// 			html += '}</li>';
+	// 		});
+
+	// 		$('#cont_ciudades').empty().append(html);
+	// 	});
+		
+	// });
+
+
 
 	$('#form-create-account').submit(function(event) {
 		event.preventDefault();
