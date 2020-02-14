@@ -30,17 +30,22 @@
 								<label>Apellidos</label>
 								<input class="mb-0" type="text" name="apellidos" id="apellidos" placeholder="">
 							</div>
-							<div class="form-group col-md-8">
+							<div class="form-group col-md-12">
 								<label>E-mail</label>
 								<input class="mb-0" type="email" name="email" id="email" placeholder="Ingrese su E-mail">
 							</div>
-							<div class="form-group col-md-4 ">
+							<div class="form-group col-md-6 ">
 								<label>Ciudad</label>
-								<select class="nice-select wide" name="id_ciudad" id="id_ciudad">
-									<option data-display="Talca">Talca</option>
-									<option value="Santiago">Santiago</option>
-									<option value="Linares">Linares</option>
-									<option value="San Javier">San Javier</option>
+								<select class="nice-select wide" name="id_region" id="id_region">
+									@foreach($regiones as $r)
+									<option value="{{ $r->div_pol_idn }}">{!! ucwords(strtolower($r->div_pol_nombre)) !!}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="form-group col-md-6 ">
+								<label>Ciudad</label>
+								<select class="nice-select wide" name="id_ciudad" id="id_ciudad" disabled>
+									<option data-display="Seleccione una Ciudad">Seleccione una Ciudad</option>
 								</select>
 							</div>
 							<div class="form-group col-md-12 col-12 mb-20">
@@ -66,6 +71,16 @@
 	</div>
 </div>
 
+<div class="row" style="justify-content: center;">
+	<div class="col-sm-6">
+		<p>id's: 1, 2, 3, 4, ....</p>
+		<input type="text" name="id_test" id="id_test" value="10">
+		<center><button class="btn btn-primary" id="test">Test Ajax Ciudades</button></center>
+		<p>Ingresar id region. ver consola para retorno de ciudades</p>
+		<ul id="cont_ciudades">
+		</ul>
+	</div>
+</div>
 @endsection
 
 
@@ -75,6 +90,39 @@
 	jQuery(document).ready(function($) {
 		
 	});
+
+	$('#test').click(function() {
+		var id_region = $('#id_test').val();
+		
+		url = '{{ route("api.ciudades", ["id_region" => ":id_region"]) }}'
+		url = url.replace(":id_region", id_region);
+		$.ajax({
+			url: url,
+			type: 'get',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			console.log(data);
+
+			var html = '';
+
+			$.each(data.ciudades, function(index, value) {
+				html += '<li>{';
+				html += 'seg_div_pol_idn: '+value.seg_div_pol_idn;
+				html += ', seg_div_pol_nombre: '+value.seg_div_pol_nombre;
+				html += ', div_pol_idn: '+value.div_pol_idn;
+				html += '}</li>';
+			});
+
+			$('#cont_ciudades').empty().append(html);
+		});
+		
+	});
+
+	$('.option').click(function() {
+
+	});
+
 	$('#form-create-account').submit(function(event) {
 		event.preventDefault();
 		$form = $(this);
@@ -145,22 +193,22 @@
 			} else {
 				
 				toastr.error('Error al crear la cuenta, intente mas tarde','Lo sentimos', 
-						{
-							timeOut: 5000,
-							progressBar: true,
-							"positionClass": "toast-top-right",
-						});
+				{
+					timeOut: 5000,
+					progressBar: true,
+					"positionClass": "toast-top-right",
+				});
 			}
 			$('.register-button').removeAttr('disabled');
 		})
 		.fail(function() {
 			//alert("Fallo conexion al servidor");
 			toastr.error('Error al crear la cuenta, intente mas tarde','Lo sentimos', 
-						{
-							timeOut: 5000,
-							progressBar: true,
-							"positionClass": "toast-top-right",
-						});
+			{
+				timeOut: 5000,
+				progressBar: true,
+				"positionClass": "toast-top-right",
+			});
 			$('.register-button').removeAttr('disabled');
 		});	
 	});

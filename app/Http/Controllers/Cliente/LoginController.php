@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Carrito;
 use App\Producto;
+use App\Region;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,8 +30,13 @@ class LoginController extends Controller
 			['rub_idn', '!=', 0],
 			['rub_idn', '!=', 8],
 		])->get();
+
+		$regiones = Region::all();
+
+		//dd($regiones);
 		return view('cliente.create_account')
-		->with('categorias', $categorias);
+		->with('categorias', $categorias)
+		->with('regiones', $regiones);
 	}
 
 	public function storeCreateAccount(Request $request)

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Region;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,3 +31,26 @@ Route::get('productos/datatable', function (Request $request){
 		return Datatables()->collection($productos)->make(true);
 	} else return [];
 })->name('api.proveedor.datatable');
+
+Route::get('ciudades/{id_region}', function($id, Request $request) {
+
+	$row = [
+		'seg_div_pol_idn' 		=> null, 
+		'seg_div_pol_nombre' 	=> null, 
+		'div_pol_idn' 			=> null, 
+		'seg_div_cod_area' 		=> null
+	];
+
+	$data = ['ciudades' => array()];
+
+	$ciudades = Region::find($id)->ciudades;
+
+	foreach($ciudades as $c) {
+		$row['seg_div_pol_idn'] 	= $c->seg_div_pol_idn;
+		$row['seg_div_pol_nombre'] = $c->seg_div_pol_nombre;
+		$row['div_pol_idn'] 		= $c->div_pol_idn;
+		$row['seg_div_cod_area'] 	= $c->seg_div_cod_area;
+		$data['ciudades'] = $row;
+	}
+	return $data;
+})->name('api.ciudades');

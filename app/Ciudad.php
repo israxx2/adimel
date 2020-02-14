@@ -19,4 +19,9 @@ class Ciudad extends Model
 	{
 		return $this->hasMany('App\Despacho', 'seg_div_pol_idn');
 	}
+
+	public function region()
+	{
+		return $this->belongsTo('App\Region', 'div_pol_idn');
+	}
 }
