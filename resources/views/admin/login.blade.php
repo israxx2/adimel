@@ -28,18 +28,18 @@
 			<div class="card-body login-card-body">
 
 				<p class="login-box-msg">Bienvenido al Panel de Administración</p>
-				<p>"fun_rut" => "14.398.913-5"
+				{{-- <p>"fun_rut" => "14.398.913-5"
 					"fun_password" => "AD-E-ARA"
 
 					"fun_rut" => "17.854.962-6"
 					"fun_password" => "62-6-391"
 
 					"fun_rut" => "13.376.975-7"
-					"fun_password" => "13-2-912"</p>
+					"fun_password" => "13-2-912"</p> --}}
 					<form action="{{ route('funcionario.login') }}" method="post">
 						@csrf
-						<div class="input-group mb-3 col-12" >
-							<input type="text" class="form-control rut" placeholder="Rut" name="rut" >
+						<div class="input-group mb-3 col-12 ">
+							<input type="text" class="rut form-control rutx " placeholder="Rut" name="rut" >
 							<div class="input-group-append" >
 								<div class="input-group-text">
 									<span class="fas fa-user"></span>
@@ -91,5 +91,14 @@
 			})
 
 		</script>
+
 	</body>
+
 	</html>
+	<style>
+		.rutx{
+			width: 266px;
+
+		}
+
+	</style>

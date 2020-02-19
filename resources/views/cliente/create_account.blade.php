@@ -34,9 +34,10 @@
 								<label>E-mail</label>
 								<input class="mb-0" type="email" name="email" id="email" placeholder="Ingrese su E-mail">
 							</div>
+							
 							<div class="form-group col-md-6 ">
 								<label>Region</label>
-								<select class="nice-select wide" name="id_region" id="id_region" onchange="changeRegion(this)">
+								<select class="mi_select " name="id_region" id="id_region" onchange="changeRegion(this)">
 									@foreach($regiones as $r)
 										<option value="{{ $r->div_pol_idn }}">{!! ucwords(strtolower($r->div_pol_nombre)) !!}</option>
 									@endforeach
@@ -44,7 +45,7 @@
 							</div>
 							<div class="form-group col-md-6 ">
 								<label>Ciudad</label>
-								<select class="nice-select wide" name="id_ciudad" id="idCiudad" >
+								<select class="mi_select " name="id_ciudad" id="idCiudad" >
 									<option disabled>Seleccione una Ciudad</option>
 								</select>
 							</div>
@@ -84,7 +85,20 @@
 @endsection
 
 
-
+<style>
+	.mi_select{
+		width: 100%;
+		background-color:transparent;
+		border: 1px solid #999999;
+		border-radius: 0;
+		line-height: 23px;
+		padding: 10px 20px;
+		font-size: 14px;
+		height: 45px;
+		color:#7a7a7a;
+		margin-bottom: 15px;
+}
+</style>
 @section('script')
 <script type="text/javascript">
 
@@ -113,7 +127,7 @@
 			
 			});
 			$('#idCiudad').empty().append(html);
-			console.log($('#idCiudad')[0]);
+			console.log(html)
 
 			
 		});
