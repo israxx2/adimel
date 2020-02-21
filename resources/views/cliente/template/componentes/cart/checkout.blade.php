@@ -85,7 +85,7 @@
                     </div>
                     <div class="payment-method">
                         <div class="payment-accordion">
-                            <div id="accordion">
+                            {{-- <div id="accordion">
                                 <div class="card">
                                 <div class="card-header" id="#payment-1">
                                     <h5 class="panel-title">
@@ -104,10 +104,14 @@
                                 </div>
                                 </div>
 
-                            </div>
+                            </div> --}}
+                          
+                        </div>
+                        <center>
+                            <img src="logos-transbank.png">
+                        </center>
                             <div class="order-button-payment">
-                                <input value="Efectuar Compra" type="submit" onclick="comprar(this)">
-                            </div>
+                            <input value="Efectuar Compra" type="submit" onclick="comprar(this)">
                         </div>
                     </div>
                 </div>
