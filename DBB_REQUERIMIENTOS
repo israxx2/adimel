@@ -5,6 +5,39 @@ CREATE TABLE web_despacho (
     direccion varchar(511),
 	numero varchar(10),
 	telefono varchar(12),
-	created_at date,
+	created_at date DEFAULT getdate(),
 	updated_at date,
 );
+
+CREATE TABLE web_configuracion (
+	conf_idn varchar(100) PRIMARY KEY,
+	titulo varchar(1023),
+	modificado_por varchar(50),
+	fecha_modificado date DEFAULT getdate(),
+	estado int DEFAULT 1,
+	estado int default 1
+);
+
+CREATE TABLE web_carrito (
+	conf_idn int IDENTITY(1,1) PRIMARY KEY,
+	dep_cli_idn varchar(50) NOT NULL,
+	prod_codigo varchar(50) NOT NULL,
+	prod_nombre varchar(255),
+	cantidad int,
+	created_at date DEFAULT getdate(),
+	updated_at date,
+	estado int default 1
+);
+
+
+
+
+
+-generar nuevas direcciones
+-efectuar compra, generar algo?
+-reparar paginacion (que no actualize la pagina)
+-menu de configuraciones
+-una vez que los productos sean elegidos como web, filtrar datos.
+-bloquear el acceo a la ruta crear cuenta si ya esta logeado
+-bloquear acceso a carrito o checkout si no esta logeado.
+-al momento de levantar pagina revisar contacto la captcha y envio de correos
