@@ -17,7 +17,7 @@
                 <div class="col-lg-5 offset-lg-1 col-md-12 order-1 order-lg-2">
                     <div class="contact-page-side-content">
                         <h3 class="contact-page-title">Contáctanos</h3>
-                        <p class="contact-page-message mb-25">Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram anteposuerit litterarum formas human.</p>
+                        <p class="contact-page-message mb-25">Si desea comunicarse con nosotros puede enviarnos un mensaje, ir a nuestra tienda o llamarnos.</p>
                         <div class="single-contact-block">
                             <h4><i class="fa fa-fax"></i> Dirección</h4>
                             <p> Calle 6 Ote. 640, Talca, Maule</p>

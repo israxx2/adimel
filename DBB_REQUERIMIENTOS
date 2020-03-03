@@ -29,7 +29,8 @@ CREATE TABLE web_carrito (
 	estado int default 1
 );
 
-
+ALTER TABLE CLIENTE
+ADD tipo varchar(100);
 
 
 

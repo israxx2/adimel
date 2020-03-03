@@ -30,6 +30,7 @@ Route::post('/nueva-cuenta', 'Cliente\LoginController@storeCreateAccount')->name
 //// CLIENTE	    //////
 //////////////////// /////
 Route::get('/', 'Cliente\GeneralController@inicio')->name('cliente.inicio');
+Route::get('/perfil', 'Cliente\GeneralController@perfil')->name('cliente.perfil');
 Route::get('/mercadoPublico', 'Cliente\GeneralController@mercadoPublico');
 Route::get('/quienes-somos', 'Cliente\GeneralController@quienesSomos');
 Route::get('/contacto', 'Cliente\GeneralController@viewContacto');

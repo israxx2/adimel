@@ -30,29 +30,40 @@
 								<label>Apellidos</label>
 								<input class="mb-0" type="text" name="apellidos" id="apellidos" placeholder="">
 							</div>
-							<div class="form-group col-md-12">
+							<div class="form-group col-md-8">
 								<label>E-mail</label>
 								<input class="mb-0" type="email" name="email" id="email" placeholder="Ingrese su E-mail">
+							</div>
+
+							<div class="form-group col-md-4">
+								<label>Teléfono</label>
+								<input class="mb-0" type="text" name="telefono" id="telefono" placeholder="(8 dígitos)">
 							</div>
 							
 							<div class="form-group col-md-6 ">
 								<label>Region</label>
 								<select class="mi_select " name="id_region" id="id_region" onchange="changeRegion(this)">
 									@foreach($regiones as $r)
-										<option value="{{ $r->div_pol_idn }}">{!! ucwords(strtolower($r->div_pol_nombre)) !!}</option>
+										<option value="{{ $r->div_pol_idn }}">{!! ucwords(strtolower(htmlentities($r->div_pol_nombre))) !!}</option>
 									@endforeach
 								</select>
 							</div>
 							<div class="form-group col-md-6 ">
 								<label>Ciudad</label>
-								<select class="mi_select " name="id_ciudad" id="idCiudad" >
+								<select class="mi_select " name="id_ciudad" id="id_ciudad" >
 									<option disabled>Seleccione una Ciudad</option>
 								</select>
 							</div>
-							<div class="form-group col-md-12 col-12 mb-20">
+							<div class="form-group col-md-8 col-12 mb-20">
 								<label>Dirección</label>
 								<input class="mb-0" type="text" name="direccion" id="direccion" placeholder="Ingrese su dirección">
 							</div>
+
+							<div class="form-group col-md-4 col-12 mb-20">
+								<label>Número</label>
+								<input class="mb-0" type="text" name="numero" id="numero" placeholder="Casa, Dpto, etc...">
+							</div>
+
 							<div class="form-group col-md-6 mb-20">
 								<label>Contraseña</label>
 								<input class="mb-0" type="password" name="pw" id="pw" placeholder="Contraseña">
@@ -106,63 +117,29 @@
 		let id_region= e.value
 		url = '{{ route("api.ciudades", ["id_region" => ":id_region"]) }}'
 		url = url.replace(":id_region", id_region);
+		$('#id_ciudad').attr('disabled', true);
+		$('#id_ciudad').val('');
 		$.ajax({
 			url: url,
 			type: 'get',
 			dataType: 'json',
 		})
-		.done(function(data) {
-			
-
+		.done(function(data) {		
 			var html = '';
-			
+			console.log(data);			
 			$.each(data, function(index, value) {
-				// html += '<li>{';
-				// html += 'seg_div_pol_idn: '+value.seg_div_pol_idn;
-				// html += ', seg_div_pol_nombre: '+value.seg_div_pol_nombre;
-				// html += ', div_pol_idn: '+value.div_pol_idn;
-				// html += '}</li>';
 
-				html += `<option value=`+value.seg_div_pol_idn+`>`+value.seg_div_pol_nombre+`</option>`
-			
+				console.log(value);
+				html += '<option value='+value.seg_div_pol_idn+'>'+value.seg_div_pol_nombre+'</option>';
 			});
-			$('#idCiudad').empty().append(html);
-			console.log(html)
+			$('#id_ciudad').empty().append(html);
 
+			$('#id_ciudad').attr('disabled', false);
 			
 		});
 		
 
 	}
-
-	// $('#test').click(function() {
-	// 	var id_region = $('#id_test').val();
-		
-	// 	url = '{{ route("api.ciudades", ["id_region" => ":id_region"]) }}'
-	// 	url = url.replace(":id_region", id_region);
-	// 	$.ajax({
-	// 		url: url,
-	// 		type: 'get',
-	// 		dataType: 'json',
-	// 	})
-	// 	.done(function(data) {
-	// 		console.log(data);
-
-	// 		var html = '';
-
-	// 		$.each(data.ciudades, function(index, value) {
-	// 			html += '<li>{';
-	// 			html += 'seg_div_pol_idn: '+value.seg_div_pol_idn;
-	// 			html += ', seg_div_pol_nombre: '+value.seg_div_pol_nombre;
-	// 			html += ', div_pol_idn: '+value.div_pol_idn;
-	// 			html += '}</li>';
-	// 		});
-
-	// 		$('#cont_ciudades').empty().append(html);
-	// 	});
-		
-	// });
-
 
 
 	$('#form-create-account').submit(function(event) {
@@ -173,7 +150,7 @@
 		//$('.text-error').text("");
 		//$('.register-button').attr("disabled", true);
 		$('.register-button').attr("disabled", true);
-		var $inputs = $form.find("input");
+		var $inputs = $form.find("input,select");
 
 		var serializedData = $inputs.serialize();
 		$.ajax({
@@ -186,6 +163,7 @@
 			//console.log(data);
 			$('.has-error').removeClass('has-error');
 			$('.text-error').remove();
+			$('.mi_select').css('border', '1px solid #999999');
 			if(data.status) {
 				if(data.errors == null) {
 					//YA EXISTE
@@ -221,6 +199,7 @@
 						//alert( index + ": " + value );
 						var elem = $('#'+index);						
 						if(elem.is('input')) {
+							console.log(elem);
 							$form_group = elem.parent('.form-group');
 							$form_group.addClass('has-error');
 							html = '';
@@ -229,6 +208,18 @@
 							html += '</p>';
 							$form_group.append(html);
 						}
+						else {
+							console.log(elem);
+							elem.css('border', '1px solid #ff0000');
+							$form_group = elem.parent('.form-group');
+							$form_group.addClass('has-error');
+							html = '';
+							html += '<p class="text-error">';
+							html += msj;
+							html += '</p>';
+							$form_group.append(html);
+						}
+
 					});
 				}
 				

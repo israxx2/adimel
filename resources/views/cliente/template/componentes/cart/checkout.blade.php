@@ -8,19 +8,19 @@
                         <h3>Detalles del comprador</h3>
                         <div class="row">
                             <div class="col-md-12">
-                                <p><b>Nombre:</b> {{ Auth::guard('cliente')->user()->dep_cli_nombre }}</p>  
-                                <p><b>Correo:</b> {{ Auth::guard('cliente')->user()->dep_cli_email }}</p>   
-                                <p><b>Giro:</b> {{ Auth::guard('cliente')->user()->cli_giro }}</p>  
+                                <p><b>Nombre:</b> {{ $user->dep_cli_nombre }}</p>  
+                                <p><b>Correo:</b> {{ $user->dep_cli_email }}</p>   
+                                <p><b>Giro:</b> {{ $user->cli_giro }}</p>  
                                
                                
-                                @if(is_null(Auth::guard('cliente')->user()->dep_cli_direccion))
+                                @if($user->despachos->isEmpty())
                                 <br>
                                  <h3>Ingrese Dirección</h3>
                                     @include('cliente.template.componentes.cart.newDireccion')
                                 @else
                                   
                                     <div class="row">
-                                        @foreach(Auth::guard('cliente')->user()->getDirecciones() as $d)
+                                        @foreach($user->getDirecciones() as $d)
                                             
                                             <div class="col-md-1 col-sm-1">
                                                 <input style="height:2px;" type="radio" id="direccion" name="direccion" value="{{$d->dep_cli_idn}}"/>     

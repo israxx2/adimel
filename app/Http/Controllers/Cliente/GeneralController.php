@@ -101,8 +101,10 @@ class GeneralController extends Controller
 			['rub_idn', '!=', 8],
 		])->get();
 
+		$user = Auth::guard('cliente')->user();
 		return view('cliente.checkout')
-		->with('categorias', $categorias);
+		->with('categorias', $categorias)
+		->with('user', $user);
 	}
 
 	public function viewProduct($id) {
@@ -164,6 +166,16 @@ class GeneralController extends Controller
 	}
 
 
+	public function perfil(Request $request)
+	{
+		$categorias = DB::table('RUBRO')
+		->where([
+			['rub_estado', 1],
+			['rub_idn', '!=', 0],
+			['rub_idn', '!=', 8],
+		])->get();
+		return view('cliente.perfil')->with('categorias', $categorias);
+	}
 }
 
 

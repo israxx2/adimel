@@ -31,16 +31,19 @@ class LoginController extends Controller
 			['rub_idn', '!=', 8],
 		])->get();
 
-		$regiones = Region::all();
 
-		//dd($regiones);
+		$regiones = Region::orderByRaw('CAST(div_pol_idn AS INT) asc')->get();
+
+		$regiones->jsonSerialize();
+		$regiones->toJson();
+
 		return view('cliente.create_account')
 		->with('categorias', $categorias)
 		->with('regiones', $regiones);
 	}
 
 	public function storeCreateAccount(Request $request)
-	{		
+	{				
 		$data = array('status' => true, 'errors' => null, 'existe' => null);
 		//dd($request->input());
 		//Validación
@@ -57,6 +60,24 @@ class LoginController extends Controller
 		$reglas['email'] = "required";
 		$msjs['email.required'] = "El E-mail es obligatorio.";
 
+		$reglas['id_region'] = "required";
+		$msjs['id_region.required'] = "La Región es obligatoria.";
+
+		$reglas['id_ciudad'] = "required";
+		$msjs['id_ciudad.required'] = "La Ciudad es obligatoria.";
+
+		$reglas['numero'] = "required|digits_between:1,10";
+		$msjs['numero.required'] 	= "El número es obligatorio.";
+		$msjs['numero.digits_between'] 		= "El máximo es de 10 dígitos.";
+
+		$reglas['direccion'] = "required|max:132";
+		$msjs['direccion.required'] = "La dirección es obligatoria.";
+		$msjs['direccion.max'] 		= "El máximo es de 132 caracteres.";
+
+		$reglas['telefono'] = "required|digits:8";
+		$msjs['telefono.required'] = "El Teléfono es obligatorio.";
+		$msjs['telefono.digits'] = "El teléfono debe contener sólo 8 números.";
+
 		$reglas['pw'] = 'required|confirmed|min:6';
 		$msjs['pw.required'] = "La contraseña es obligatoria.";
 		$msjs['pw.confirmed'] = "Las contraseñas no coinciden.";
@@ -69,13 +90,16 @@ class LoginController extends Controller
 			return $data;
 		}
 
-        //Se busca al cliente x si existe
+		
+    	//Se busca al cliente x si existe
 		$cliente = DB::table('CLIENTE')
 		->where('cli_rut', $request->rut)->first();
 
-		
 		DB::beginTransaction();
 		try {
+
+
+
 			//SI EL CLIENTE YA EXISTE....
 			if($cliente) {
 				$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
@@ -90,20 +114,29 @@ class LoginController extends Controller
 					->update(['password' => bcrypt($request->pw)]);
 					$data['existe'] = 'Se ha asignado una contraseña con exito.';
 				}
+
+
+
+
+
+
+
+
+
 			//SI NO EXISTE....
 			} else {
-				$id_cliente = DB::table('CORRELATIVOS')
-				->where('corre_idn', 1042)->first()->corre_correlativo + 1;
+				// $id_cliente = DB::table('CORRELATIVOS')
+				// ->where('corre_idn', 1042)->first()->corre_correlativo + 1;
 
 				//dd($id_cliente); 1217
 				$id_dep_del_cli = DB::table('CORRELATIVOS')
 				->where('corre_idn', 1043)->first()->corre_correlativo + 1;
 
 				DB::table('CLIENTE')->insert(
-					['cli_idn' 			=> strval($id_cliente), //strtoupper(str_replace('.', '', $request->rut))
+					['cli_idn' 			=>  strtoupper(str_replace('.', '', $request->rut)), //strval($id_cliente),
 					'cli_rut' 			=> strtoupper($request->rut),
 					'cli_razon_social' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
-					'cli_giro' 			=> "PARTICULAR",
+					'tipo' 			=> "PARTICULAR",
 					'cli_traslado' 		=> 0]
 				);
 
@@ -113,7 +146,7 @@ class LoginController extends Controller
 					'dep_cli_nombre' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
 					'cli_giro' 			=> "PARTICULAR",
 					//'dep_cli_direccion' => " ",
-					'seg_div_pol_idn' => "000",
+					'seg_div_pol_idn' => $request->id_ciudad,
 					//'dep_cli_fono' => " ",
 					//'dep_cli_fax' => " ",
 					//'dep_cli_casilla' => " ",
@@ -136,6 +169,15 @@ class LoginController extends Controller
 					'password' => bcrypt($request->pw)
 				]);
 
+				DB::table('web_despacho')->insert(
+					['dep_cli_idn' 		=> strval($id_dep_del_cli),
+					 'seg_div_pol_idn' 	=> $request->id_ciudad,
+					 'direccion' 		=> $request->direccion,
+					 'numero'			=> $request->numero,
+					 'telefono'			=> $request->telefono
+					]
+				);
+
 				DB::table('CORRELATIVOS')
 				->where('corre_idn', 1042)
 				->update(['corre_correlativo' => $id_cliente]);
@@ -148,6 +190,8 @@ class LoginController extends Controller
 				//atributo tipo en cliente
 				//orden de venta
 				//dd("todo ok");
+
+				
 			}
 			
 		} catch (\Exception $e) {

@@ -50,4 +50,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Carrito', 'dep_cli_idn');
     }
 
+    public function despachos()
+    {
+        return $this->hasMany('App\Despacho', 'dep_cli_idn');
+    }
+
 }

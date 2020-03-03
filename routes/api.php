@@ -43,14 +43,16 @@ Route::get('ciudades/{id_region}', function($id, Request $request) {
 
 	$data = ['ciudades' => array()];
 
-	$ciudades = Region::find($id)->ciudades;
+	$ciudades = Region::find($id)->ciudades->sortBy('seg_div_pol_nombre');
 
+	$row = [];
 	foreach($ciudades as $c) {
 		$row['seg_div_pol_idn'] 	= $c->seg_div_pol_idn;
-		$row['seg_div_pol_nombre'] = $c->seg_div_pol_nombre;
+		$row['seg_div_pol_nombre'] 	= ucwords(strtolower(htmlentities($c->seg_div_pol_nombre)));
 		$row['div_pol_idn'] 		= $c->div_pol_idn;
-		$row['seg_div_cod_area'] 	= $c->seg_div_cod_area;
-		$data['ciudades'] = $row;
+		$row['seg_div_cod_area'] 	= $c->seg_div_cod_area;		
+		array_push($data['ciudades'], $row);
 	}
-	return $data;
+	// dd($data['ciudades']);
+	return response()->json($data['ciudades']);
 })->name('api.ciudades');
