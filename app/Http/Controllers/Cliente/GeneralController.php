@@ -176,6 +176,7 @@ class GeneralController extends Controller
 		])->get();
 		return view('cliente.perfil')->with('categorias', $categorias);
 	}
+
 }
 
 

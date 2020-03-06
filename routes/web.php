@@ -277,3 +277,44 @@ Route::get('/asdf', function() {
 
 });
 
+
+
+Route::get('/aaa', function() {
+	$correlativo = DB::table('CORRELATIVOS')->where('corre_tipo', '29')->first();
+	$ord_ven_idn = $correlativo->corre_correlativo;
+
+	$iva = DB::table('IVA')->where('iva_activo', '1')->first();
+	$valor_iva = $iva->IVA;
+	$iva_idn = $iva->iva_idn;
+
+	$dep_cli_idn = Auth::guard('cliente')->id();
+
+	$ven_idn = 'WW';
+
+	$tip_ven_idn = '1'; //5
+
+	$rec_idn = '1';
+
+	$ord_ven_neto = 10000; //Total de la venta
+
+	$ord_ven_iva = ($ord_ven_neto * $valor_iva); //Total venta + iva
+
+	$ord_ven_num_ordcom = '0';
+
+	$tipo = '1';
+
+	$parametros = [
+		$ord_ven_idn,			// @ord_ven_idn
+		'99.999.999-9',			// @fun_rut
+		$iva_idn, 				// @iva_idn
+		$dep_cli_idn,			// @dep_cli_idn
+		$ven_idn,				// @ven_idn
+		$tip_ven_idn,			// @tip_ven_idn
+		$rec_idn,				// @rec_idn
+		$ord_ven_neto,			// @ord_ven_neto
+		$ord_ven_iva,			// @ord_ven_iva
+		$ord_ven_num_ordcom,	// @ord_ven_num_ordcom
+		$tipo 					// @tipo
+	];
+	DB::select('exec dbo.orden_de_venta_asigna ?,?,?,?,?,?,?,?,?,?,?', $parametros);
+});

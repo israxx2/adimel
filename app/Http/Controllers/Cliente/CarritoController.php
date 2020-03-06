@@ -115,6 +115,13 @@ class CarritoController extends Controller
 		
 		DB::beginTransaction();
 		try {
+
+			/*
+			* Ingresar Direccion de Despacho
+			*
+			* Este solo se debería ejecutar si la dirección de despacho es nueva.
+			*/
+
 			DB::table('web_despacho')->insert(
 				['dep_cli_idn' 		=> $user->id_dep_del_cli,
 				'seg_div_pol_idn' 	=> $request->id_ciudad,
@@ -122,6 +129,56 @@ class CarritoController extends Controller
 				'numero'			=> $request->numero,
 				'telefono'			=> $request->telefono
 			]);
+
+			/*
+			* Ingresar Orden de Venta
+			*
+			* Aca se inicializan las variables para ingresar una nueva orden de venta,
+			* la cual necesita en escencia al cliente, vendedor y tipo de vendedor, 
+			* iva y total de la venta.
+			*/
+			$correlativo = DB::table('CORRELATIVOS')->where('corre_tipo', '29')->first();
+			$ord_ven_idn = $correlativo->corre_correlativo;
+
+			$iva = DB::table('IVA')->where('iva_activo', '1')->first();
+			$valor_iva = $iva->IVA;
+			$iva_idn = $iva->iva_idn;
+
+			$dep_cli_idn = $user->id_dep_del_cli;
+
+			$ven_idn = 'WW';
+
+			$tip_ven_idn = '1'; //5
+
+			$rec_idn = '1';
+
+			$ord_ven_neto = 10000; //Total de la venta
+
+			$ord_ven_iva = ($ord_ven_neto * $valor_iva); //Total venta + iva
+
+			$ord_ven_num_ordcom = '0';
+
+			$tipo = '1';
+
+			$parametros = [
+				$ord_ven_idn,			// @ord_ven_idn
+				'99.999.999-9',			// @fun_rut
+				$iva_idn, 				// @iva_idn
+				$dep_cli_idn,			// @dep_cli_idn
+				$ven_idn,				// @ven_idn
+				$tip_ven_idn,			// @tip_ven_idn
+				$rec_idn,				// @rec_idn
+				$ord_ven_neto,			// @ord_ven_neto
+				$ord_ven_iva,			// @ord_ven_iva
+				$ord_ven_num_ordcom,	// @ord_ven_num_ordcom
+				$tipo 					// @tipo
+			];
+			DB::select('exec dbo.orden_de_venta_asigna ?,?,?,?,?,?,?,?,?,?,?', $parametros);
+
+			/*
+			* Ingresar Detalle Orden de Venta
+			*/
+
 		} catch (\Exception $e) {
 			$data['status'] = FALSE;
 			$data['data'] = 'Error al insertar nuevo despacho';
@@ -129,12 +186,8 @@ class CarritoController extends Controller
 			return response()->json($data);
 		}
 		DB::commit();
-		//si es crear entonces generar nueva dep->
-				// $request->tipo
-				// $request->direccion
-				// $request-> ciudad
-				// $request->comuna
-				// $request->telefono
+
+
 
 
 		//$request->comentario   -> comentario de la compra.
@@ -143,7 +196,7 @@ class CarritoController extends Controller
 		return response()->json($data);
 
 	}
-	
+
 
 }
 
