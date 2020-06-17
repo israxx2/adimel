@@ -1,0 +1,41 @@
+select * from PRODUCTOS;
+
+select * from web_carrito;
+
+alter table web_carrito
+add pro_idn varchar(50),
+pro_aux varchar(25);
+
+
+
+select * from CORRELATIVOS where corre_tipo = '29';
+--153880
+
+select * from CORRELATIVOS where corre_tipo = '45'; 
+--corre_correlativo = 153878
+
+select * from FUNCIONARIOS;
+
+update CORRELATIVOS
+set corre_correlativo = '153880'
+where corre_tipo = '29';
+
+update CORRELATIVOS
+set corre_correlativo = '760061'
+where corre_tipo = '45';
+
+select * from IVA where iva_activo = 1;
+--iva_idn = 2, IVA = 1,19
+
+select * from DEPENDENCIAS_DEL_CLIENTE WHERE CLI_IDN LIKE '19105900-K'; --6347
+
+select * from DETALLE_ORDEN_DE_VENTA where det_ord_ven_idn = '760061';
+
+select * from ORDEN_DE_VENTA WHERE ORD_VEN_IDN = '153880';
+
+------------------------------------------------------------------------------------
+select * from CORRELATIVOS where corre_tipo = '45'; --corre_correlativo = 760062
+
+select *
+from 
+

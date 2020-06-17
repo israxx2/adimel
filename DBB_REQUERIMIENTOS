@@ -29,10 +29,13 @@ CREATE TABLE web_carrito (
 	estado int default 1
 );
 
+alter table web_carrito
+add pro_idn varchar(50),
+pro_aux varchar(25);
+
+
 ALTER TABLE CLIENTE
 ADD tipo varchar(100);
-
-
 
 -generar nuevas direcciones
 -efectuar compra, generar algo?

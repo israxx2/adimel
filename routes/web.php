@@ -13,6 +13,7 @@
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Carrito;
+use App\Producto;
 use App\Funcionario;
 use Illuminate\Support\Facades\Auth;
 
@@ -280,14 +281,19 @@ Route::get('/asdf', function() {
 
 
 Route::get('/aaa', function() {
-	$correlativo = DB::table('CORRELATIVOS')->where('corre_tipo', '29')->first();
-	$ord_ven_idn = $correlativo->corre_correlativo;
+
+
+	$correlativo1 = DB::table('CORRELATIVOS')->where('corre_tipo', '29')->first();
+	$correlativo2 = DB::table('CORRELATIVOS')->where('corre_tipo', '45')->first();
+	$ord_ven_idn 		= $correlativo1->corre_correlativo + 1;
+	$det_ord_ven_idn 	= $correlativo2->corre_correlativo + 1;
 
 	$iva = DB::table('IVA')->where('iva_activo', '1')->first();
 	$valor_iva = $iva->IVA;
 	$iva_idn = $iva->iva_idn;
 
-	$dep_cli_idn = Auth::guard('cliente')->id();
+	$user 		 = Auth::guard('cliente')->user();
+	$dep_cli_idn = $user->dep_cli_idn;
 
 	$ven_idn = 'WW';
 
@@ -304,8 +310,8 @@ Route::get('/aaa', function() {
 	$tipo = '1';
 
 	$parametros = [
-		$ord_ven_idn,			// @ord_ven_idn
-		'99.999.999-9',			// @fun_rut
+		strval($ord_ven_idn),   // @ord_ven_idn
+		'99.999.999-9',			// @fun_rut (funcionario web)
 		$iva_idn, 				// @iva_idn
 		$dep_cli_idn,			// @dep_cli_idn
 		$ven_idn,				// @ven_idn
@@ -316,5 +322,179 @@ Route::get('/aaa', function() {
 		$ord_ven_num_ordcom,	// @ord_ven_num_ordcom
 		$tipo 					// @tipo
 	];
-	DB::select('exec dbo.orden_de_venta_asigna ?,?,?,?,?,?,?,?,?,?,?', $parametros);
+	DB::update('exec dbo.orden_de_venta_asigna ?,?,?,?,?,?,?,?,?,?,?', $parametros);
+
+	DB::table('CORRELATIVOS')
+	->where('corre_tipo', '29')
+	->update(['corre_correlativo' => strval($ord_ven_idn)]);
+	
+	$productos_carrito = App\Carrito::where('dep_cli_idn', $dep_cli_idn)->get();
+
+	foreach($productos_carrito as $pc) {
+
+		$pro = Producto::find($pc->prod_codigo);
+
+		$parametros = [
+			strval($det_ord_ven_idn),   		// @det_ord_ven_idn
+			strval($ord_ven_idn),				// @ord_ven_idn
+			$pro->pro_idn, 						// @pro_idn
+			$pc->cantidad,						// @det_ord_ven_cantidad
+			$dcto,								// @det_ord_ven_descuento
+			$precio,							// @det_ord_ven_valor
+			'148',								// @fun_idn (funcionario web)
+			0,									// @det_ord_ven_can_pen           ?????????
+			$user->cat_idn,						// @det_ord_ven_lista
+			0,									// @det_tipo_proseso
+			'99.999.999-9', 					// @fun_rut_aut
+			'1', 								// @por_uti_idn
+			$total, 							// @det_ord_ven_total
+			$total - ($pro->pro_costo + $iva),	// @det_ord_ven_valor_comi
+			$pro->pro_codigo,					// @pro_codigo codigo producto
+			$pro->pro_aux, 						// @pro_aux
+			$pro->pro_nombre,					// @pro_nombre
+			$pro->pro_stock,					// @stock_anterior
+		];
+
+		DB::update('exec dbo.detalle_orden_de_venta_agrega ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?', $parametros);
+
+		DB::table('CORRELATIVOS')
+		->where('corre_tipo', '45')
+		->update(['corre_correlativo' => strval($det_ord_ven_idn)]);
+
+		$det_ord_ven_idn++;
+	}
+
+	echo "Id Factura: ". $ord_ven_idn;
+	echo "Id Detalle: ". $det_ord_ven_idn;
+	return 1;
+});
+
+
+Route::get('prod', function () {
+
+	$correlativo1 = DB::table('CORRELATIVOS')->where('corre_tipo', '29')->first();
+	$correlativo2 = DB::table('CORRELATIVOS')->where('corre_tipo', '45')->first();
+	$ord_ven_idn 		= $correlativo1->corre_correlativo + 1;
+	$det_ord_ven_idn 	= $correlativo2->corre_correlativo + 1;
+
+	$iva = DB::table('IVA')->where('iva_activo', '1')->first();
+	$valor_iva = $iva->IVA;
+	$iva_idn = $iva->iva_idn;
+
+	$user 		 = Auth::guard('cliente')->user();
+	$dep_cli_idn = $user->dep_cli_idn;
+
+	$ven_idn = 'WW';
+
+	$tip_ven_idn = '1'; //5
+
+	$rec_idn = '1';
+
+	$ord_ven_neto = 10000; //Total de la venta
+
+	$ord_ven_iva = ($ord_ven_neto * $valor_iva); //Total venta + iva
+
+	$ord_ven_num_ordcom = '0';
+
+	$tipo = '1';
+
+	$parametros = [
+		strval($ord_ven_idn),   // @ord_ven_idn
+		'99.999.999-9',			// @fun_rut (funcionario web)
+		$iva_idn, 				// @iva_idn
+		$dep_cli_idn,			// @dep_cli_idn
+		$ven_idn,				// @ven_idn
+		$tip_ven_idn,			// @tip_ven_idn
+		$rec_idn,				// @rec_idn
+		$ord_ven_neto,			// @ord_ven_neto
+		$ord_ven_iva,			// @ord_ven_iva
+		$ord_ven_num_ordcom,	// @ord_ven_num_ordcom
+		$tipo 					// @tipo
+	];
+	
+	// DB::update('exec dbo.orden_de_venta_asigna ?,?,?,?,?,?,?,?,?,?,?', $parametros);
+
+	// DB::table('CORRELATIVOS')
+	// ->where('corre_tipo', '29')
+	// ->update(['corre_correlativo' => strval($ord_ven_idn)]);
+	
+	$productos_carrito = App\Carrito::where('dep_cli_idn', $dep_cli_idn)->get();
+
+	// "prod_codigo" => "78020040"
+	// "prod_nombre" => "EL MEDICO A PALOS, EDIT. ERCILLA"
+
+	// "prod_codigo" => "7806505018365"
+	// "prod_nombre" => "CUAD. TORRE UNIV. CLASICO POOH MAT. 7 MM. 100 HJS. 25344"
+
+	// "prod_codigo" => "001561"
+	// "prod_nombre" => "JUEGO ENCAJE MADERA TORRE ANIMALES "
+
+	// "prod_codigo" => "7806505018365"
+	// "prod_nombre" => "CUAD. TORRE UNIV. CLASICO POOH MAT. 7 MM. 100 HJS. 25344"
+
+	
+	foreach($productos_carrito as $pc) {
+
+		$pro = Producto::find($pc->prod_codigo);
+
+		$dcto = null;
+		$valor = null;
+		switch ($user->por_uti_idn) {
+			case '1':
+			$dcto 	= $pro->pro_porcen1;
+			$valor 	= $pro->pro_valor_venta1;
+			case '2':
+			$dcto 	= $pro->pro_porcen2;
+			$valor 	= $pro->pro_valor_venta2;
+			case '3':
+			$dcto = $pro->pro_porcen3;
+			$valor 	= $pro->pro_valor_venta3;
+			case '4':
+			$dcto = $pro->pro_porcen4;
+			$valor 	= $pro->pro_valor_venta4;
+			case '5':
+			$dcto = $pro->pro_porcen5;
+			$valor 	= $pro->pro_valor_venta5;
+			default:
+			$dcto = $pro->pro_porcen1;
+			$valor 	= $pro->pro_valor_venta1;
+		}
+
+		$valor_con_iva = $valor_iva * $valor;
+
+		$parametros = [
+			strval($det_ord_ven_idn),   		// @det_ord_ven_idn
+			strval($ord_ven_idn),				// @ord_ven_idn
+			$pro->pro_idn, 						// @pro_idn
+			$pc->cantidad,						// @det_ord_ven_cantidad
+			$dcto,								// @det_ord_ven_descuento
+			$valor * $pc->cantidad,				// @det_ord_ven_valor
+			'148',								// @fun_idn (funcionario web)
+			0,									// @det_ord_ven_can_pen           ?????????
+			$user->cat_idn,						// @det_ord_ven_lista
+			0,									// @det_tipo_proseso
+			'99.999.999-9', 					// @fun_rut_aut
+			$user->por_uti_idn, 				// @por_uti_idn
+			$valor_con_iva, 					// @det_ord_ven_total
+			$valor - ($valor_con_iva - $valor) + $pro->pro_costo,	// @det_ord_ven_valor_comi
+			$pro->pro_codigo,					// @pro_codigo codigo producto
+			$pro->pro_aux, 						// @pro_aux
+			$pro->pro_nombre,					// @pro_nombre
+			$pro->pro_stock,					// @stock_anterior
+		];
+
+		DB::update('exec dbo.detalle_orden_de_venta_agrega ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?', $parametros);
+
+		DB::table('CORRELATIVOS')
+		->where('corre_tipo', '45')
+		->update(['corre_correlativo' => strval($det_ord_ven_idn)]);
+
+		$det_ord_ven_idn = $det_ord_ven_idn + 1;
+		dd($det_ord_ven_idn);
+	}
+
+	echo "Id Factura: ". $ord_ven_idn;
+	echo " || Id Detalle: ". $det_ord_ven_idn;
+	return 1;
+
 });

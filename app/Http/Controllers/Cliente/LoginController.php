@@ -129,8 +129,8 @@ class LoginController extends Controller
 				// ->where('corre_idn', 1042)->first()->corre_correlativo + 1;
 
 				//dd($id_cliente); 1217
-				$id_dep_del_cli = DB::table('CORRELATIVOS')
-				->where('corre_idn', 1043)->first()->corre_correlativo + 1;
+				//$id_dep_del_cli = DB::table('CORRELATIVOS')
+				//->where('corre_idn', 1043)->first()->corre_correlativo + 1;
 
 				DB::table('CLIENTE')->insert(
 					['cli_idn' 			=>  strtoupper(str_replace('.', '', $request->rut)), //strval($id_cliente),

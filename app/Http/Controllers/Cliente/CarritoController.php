@@ -94,7 +94,14 @@ class CarritoController extends Controller
 
 		$data = array('estado' => TRUE, 'error' => FALSE, 'data' => null);
 		$user = Auth::guard('cliente')->user();
+		//6347
+		
+		//dd(Carrito::orderBy('dep_cli_idn', 'ASC')->get());
+		$dep_cli_idn = $user->dep_cli_idn;
+		//dd($dep_cli_idn);
+		$prods = Carrito::where('dep_cli_idn', $dep_cli_idn)->get();
 
+		dd($prods);
 		//$request->tipo -> nueva: cliente sin direccion
 		//					crear:  cliente crear nueva direccion de envio
 		//					actual: cliente elige la direccion actual.
@@ -112,16 +119,8 @@ class CarritoController extends Controller
 				// $request-> ciudad
 				// $request->comuna
 				// $request->telefono
-		
-		DB::beginTransaction();
-		try {
 
-			/*
-			* Ingresar Direccion de Despacho
-			*
-			* Este solo se debería ejecutar si la dirección de despacho es nueva.
-			*/
-
+		if($request->tipo = 'nueva') {
 			DB::table('web_despacho')->insert(
 				['dep_cli_idn' 		=> $user->id_dep_del_cli,
 				'seg_div_pol_idn' 	=> $request->id_ciudad,
@@ -129,77 +128,120 @@ class CarritoController extends Controller
 				'numero'			=> $request->numero,
 				'telefono'			=> $request->telefono
 			]);
+		} else if($request->tipo = 'actual') {
 
-			/*
-			* Ingresar Orden de Venta
-			*
-			* Aca se inicializan las variables para ingresar una nueva orden de venta,
-			* la cual necesita en escencia al cliente, vendedor y tipo de vendedor, 
-			* iva y total de la venta.
-			*/
-			$correlativo = DB::table('CORRELATIVOS')->where('corre_tipo', '29')->first();
-			$ord_ven_idn = $correlativo->corre_correlativo;
 
-			$iva = DB::table('IVA')->where('iva_activo', '1')->first();
-			$valor_iva = $iva->IVA;
-			$iva_idn = $iva->iva_idn;
+			DB::beginTransaction();
+			try {
 
-			$dep_cli_idn = $user->id_dep_del_cli;
+				/*
+				* Ingresar Orden de Venta
+				*
+				* Aca se inicializan las variables para ingresar una nueva orden de venta,
+				* la cual necesita en escencia al cliente, vendedor y tipo de vendedor, 
+				* iva y total de la venta.
+				*/
+				$correlativo = DB::table('CORRELATIVOS')->where('corre_tipo', '29')->first();
+				$ord_ven_idn = $correlativo->corre_correlativo + 1;
 
-			$ven_idn = 'WW';
+				$iva = DB::table('IVA')->where('iva_activo', '1')->first();
+				$valor_iva = $iva->IVA;
+				$iva_idn = $iva->iva_idn;
 
-			$tip_ven_idn = '1'; //5
+				$dep_cli_idn = $user->id_dep_del_cli;
 
-			$rec_idn = '1';
+				$ven_idn = 'WW';
 
-			$ord_ven_neto = 10000; //Total de la venta
+				$tip_ven_idn = '1'; //5
 
-			$ord_ven_iva = ($ord_ven_neto * $valor_iva); //Total venta + iva
+				$rec_idn = '1';
 
-			$ord_ven_num_ordcom = '0';
+				$ord_ven_neto = 10000; //Total de la venta
 
-			$tipo = '1';
+				$ord_ven_iva = ($ord_ven_neto * $valor_iva); //Total venta + iva
 
-			$parametros = [
-				$ord_ven_idn,			// @ord_ven_idn
-				'99.999.999-9',			// @fun_rut
-				$iva_idn, 				// @iva_idn
-				$dep_cli_idn,			// @dep_cli_idn
-				$ven_idn,				// @ven_idn
-				$tip_ven_idn,			// @tip_ven_idn
-				$rec_idn,				// @rec_idn
-				$ord_ven_neto,			// @ord_ven_neto
-				$ord_ven_iva,			// @ord_ven_iva
-				$ord_ven_num_ordcom,	// @ord_ven_num_ordcom
-				$tipo 					// @tipo
-			];
-			DB::select('exec dbo.orden_de_venta_asigna ?,?,?,?,?,?,?,?,?,?,?', $parametros);
+				$ord_ven_num_ordcom = '0';
 
-			/*
-			* Ingresar Detalle Orden de Venta
-			*/
+				$tipo = '1';
 
-		} catch (\Exception $e) {
-			$data['status'] = FALSE;
-			$data['data'] = 'Error al insertar nuevo despacho';
-			DB::rollBack();
+				$parametros = [
+					$ord_ven_idn,			// @ord_ven_idn
+					'99.999.999-9',			// @fun_rut
+					$iva_idn, 				// @iva_idn
+					$dep_cli_idn,			// @dep_cli_idn
+					$ven_idn,				// @ven_idn
+					$tip_ven_idn,			// @tip_ven_idn
+					$rec_idn,				// @rec_idn
+					$ord_ven_neto,			// @ord_ven_neto
+					$ord_ven_iva,			// @ord_ven_iva
+					$ord_ven_num_ordcom,	// @ord_ven_num_ordcom
+					$tipo 					// @tipo
+				];
+				$ins = DB::update('exec dbo.orden_de_venta_asigna ?,?,?,?,?,?,?,?,?,?,?', $parametros);
+
+				DB::table('CORRELATIVOS')
+				->where('corre_tipo', '29')
+				->update(['corre_correlativo', $ord_ven_idn]);
+
+				/*
+				* Ingresar Detalle Orden de Venta
+				*
+				* Se ingresa el detalle de la orden de venta, en donde por cada producto se debe ingresar
+				* un detalle, es por eso que va dentro de un foreach.
+				*/
+				
+				//Se buscan los productos en el carrito y dps en la tabla producto
+				$prod = App\Carrito::where('dep_cli_idn', $dep_cli_idn)->get();
+				$ids = [];
+				foreach($prod as $p) {
+					$ids[] = $p->prod_codigo;
+				}
+
+				$productos = DB::table('PRODUCTOS')
+				->whereIn('pro_codigo', $ids)
+				->get();
+
+				foreach($productos as $pro) {
+
+					$parametros = [
+						strval($det_ord_ven_idn),   		// @det_ord_ven_idn
+						strval($ord_ven_idn),				// @ord_ven_idn
+						$pro_idn, 							// @pro_idn
+						$cantidad,							// @det_ord_ven_cantidad
+						$dcto,								// @det_ord_ven_descuento
+						$precio,							// @det_ord_ven_valor
+						'148',								// @fun_idn (funcionario web)
+						0,									// @det_ord_ven_can_pen           ?????????
+						$user->cat_idn,						// @det_ord_ven_lista
+						0,									// @det_tipo_proseso
+						'99.999.999-9', 					// @fun_rut_aut
+						'1', 								// @por_uti_idn
+						$total, 							// @det_ord_ven_total
+						$total - ($costo_producto + $iva),	// @det_ord_ven_valor_comi
+						$pro->pro_codigo,					// @pro_codigo codigo producto
+						$pro->pro_aux, 						// @pro_aux
+						$pro->pro_nombre,					// @pro_nombre
+						$pro->pro_stock,					// @stock_anterior
+					];
+					DB::update('exec dbo.detalle_orden_de_venta_agrega ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?', $parametros);
+				}
+
+			} catch (\Exception $e) {
+				$data['status'] = FALSE;
+				$data['data'] = 'Error al insertar nuevo despacho';
+				DB::rollBack();
+				return response()->json($data);
+			}
+
+			DB::commit();
+
 			return response()->json($data);
+
 		}
-		DB::commit();
 
-
-
-
-		//$request->comentario   -> comentario de la compra.
-
-
-		return response()->json($data);
 
 	}
-
-
 }
-
 
 
 function modificarCarrito($carrito2){
@@ -210,7 +252,7 @@ function modificarCarrito($carrito2){
 		else{
 			$item->precio= $item->producto->isOffer()->des_pro_precio;
 		}
-		
+
 	}
 	return $carrito2;
 }
