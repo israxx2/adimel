@@ -12,9 +12,14 @@
 							<div class="container">
 								<center><h4 class="login-title">Iniciar Sesión</h4></center>
 								<div class="row d-flex justify-content-center">
-									<div class="col-md-12 col-12 mb-30 mt-20 form-group">
+									<div class="col-md-12 col-12 mt-20 form-group mt-20">
 										<label>RUT</label>
 										<input class="mb-0 form-control rut" type="text" name="login_rut" id="login_rut" placeholder="">
+									</div>
+									<div id="sucursal" name="sucursal" class="col-md-12 col-12 mb-20 form-group" style="display: none;">
+										<label>Sucursal</label>
+										<select class="mi_select" name="dependencias" id="dependencias">
+										</select>
 									</div>
 									<div class="col-12 mb-20 form-group">
 										<label>Contraseña</label>
@@ -43,12 +48,60 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
+		var state = {
+			"rut": null
+		}
+
+		$('.rut').on("change", function(e) {
+			state.rut = $(this).val();
+			console.log("largo = " + state.rut.length);
+			console.log(state.rut);
+			if(state.rut.length >= 11) {
+				$('#form-login btn-block').attr('disabled', true);
+				$.ajax({
+					url: '{{ route('api.get_dependencias') }}',
+					type: 'POST',
+					dataType: 'JSON',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"rut": state.rut
+					},
+				})
+				.done(function(data) {
+					console.log(data.dependencias);
+					if(data.status) {
+						if(data.dependencias.length >= 1) {
+							var html = "<option selected disabled>Seleccione una dependencia</option>";
+							$.each(data.dependencias, function(index, value) {
+								console.log(value);
+								html += '<option value='+value.dep_cli_idn+'>'+value.dep_cli_nombre+'</option>';
+							});
+							$('#dependencias').empty().append(html);
+							$('#sucursal').show(400);
+
+						} else {
+							$('#sucursal').hide(400);
+							$('#dependencias option').empty();
+						}
+					}
+				})
+				.fail(function(data) {
+					console.log(data);
+				}).always(function() {
+					$('#form-login btn-block').attr('disabled', false);
+				});
+
+			} else {
+				$('#sucursal').hide(400);
+			}
+		}); 
+
 		$("#form-login").submit(function(event) {			
 			event.preventDefault();
 			
 			$form = $(this);
-			var $inputs = $form.find("input");
-			var serializedData = $inputs.serialize();
+			var $inputs = $form.find("input, select");
+			var serializedData = $form.serialize();
 			$('.has-error').removeClass('has-error');
 			$('.text-error').remove();
 			$.ajax({
@@ -74,6 +127,15 @@
 								$form_group.addClass('has-error');
 							}
 							if(index == 'login_pw') {
+								$form_group = elem.parent('.form-group');
+								$form_group.addClass('has-error');
+								html = '';
+								html += '<p class="text-error">';
+								html += msj;
+								html += '</p>';
+								$form_group.append(html);
+							}
+							if(index == 'dependencias') {
 								$form_group = elem.parent('.form-group');
 								$form_group.addClass('has-error');
 								html = '';

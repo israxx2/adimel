@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Region;
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -56,3 +57,27 @@ Route::get('ciudades/{id_region}', function($id, Request $request) {
 	// dd($data['ciudades']);
 	return response()->json($data['ciudades']);
 })->name('api.ciudades');
+
+Route::post('get_dependencias', function(Request $request) {
+	$data = ['dependencias' => array(), 'status' => TRUE, 'error' => null];
+	if($request->ajax()) {
+		$rut = User::convertirRut($request->rut);
+		if($dependencias = User::getDependencias($rut)) {
+			foreach($dependencias as $dep) {
+				$aux = array();
+				$aux['dep_cli_idn'] 	= $dep->dep_cli_idn;
+				$aux['cli_idn'] 		= $dep->cli_idn;
+				$aux['cli_giro'] 		= $dep->cli_giro;
+				$aux['dep_cli_ciudad'] 	= $dep->dep_cli_ciudad;
+				$aux['dep_cli_email'] 	= $dep->dep_cli_email;
+				$aux['dep_cli_nombre'] 	= $dep->dep_cli_nombre;
+				$aux['dep_cli_web'] 	= $dep->dep_cli_web;
+				$data['dependencias'][]	= $aux;
+			}
+			//$data['dependencias'] = $dependencias;
+		} else {
+			$data['status'] = FALSE;
+		}
+	}
+	return response()->json($data);
+})->name('api.get_dependencias');

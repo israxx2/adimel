@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -55,4 +56,25 @@ class User extends Authenticatable
         return $this->hasMany('App\Despacho', 'dep_cli_idn');
     }
 
+    /**
+     * Retorna las dependencias del cliente de un rut
+     *
+     * @var String $rut
+     * @return Array $dep
+     */
+    public static function getDependencias($rut) {
+        $dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+        ->where('cli_idn', $rut)->get();
+        return $dep;
+    }
+
+    /**
+     * Retorna el rut sin punto y con guión
+     *
+     * @var String $rut
+     * @return String $rut
+     */
+    public static function convertirRut($rut) {
+        return strtoupper(substr_replace(strtoupper(str_replace([".","-"],'', $rut)), '-', -1, 0));
+    }
 }

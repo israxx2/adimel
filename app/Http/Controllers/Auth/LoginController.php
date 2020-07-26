@@ -7,8 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Cliente;
 use App\Funcionario;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -56,12 +56,17 @@ class LoginController extends Controller
         //Ej: 19.105.900-k -> 19105900-K
         $request->merge(['login_rut' => strtoupper(str_replace('.', '', $request->login_rut))]);
 
+        $user = User::getDependencias($request->login_rut);
         //Valida
         $reglas['login_rut'] = "required";
         $msjs['login_rut.required'] = "El rut es obligatorio";
         $reglas['login_pw'] = 'required';
         $msjs['login_pw.required'] = "La contraseña es obligatoria.";
-        
+        if(count($user) >= 1) {
+            $reglas['dependencias'] = "required";
+            $msjs['dependencias.required'] = "La sucursal es obligatoria";
+        }
+
         $validator = \Validator::make($request->all(), $reglas, $msjs);
         if ($validator->fails())
         {

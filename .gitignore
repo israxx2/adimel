@@ -1,14 +1,14 @@
 ### Composer ###
-composer.phar
+### composer.phar ###
 
 ### Laravel ###
-/vendor
-/public/imageProducts
-node_modules/
-npm-debug.log
-.env
-.env.example
+###/vendor ###
+###/public/imageProducts ###
+###node_modules/ ###
+###npm-debug.log ###
+###.env ###
+###.env.example ###
 .gitignore
 
 # Storage
-app/storage/
+### app/storage/ ###

@@ -498,3 +498,11 @@ Route::get('prod', function () {
 	return 1;
 
 });
+
+
+Route::get('aaa', function() {
+	$users = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+	->take(20)
+	->get();
+	dd($users);
+});
