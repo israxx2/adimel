@@ -62,7 +62,7 @@ class LoginController extends Controller
         $msjs['login_rut.required'] = "El rut es obligatorio";
         $reglas['login_pw'] = 'required';
         $msjs['login_pw.required'] = "La contraseña es obligatoria.";
-        if(count($user) >= 1) {
+        if(count($user) > 1) {
             $reglas['dependencias'] = "required";
             $msjs['dependencias.required'] = "La sucursal es obligatoria";
         }
