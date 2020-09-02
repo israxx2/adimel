@@ -21,6 +21,9 @@
 <!-- funciones genericas -->
 <script src="{{ asset('adminlte/dist/js/generico.js') }}"></script>
 
+<!-- Toastr JS -->
+<script src="{{ asset('electro/js/toastr.min.js') }}"></script>
+
 <script src="{{ asset('js/dropzone.js') }}"></script>
 <script>
 	function unblockUI(){

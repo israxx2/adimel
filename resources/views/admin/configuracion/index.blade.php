@@ -23,7 +23,7 @@
 					<div class="card-header">
 						<h3 class="card-title">Editar Configuración</h3>
 					</div>
-					<form method="POST" action="{{ route('admin.configuracion.store') }}">
+					<form method="POST" action="{{ route('admin.configuracion.store') }}" id="form-config">
 						<div class="card-body">
 							@csrf
 							<div class="row">
@@ -84,16 +84,16 @@
 
 						</div>
 
-					
-					<div class="card-footer">
-						<div class="container-fluid">
-							<div class="row d-flex justify-content-center">
-								<div class="col-sm-4">
-									<button type="submit" class="btn btn-flat btn-primary btn-block">Registrar</button>
-								</div>
-							</div>								
+
+						<div class="card-footer">
+							<div class="container-fluid">
+								<div class="row d-flex justify-content-center">
+									<div class="col-sm-4">
+										<button type="submit" class="btn btn-flat btn-primary btn-block">Registrar</button>
+									</div>
+								</div>								
+							</div>
 						</div>
-					</div>
 					</form>
 				</div>
 
@@ -106,6 +106,21 @@
 
 
 @section('script')
+
+<script type="text/javascript">
+	$('#form-config').submit(function(event) {
+		$('button').attr('disabled', true);
+	})
+
+	@if(Session::has('success'))
+	toastr.success("{{ Session::get('success') }}", 'CONFIGURACIÓN', 
+	{
+		timeOut: 5000,
+		progressBar: true,
+		"positionClass": "toast-top-right",
+	});
+	@endif
+</script>
 
 
 @endsection

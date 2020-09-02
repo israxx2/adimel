@@ -58,23 +58,25 @@ class LoginController extends Controller
 
         $user = User::getDependencias($request->login_rut);
         //Valida
-        $reglas['login_rut'] = "required";
+        $reglas['login_rut']        = "required";
         $msjs['login_rut.required'] = "El rut es obligatorio";
-        $reglas['login_pw'] = 'required';
-        $msjs['login_pw.required'] = "La contraseña es obligatoria.";
-        if(count($user) > 1) {
-            $reglas['dependencias'] = "required";
-            $msjs['dependencias.required'] = "La sucursal es obligatoria";
-        }
+        $reglas['login_pw']         = 'required';
+        $msjs['login_pw.required']  = "La contraseña es obligatoria.";
 
+        if(count($user) > 1) {
+            $reglas['dependencias']         = "required";
+            $msjs['dependencias.required']  = "La sucursal es obligatoria";
+        } else {
+            $request->merge(['dependencias' => $user->first()->dep_cli_idn]);
+        }
         $validator = \Validator::make($request->all(), $reglas, $msjs);
         if ($validator->fails())
         {
-            $data['errors'] = response()->json(['errors'=>$validator->errors()]);
+            $data['errors'] = response()->json(['errors' => $validator->errors()]);
             return $data;
         }
         //Si se crea el guardia (si se loguea) .....
-        if (!Auth::guard('cliente')->attempt(['cli_idn' => $request->login_rut, 'password' => $request->login_pw], $request->filled('remember'))) {
+        if (!Auth::guard('cliente')->attempt(['dep_cli_idn' => $request->dependencias, 'password' => $request->login_pw], $request->filled('remember'))) {
 
             $data['errors'] = [
                 'original' => [

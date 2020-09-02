@@ -9,6 +9,7 @@
 ###.env ###
 ###.env.example ###
 .gitignore
-
+storage/
+public/imageProducts/
 # Storage
 ### app/storage/ ###

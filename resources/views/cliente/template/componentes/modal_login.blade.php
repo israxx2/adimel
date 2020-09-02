@@ -54,12 +54,13 @@
 
 		$('.rut').on("change", function(e) {
 			state.rut = $(this).val();
-			console.log("largo = " + state.rut.length);
+			console.log("largo = " + "string: " + state.rut.replace(/\./g,'').replace('-',''));
 			console.log(state.rut);
-			if(state.rut.length >= 11) {
+			console.log("string: " + state.rut.replace('.','').replace('-',''));
+			if(state.rut.length >= 9) {
 				$('#form-login btn-block').attr('disabled', true);
 				$.ajax({
-					url: '{{ route('api.get_dependencias') }}',
+					url: "{{ route('api.get_dependencias') }}",
 					type: 'POST',
 					dataType: 'JSON',
 					data: {
@@ -70,11 +71,11 @@
 				.done(function(data) {
 					console.log(data.dependencias);
 					if(data.status) {
-						if(data.dependencias.length >= 1) {
+						if(data.dependencias.length > 1) {
 							var html = "<option selected disabled>Seleccione una dependencia</option>";
 							$.each(data.dependencias, function(index, value) {
 								console.log(value);
-								html += '<option value='+value.dep_cli_idn+'>'+value.dep_cli_nombre+'</option>';
+								html += '<option value='+value.idn+'>'+value.nombre+'</option>';
 							});
 							$('#dependencias').empty().append(html);
 							$('#sucursal').show(400);

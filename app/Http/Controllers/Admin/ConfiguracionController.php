@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Session;
 use Illuminate\Support\Facades\Auth;
 use App\Configuracion;
 
@@ -60,6 +61,8 @@ class ConfiguracionController extends Controller
         $msj_inicio->titulo = $request->msj_inicio;
         $msj_inicio->modificado_por = $por;
         $msj_inicio->save();
+
+        Session::flash('success', 'Se ha modificado con éxito!');
 
         return redirect()->route('admin.configuracion.index');
     }

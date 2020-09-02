@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="{{ asset('adminlte/plugins/jquery_steps/jquery_steps.css') }}">
 <!-- Google Font: Source Sans Pro -->
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+<!-- Toastr JS -->
+<link rel="stylesheet" href="{{ asset('electro/css/toastr.min.css') }}">
 @endif
 
 @if($resourceLink == 'imagen')
@@ -34,4 +36,6 @@
 <link rel="stylesheet" href="{{ asset('adminlte/plugins/cropperjs/dist/cropper.css') }}">
 <!-- Google Font: Source Sans Pro -->
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+<!-- Toastr JS -->
+<link rel="stylesheet" href="{{ asset('electro/css/toastr.min.css') }}">
 @endif

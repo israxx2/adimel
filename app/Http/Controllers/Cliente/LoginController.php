@@ -47,6 +47,25 @@ class LoginController extends Controller
 		$data = array('status' => true, 'errors' => null, 'existe' => null);
 		//dd($request->input());
 		//Validación
+
+		$rut = User::convertirRut($request->rut);
+		$dependencias = User::getDependencias($rut);
+		
+		$cant_dep = count($dependencias);
+		
+		if($cant_dep == 0) {
+
+		} else if($cant_dep == 1) {
+			
+		} else {
+			if(count($user) > 1) {
+				$reglas['dependencias']         = "required";
+				$msjs['dependencias.required']  = "La sucursal es obligatoria";
+			} else {
+				$request->merge(['dependencias' => $user->first()->dep_cli_idn]);
+			}
+		}
+
 		$rut = $request->input('rut');
 		$reglas['rut'] = "required";
 		$msjs['rut.required'] = "El rut es obligatorio";
@@ -82,6 +101,10 @@ class LoginController extends Controller
 		$msjs['pw.required'] = "La contraseña es obligatoria.";
 		$msjs['pw.confirmed'] = "Las contraseñas no coinciden.";
 		$msjs['pw.min'] = "La contraseña debe tener mas de 5 caracteres";
+
+		if($cant_dep > 0) {
+			
+		}
 
 		$validator = \Validator::make($request->all(), $reglas, $msjs);
 		if ($validator->fails())
@@ -171,12 +194,12 @@ class LoginController extends Controller
 
 				DB::table('web_despacho')->insert(
 					['dep_cli_idn' 		=> strval($id_dep_del_cli),
-					 'seg_div_pol_idn' 	=> $request->id_ciudad,
-					 'direccion' 		=> $request->direccion,
-					 'numero'			=> $request->numero,
-					 'telefono'			=> $request->telefono
-					]
-				);
+					'seg_div_pol_idn' 	=> $request->id_ciudad,
+					'direccion' 		=> $request->direccion,
+					'numero'			=> $request->numero,
+					'telefono'			=> $request->telefono
+				]
+			);
 
 				DB::table('CORRELATIVOS')
 				->where('corre_idn', 1042)

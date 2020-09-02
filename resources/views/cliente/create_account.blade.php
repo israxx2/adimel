@@ -21,6 +21,11 @@
 								<label>RUT</label>
 								<input class="mb-0 rut" type="text" name="rut" id="rut" placeholder="">
 							</div>
+							<div id="sucursal" name="sucursal" class="col-md-12 col-12 mb-20 form-group" style="display: none;">
+								<label>Sucursal</label>
+								<select class="mi_select" name="dependencias" id="dependencias">
+								</select>
+							</div>
 							<br>
 							<div class="form-group col-md-6 col-md-offset-4 col-12 mb-20">
 								<label>Nombre</label>
@@ -44,7 +49,7 @@
 								<label>Region</label>
 								<select class="mi_select " name="id_region" id="id_region" onchange="changeRegion(this)">
 									@foreach($regiones as $r)
-										<option value="{{ $r->div_pol_idn }}">{!! ucwords(strtolower(htmlentities($r->div_pol_nombre))) !!}</option>
+									<option value="{{ $r->div_pol_idn }}">{!! ucwords(strtolower(htmlentities($r->div_pol_nombre))) !!}</option>
 									@endforeach
 								</select>
 							</div>
@@ -97,22 +102,24 @@
 
 
 <style>
-	.mi_select{
-		width: 100%;
-		background-color:transparent;
-		border: 1px solid #999999;
-		border-radius: 0;
-		line-height: 23px;
-		padding: 10px 20px;
-		font-size: 14px;
-		height: 45px;
-		color:#7a7a7a;
-		margin-bottom: 15px;
+.mi_select{
+	width: 100%;
+	background-color:transparent;
+	border: 1px solid #999999;
+	border-radius: 0;
+	line-height: 23px;
+	padding: 10px 20px;
+	font-size: 14px;
+	height: 45px;
+	color:#7a7a7a;
+	margin-bottom: 15px;
 }
 </style>
 @section('script')
 <script type="text/javascript">
-
+	var state = {
+		"rut": null
+	}
 	function changeRegion(e){
 		let id_region= e.value
 		url = '{{ route("api.ciudades", ["id_region" => ":id_region"]) }}'
@@ -141,11 +148,102 @@
 
 	}
 
+	jQuery(document).ready(function($) {
+		$('#rut').on("change", function(e) {
+			console.log("entroo");
+			state.rut = $(this).val();
+			console.log("largo = " + "string: " + state.rut.replace(/\./g,'').replace('-',''));
+			console.log(state.rut);
+			console.log("string: " + state.rut.replace('.','').replace('-',''));
+			if(state.rut.length >= 9) {
+				$('#form-create-account btn-primary').attr('disabled', true);
+				$.ajax({
+					url: "{{ route('api.get_dependencias') }}",
+					type: 'POST',
+					dataType: 'JSON',
+					data: {
+						"_token": "{{ csrf_token() }}",
+						"rut": state.rut
+					},
+				})
+				.done(function(data) {
+					console.log(data);
+					if(data.status) {
+						if(data.dependencias.length == 0) {
+							//Sin cuenta creada
+							console.log("sin cuenta creada");
+							$('#sucursal').hide('fast');
+							$('#nombre').attr('disabled', false);
+							$('#apellidos').attr('disabled', false);
+							$('#email').attr('disabled', false);
+							$('#telefono').attr('disabled', false);
+							$('#id_region').attr('disabled', false);
+							$('#id_ciudad').attr('disabled', false);
+							$('#direccion').attr('disabled', false);
+							$('#pw').attr('disabled', false);
+							$('#pw_confirmation').attr('disabled', false);
+						} else {
+							if((data.dependencias.length - data.count_web) == 1) {
+								console.log("Solo una sucursal sin asignar contraseña");
+								//Solo una sucursal sin asignar contraseña
+								var usu = data.dependencias[0];
+								console.log(usu.nombre);
+								$('#nombre').val(usu.nombre);
+								$('#nombre').attr('disabled', true);
+								$('#apellidos').attr('disabled', true);
+								//agregar mas campos de interes
+							} else if((data.dependencias.length - data.count_web) == 0) {
+								console.log("el rut ya está en uso");
+							} else {
+								//Mas de una sucursal sin asignar contraseña
+								console.log("Mas de una sucursal sin asignar contraseña");
+								var html = "<option selected disabled>Seleccione una dependencia</option>";
+								$.each(data.dependencias, function(index, value) {
+									console.log(value);
+									html += '<option value='+value.dep_cli_idn+'>'+value.dep_cli_nombre+'</option>';
+								});
+								$('#dependencias').empty().append(html);								
+								
+								$('#sucursal').show('fast');
+								$('#nombre').attr('disabled', true);
+								$('#apellidos').attr('disabled', true);
+								$('#email').attr('disabled', true);
+								$('#telefono').attr('disabled', true);
+								$('#id_region').attr('disabled', true);
+								$('#id_ciudad').attr('disabled', true);
+								$('#direccion').attr('disabled', true);
+								$('#pw').attr('disabled', true);
+								$('#pw_confirmation').attr('disabled', true);
+							}
+						}
+					}
+				})
+				.fail(function(data) {
+					console.log(data);
+				}).always(function() {
+					$('#form-create-account btn-primary').attr('disabled', false);
+				});
+
+			} else {
+				$('#sucursal').hide(400);
+			}
+		}); 
+	});
+
 
 	$('#form-create-account').submit(function(event) {
 		event.preventDefault();
 		$form = $(this);
 
+		var nombre = $('#nombre').val();
+		var apellidos = $('#apellidos').val();
+		var email = $('#email').val();
+		var telefono = $('#telefono').val();
+		var id_region = $('#id_region').val();
+		var id_ciudad = $('#id_ciudad').val();
+		var direccion = $('#direccion').val();
+		var pw = $('#pw').val();
+		var pw_confirmation = $('#pw_confirmation').val();
 		//$('.is-invalid').removeClass('is-invalid');
 		//$('.text-error').text("");
 		//$('.register-button').attr("disabled", true);
@@ -157,7 +255,17 @@
 			url: '{{ route("cliente.create_account.store") }}',
 			type: 'POST',
 			dataType: 'JSON',
-			data: serializedData,
+			data: {
+				nombre: nombre,
+				apellidos: apellidos,
+				email: email,
+				telefono: telefono,
+				id_region: id_region,
+				id_ciudad: id_ciudad,
+				direccion: direccion,
+				pw: pw,
+				pw_confirmation: pw_confirmation
+			},
 		})
 		.done(function(data) {
 			//console.log(data);

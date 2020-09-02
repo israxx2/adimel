@@ -84,23 +84,11 @@ Route::group(['prefix' => 'adimel'], function(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //////////////////////
 //// Rutas test //////
 //////////////////////
 Route::get('/test', function () {
-
+	dd(Auth::guard('cliente')->user());
 	$dep = DB::table('DEPENDENCIAS_DEL_CLIENTE')
 	->where('cli_idn', '19105900-K')
 	->get();
@@ -193,7 +181,9 @@ Route::get('/asd', function() {
 
 Route::get('/asdf', function() {
 
+	$a = Funcionario::all();
 
+	dd($a);
 	
 	
 	$iva = DB::table('IVA')->where('iva_activo', 1)->first();
@@ -502,7 +492,7 @@ Route::get('prod', function () {
 
 Route::get('aaa', function() {
 	$users = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-	->take(20)
+	->take(55)
 	->get();
 	dd($users);
 });

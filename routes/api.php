@@ -62,18 +62,27 @@ Route::post('get_dependencias', function(Request $request) {
 	$data = ['dependencias' => array(), 'status' => TRUE, 'error' => null];
 	if($request->ajax()) {
 		$rut = User::convertirRut($request->rut);
+		$contador = 0;
+		$contador_web = 0;
 		if($dependencias = User::getDependencias($rut)) {
 			foreach($dependencias as $dep) {
-				$aux = array();
-				$aux['dep_cli_idn'] 	= $dep->dep_cli_idn;
-				$aux['cli_idn'] 		= $dep->cli_idn;
-				$aux['cli_giro'] 		= $dep->cli_giro;
-				$aux['dep_cli_ciudad'] 	= $dep->dep_cli_ciudad;
-				$aux['dep_cli_email'] 	= $dep->dep_cli_email;
-				$aux['dep_cli_nombre'] 	= $dep->dep_cli_nombre;
-				$aux['dep_cli_web'] 	= $dep->dep_cli_web;
-				$data['dependencias'][]	= $aux;
+				if($dep->dep_cli_web) {
+					$aux = array();
+					$aux['idn'] 		= $dep->dep_cli_idn;
+					$aux['cli_idn'] 	= $dep->cli_idn;
+					$aux['giro'] 		= $dep->cli_giro;
+					$aux['ciudad'] 		= $dep->dep_cli_ciudad;
+					$aux['email'] 		= $dep->dep_cli_email;
+					$aux['nombre'] 		= $dep->dep_cli_nombre;
+					$aux['web'] 		= $dep->dep_cli_web;
+					$data['dependencias'][]	= $aux;
+					if($aux['web'] == 1) $contador++;					
+				}				
 			}
+			$data['count_web'] = $contador;
+			// if($contador == 0) {
+			// 	$data['status'] = FALSE;
+			// }
 			//$data['dependencias'] = $dependencias;
 		} else {
 			$data['status'] = FALSE;
