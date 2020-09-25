@@ -7,7 +7,7 @@
 				<div class="logo pb-sm-30 pb-xs-30">
 					<a href="/">
 						<center>
-							<img src="{{ asset('logo_adimel4.jpg') }}" style="height: 70px;"  alt="logo adimel">
+							<img src="{{ asset('logo adimel04-09-2020.png') }}" style="height: 70px;"  alt="logo adimel">
 						</center>
 					</a>
 				</div>

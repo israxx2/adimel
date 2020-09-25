@@ -1,3 +1,15 @@
+ALTER TABLE FUNCIONARIOS
+ADD password VARCHAR(127);
+
+ALTER TABLE DEPENDENCIAS_DEL_CLIENTE
+ADD password VARCHAR(127),
+dep_cli_email VARCHAR(100),
+dep_cli_web VARCHAR(100),
+dep_cli_usuario_web VARCHAR(100)
+
+ALTER TABLE CLIENTE
+ADD tipo varchar(100);
+
 CREATE TABLE web_despacho (
 	desp_idn int IDENTITY(1,1) PRIMARY KEY,
     dep_cli_idn varchar(10) NOT NULL,
@@ -26,16 +38,12 @@ CREATE TABLE web_carrito (
 	cantidad int,
 	created_at date DEFAULT getdate(),
 	updated_at date,
-	estado int default 1
+	estado int default 1,
+	pro_idn varchar(50),
+	pro_aux varchar(25)
 );
 
-alter table web_carrito
-add pro_idn varchar(50),
-pro_aux varchar(25);
 
-
-ALTER TABLE CLIENTE
-ADD tipo varchar(100);
 
 -generar nuevas direcciones
 -efectuar compra, generar algo?
