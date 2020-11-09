@@ -60,7 +60,7 @@ class Cliente extends Authenticatable
     
     public function getDirecciones()
     {
-       
+
 
         $direcciones = DB::table('DEPENDENCIAS_DEL_CLIENTE')
         ->where('cli_idn',  $this->cli_idn)

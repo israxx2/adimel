@@ -51,31 +51,51 @@ class LoginController extends Controller
 
     public function clienteLogin(Request $request)
     {
-        $data = array('status' => true, 'errors' => null);
+        $data = array('status' => true, 'errors' => null, 'existe' => false);
         //Le quita los puntos y deja todo mayusculas el rut:
         //Ej: 19.105.900-k -> 19105900-K
-        $request->merge(['login_rut' => strtoupper(str_replace('.', '', $request->login_rut))]);
+        $request->merge(['login_rut' => User::convertirRut($request->login_rut)]);
+        $dependencias = User::getDependencias($request->login_rut);
+        $count_web = 0;
 
-        $user = User::getDependencias($request->login_rut);
-        //Valida
+        foreach($dependencias as $dep) {
+            if(!is_null($dep->password)) $count_web++;
+        }
+
+        if($count_web == 0) {
+            $data['existe'] = false;
+            return $data;
+        }
+            
+        /**************************************
+        *           VALIDACIÓN
+        **************************************/
+
         $reglas['login_rut']        = "required";
         $msjs['login_rut.required'] = "El rut es obligatorio";
+
         $reglas['login_pw']         = 'required';
         $msjs['login_pw.required']  = "La contraseña es obligatoria.";
 
-        if(count($user) > 1) {
+        if($count_web > 1) {
             $reglas['dependencias']         = "required";
             $msjs['dependencias.required']  = "La sucursal es obligatoria";
         } else {
-            $request->merge(['dependencias' => $user->first()->dep_cli_idn]);
+            $request->merge(['dependencias' => $dependencias->first()->dep_cli_idn]);
         }
+
         $validator = \Validator::make($request->all(), $reglas, $msjs);
         if ($validator->fails())
         {
             $data['errors'] = response()->json(['errors' => $validator->errors()]);
             return $data;
         }
-        //Si se crea el guardia (si se loguea) .....
+
+        /**************************************
+        *           LOGEAR CLIENTE
+        **************************************/
+
+        //Se intenta logear usuario
         if (!Auth::guard('cliente')->attempt(['dep_cli_idn' => $request->dependencias, 'password' => $request->login_pw], $request->filled('remember'))) {
 
             $data['errors'] = [

@@ -43,38 +43,27 @@ class LoginController extends Controller
 	}
 
 	public function storeCreateAccount(Request $request)
-	{				
-		$data = array('status' => true, 'errors' => null, 'existe' => null);
-		//dd($request->input());
-		//Validación
-
+	{
+		$data = array('status' => true, 'errors' => null, 'existe' => false, 'count' => null);
 		$rut = User::convertirRut($request->rut);
-		$dependencias = User::getDependencias($rut);
-		
-		$cant_dep = count($dependencias);
-		
-		if($cant_dep == 0) {
 
-		} else if($cant_dep == 1) {
-			
-		} else {
-			if(count($user) > 1) {
-				$reglas['dependencias']         = "required";
-				$msjs['dependencias.required']  = "La sucursal es obligatoria";
-			} else {
-				$request->merge(['dependencias' => $user->first()->dep_cli_idn]);
-			}
+		//Busca las dependencias del usuario
+		$dependencias = User::getDependencias($rut);
+
+		$count = count($dependencias);
+		$count_web = 0;
+		$data['count'] = $count;
+
+		foreach($dependencias as $dep) {
+			if(!is_null($dep->password)) $count_web++;
 		}
 
+		/**************************************
+		*			VALIDACIÓN
+		**************************************/
 		$rut = $request->input('rut');
 		$reglas['rut'] = "required";
 		$msjs['rut.required'] = "El rut es obligatorio";
-
-		$reglas['nombre'] = "required";
-		$msjs['nombre.required'] = "El nombre es obligatorio.";
-
-		$reglas['apellidos'] = "required";
-		$msjs['apellidos.required'] = "Los apellidos son obligatorios.";
 
 		$reglas['email'] = "required";
 		$msjs['email.required'] = "El E-mail es obligatorio.";
@@ -102,8 +91,15 @@ class LoginController extends Controller
 		$msjs['pw.confirmed'] = "Las contraseñas no coinciden.";
 		$msjs['pw.min'] = "La contraseña debe tener mas de 5 caracteres";
 
-		if($cant_dep > 0) {
-			
+		//Si tiene mas de una el cliente debe seleccionar cuál desea usar
+		if($count > 0 && ($count - $count_web) > 0) {
+			$reglas['dependencias']         = "required";
+			$msjs['dependencias.required']  = "La sucursal es obligatoria";
+		} else {
+			$reglas['nombre'] = "required";
+			$msjs['nombre.required'] = "El nombre es obligatorio.";
+			$reglas['apellidos'] = "required";
+			$msjs['apellidos.required'] = "Los apellidos son obligatorios.";
 		}
 
 		$validator = \Validator::make($request->all(), $reglas, $msjs);
@@ -113,116 +109,58 @@ class LoginController extends Controller
 			return $data;
 		}
 
-		
-    	//Se busca al cliente x si existe
-		$cliente = DB::table('CLIENTE')
-		->where('cli_rut', $request->rut)->first();
+		/**************************************
+		*			INGRESAR CLIENTE
+		**************************************/
 
-		DB::beginTransaction();
-		try {
+		//Si el usuario no tiene dependencias se crea la dependencia
+		if($count == 0) {
 
+			$cliente = new User();
 
-
-			//SI EL CLIENTE YA EXISTE....
-			if($cliente) {
-				$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-				->where('cli_idn', $cliente->cli_idn)->first();
-
-				//YA TIENE CONTRASEÑA.....
-				if($user->password) {
-					$data['existe'] = 'El usuario con ese rut ya posee una cuenta.';
-				} else {
-					$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
-					->where('cli_idn', $cliente->cli_idn)
-					->update(['password' => bcrypt($request->pw)]);
-					$data['existe'] = 'Se ha asignado una contraseña con exito.';
-				}
-
-
-
-
-
-
-
-
-
-			//SI NO EXISTE....
+			//Si el usuario no existe se crea
+			if(!User::existe($rut)){
+				$cliente->dep_cli_nombre	= $request->nombre.' '.$request->apellidos;
+				$cliente->cli_rut 			= $request->rut;
+				$cliente->saveCliente();
 			} else {
-				// $id_cliente = DB::table('CORRELATIVOS')
-				// ->where('corre_idn', 1042)->first()->corre_correlativo + 1;
-
-				//dd($id_cliente); 1217
-				//$id_dep_del_cli = DB::table('CORRELATIVOS')
-				//->where('corre_idn', 1043)->first()->corre_correlativo + 1;
-
-				DB::table('CLIENTE')->insert(
-					['cli_idn' 			=>  strtoupper(str_replace('.', '', $request->rut)), //strval($id_cliente),
-					'cli_rut' 			=> strtoupper($request->rut),
-					'cli_razon_social' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
-					'tipo' 			=> "PARTICULAR",
-					'cli_traslado' 		=> 0]
-				);
-
-				DB::table('DEPENDENCIAS_DEL_CLIENTE')->insert(
-					['dep_cli_idn' 		=> strval($id_dep_del_cli),
-					'cli_idn' 			=> strtoupper(str_replace('.', '', $request->rut)),
-					'dep_cli_nombre' 	=> strtoupper($request->nombre).' '.strtoupper($request->apellidos),
-					'cli_giro' 			=> "PARTICULAR",
-					//'dep_cli_direccion' => " ",
-					'seg_div_pol_idn' => $request->id_ciudad,
-					//'dep_cli_fono' => " ",
-					//'dep_cli_fax' => " ",
-					//'dep_cli_casilla' => " ",
-					//'dep_cli_enc_atencion' => " ",
-					'cat_idn' => "99", 
-					'zon_idn' => "100",
-					'dep_cli_descuento' => "0",
-					'ven_idn' => "N",
-					'dep_cli_email' => strtoupper($request->email),
-					'dep_cli_web' => "1",
-					'por_uti_idn' => "1",
-					'dep_cli_estado' => "1",
-					//'dep_cli_monaut' => " ",
-					'pla_pag_idn' => "100",
-					'for_pag_idn' => "1",
-					//1'dep_cli_saldo_favor' => " ",
-					//'dep_cli_ciudad' => " ",
-					//'dep_plazo_pago' => " ",
-					//'dep_cli_usuario_web' => " ",
-					'password' => bcrypt($request->pw)
-				]);
-
-				DB::table('web_despacho')->insert(
-					['dep_cli_idn' 		=> strval($id_dep_del_cli),
-					'seg_div_pol_idn' 	=> $request->id_ciudad,
-					'direccion' 		=> $request->direccion,
-					'numero'			=> $request->numero,
-					'telefono'			=> $request->telefono
-				]
-			);
-
-				DB::table('CORRELATIVOS')
-				->where('corre_idn', 1042)
-				->update(['corre_correlativo' => $id_cliente]);
-
-				$b = DB::table('CORRELATIVOS')
-				->where('corre_idn', 1043)
-				->update(['corre_correlativo' => $id_dep_del_cli]);
-				//CORRELATIVO ID DEPENDENCIAS_DEL_CLIENTE,,, corre_correlativo
-				//detalle_orden_de_venta_agrega
-				//atributo tipo en cliente
-				//orden de venta
-				//dd("todo ok");
-
-				
+				//Retorna atributos de relación tabla CLIENTE
+				$cliente->getCliente($rut);
 			}
+			$cliente->dep_cli_direccion	= $request->direccion;
+			$cliente->seg_div_pol_idn	= $request->id_ciudad;
+			$cliente->dep_cli_fono		= $request->telefono;
+			$cliente->cat_idn			= '99';
+			$cliente->zon_idn			= '100';
+			$cliente->dep_cli_descuento = "0";
+			$cliente->ven_idn 			= "N";
+			$cliente->dep_cli_estado	= '1';
+			$cliente->dep_cli_email		= $request->email;
+			$cliente->dep_cli_web		= '1';
+			$cliente->por_uti_idn		= '1';
+			$cliente->pla_pag_idn		= '100';
+			$cliente->for_pag_idn		= '1';
+			$cliente->password			= bcrypt($request->pw);
 			
-		} catch (\Exception $e) {
-			$data['status'] = false;
-			DB::rollBack();
-			return $data;
+			$cliente->saveDependenciasDelCliente();
 		}
-		DB::commit();
+
+		//Si tiene 1 dependencia se le asigna a esta misma la cuenta
+		else if($count - $count_web > 0) {
+			$cliente = User::find($request->dependencias);
+			
+			$cliente->password 			= bcrypt($request->pw);
+			$cliente->dep_cli_direccion	= $request->direccion;
+			$cliente->dep_cli_email		= strtoupper($request->email);
+			$cliente->seg_div_pol_idn	= $request->id_ciudad;
+			$cliente->dep_cli_fono		= $request->telefono;
+			$cliente->dep_cli_web 		= "1";
+
+			$cliente->save();
+		} else {
+			$data['existe'] = true;
+			$cliente = "todas sus dependencias tienen clave";
+		}
 
 		return $data;
 	}

@@ -180,6 +180,57 @@ Route::get('/asd', function() {
 });
 
 Route::get('/asdf', function() {
+	// $id = DB::table('CORRELATIVOS')
+ //            ->where('corre_idn', 1043)->first()->corre_correlativo;
+
+	$user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+				->where('dep_cli_idn', '153884')
+                ->get();
+
+    // $user = DB::table('CLIENTE')
+				// ->where('cli_idn', '61202000-0')
+    //             ->get();
+
+    dd($user);
+
+    //10340314-6 1224 153879
+    //14586326-0 1225 153880
+    //12380837-1 1226 153881
+    //7690908-3  1227 153882
+
+    //61202000-0 61202000-0  1436 Mop Direccion De Vialidad
+
+	//14547809-K 14547809-K  2267
+	//14547809-K 14547809-K  2716
+	//1217
+    //61202000-0
+
+    //9162614-4 asdqwe123
+
+
+    // $user = DB::table('DEPENDENCIAS_DEL_CLIENTE')
+    // 			->select('cli_idn', DB::raw('count(*) AS Recuento'))
+    // 			->groupBy('cli_idn')
+    // 			->havingRaw('count(*) = ?', [2])
+    // 			->take(20)
+    //             ->get();
+
+    
+
+	// $user = DB::table('CLIENTE')
+ //    			->where('cli_idn', '1217')
+ //                ->get();                
+                //yo 1217
+	// $id = DB::table('CORRELATIVOS')
+	// ->where('corre_descripcion', 'DEPENDENCIAS_DEL_CLIENTE')->first();
+
+	dd($user); 
+
+	//1042
+
+	//Muchas dependencias: 61202000-0
+	//1 dependencia con cuenta: 19105900-k
+	//1 dependencia sin cuenta: 76.261.739-0
 
 	$a = Funcionario::all();
 

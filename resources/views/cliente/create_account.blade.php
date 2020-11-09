@@ -75,10 +75,10 @@
 							</div>
 							<div class="form-group col-md-6 mb-20">
 								<label>Confirmar Contraseña</label>
-								<input class="mb-0" type="password" name="pw_confirmation" placeholder="Confirmar Contraseña">
+								<input class="mb-0" type="password" name="pw_confirmation" id="pw_confirmation" placeholder="Confirmar Contraseña">
 							</div>
 							<div class="col-12">
-								<button class="register-button mt-0">Registrar</button>
+								<button class="register-button mt-0" id="btn-registrar">Registrar</button>
 							</div>
 						</div>
 					</div>
@@ -150,12 +150,30 @@
 
 	jQuery(document).ready(function($) {
 		$('#rut').on("change", function(e) {
-			console.log("entroo");
-			state.rut = $(this).val();
-			console.log("largo = " + "string: " + state.rut.replace(/\./g,'').replace('-',''));
-			console.log(state.rut);
-			console.log("string: " + state.rut.replace('.','').replace('-',''));
-			if(state.rut.length >= 9) {
+
+			$('.has-error').removeClass('has-error');
+			$('.text-error').remove();
+			$('.mi_select').css('border', '1px solid #999999');
+			let rut = this.value.replace(/\./g, '').replace('-', '');
+
+			if (rut.match(/^(\d{2})(\d{3}){2}(\w{1})$/)) {
+				rut = rut.replace(/^(\d{2})(\d{3})(\d{3})(\w{1})$/, '$1.$2.$3-$4');
+			}
+			else if (rut.match(/^(\d)(\d{3}){2}(\w{0,1})$/)) {
+				rut = rut.replace(/^(\d)(\d{3})(\d{3})(\w{0,1})$/, '$1.$2.$3-$4');
+			}
+			else if (rut.match(/^(\d)(\d{3})(\d{0,2})$/)) {
+				rut = rut.replace(/^(\d)(\d{3})(\d{0,2})$/, '$1.$2.$3');
+			}
+			else if (rut.match(/^(\d)(\d{0,2})$/)) {
+				rut = rut.replace(/^(\d)(\d{0,2})$/, '$1.$2');
+			}
+			console.log("rut: " + rut);
+
+
+			state.rut = rut;
+
+			if(state.rut.length >= 11) {
 				$('#form-create-account btn-primary').attr('disabled', true);
 				$.ajax({
 					url: "{{ route('api.get_dependencias') }}",
@@ -169,59 +187,70 @@
 				.done(function(data) {
 					console.log(data);
 					if(data.status) {
+						//No hay ninguna dependencia
 						if(data.dependencias.length == 0) {
-							//Sin cuenta creada
-							console.log("sin cuenta creada");
-							$('#sucursal').hide('fast');
-							$('#nombre').attr('disabled', false);
-							$('#apellidos').attr('disabled', false);
+
+							//Si ya todas las dependencias tienen claves
+							if(data.count > 0 && (data.count - data.count_web) == 0) {
+								toastr.error('El rut ya está en uso', 'Lo sentimos', 
+								{
+									timeOut: 5000,
+									progressBar: true,
+									"positionClass": "toast-top-right",
+								});
+								$form_group = $('.rut-f');
+								$form_group.addClass('has-error');
+								var html = '<p class="text-error">El rut ya está en uso!</p>';
+								$form_group.append(html);
+							}
+							else {
+								console.log("sin cuenta creada");
+								$('#sucursal').hide('fast');
+								$('#nombre').attr('disabled', false);
+								$('#apellidos').attr('disabled', false);
+								$('#email').attr('disabled', false);
+								$('#telefono').attr('disabled', false);
+								$('#id_region').attr('disabled', false);
+								$('#id_ciudad').attr('disabled', false);
+								$('#direccion').attr('disabled', false);
+								$('#numero').attr('disabled', false);
+								$('#pw').attr('disabled', false);
+								$('#pw_confirmation').attr('disabled', false);
+							}
+
+						} 
+						//Hay dependencia/s sin asignar
+						else {
+							var html = "<option selected disabled>Seleccione una dependencia</option>";
+							$.each(data.dependencias, function(index, value) {
+								console.log(value);
+								html += '<option value='+value.idn+'>'+value.nombre+'</option>';
+							});
+							$('#dependencias').empty().append(html);
+
+							$('#sucursal').show('fast');
+							$('#nombre').val('').attr('disabled', true);
+							$('#apellidos').val('').attr('disabled', true);
 							$('#email').attr('disabled', false);
 							$('#telefono').attr('disabled', false);
 							$('#id_region').attr('disabled', false);
 							$('#id_ciudad').attr('disabled', false);
 							$('#direccion').attr('disabled', false);
+							$('#numero').attr('disabled', false);
 							$('#pw').attr('disabled', false);
 							$('#pw_confirmation').attr('disabled', false);
-						} else {
-							if((data.dependencias.length - data.count_web) == 1) {
-								console.log("Solo una sucursal sin asignar contraseña");
-								//Solo una sucursal sin asignar contraseña
-								var usu = data.dependencias[0];
-								console.log(usu.nombre);
-								$('#nombre').val(usu.nombre);
-								$('#nombre').attr('disabled', true);
-								$('#apellidos').attr('disabled', true);
-								//agregar mas campos de interes
-							} else if((data.dependencias.length - data.count_web) == 0) {
-								console.log("el rut ya está en uso");
-							} else {
-								//Mas de una sucursal sin asignar contraseña
-								console.log("Mas de una sucursal sin asignar contraseña");
-								var html = "<option selected disabled>Seleccione una dependencia</option>";
-								$.each(data.dependencias, function(index, value) {
-									console.log(value);
-									html += '<option value='+value.dep_cli_idn+'>'+value.dep_cli_nombre+'</option>';
-								});
-								$('#dependencias').empty().append(html);								
-								
-								$('#sucursal').show('fast');
-								$('#nombre').attr('disabled', true);
-								$('#apellidos').attr('disabled', true);
-								$('#email').attr('disabled', true);
-								$('#telefono').attr('disabled', true);
-								$('#id_region').attr('disabled', true);
-								$('#id_ciudad').attr('disabled', true);
-								$('#direccion').attr('disabled', true);
-								$('#pw').attr('disabled', true);
-								$('#pw_confirmation').attr('disabled', true);
-							}
+
 						}
 					}
 				})
 				.fail(function(data) {
-					console.log(data);
-				}).always(function() {
-					$('#form-create-account btn-primary').attr('disabled', false);
+					toastr.error('Ha ocurrido un error inesperado. Por favor, actualice la página.', 'Lo sentimos', 
+					{
+						timeOut: 5000,
+						progressBar: true,
+						"positionClass": "toast-top-right",
+					});
+					$('#btn-registrar').attr('disabled', true);
 				});
 
 			} else {
@@ -230,42 +259,22 @@
 		}); 
 	});
 
+	$('#sucursal').on('change', function() {
+		$('#nombre').val($("#sucursal option:selected").text());
+	});
+
 
 	$('#form-create-account').submit(function(event) {
 		event.preventDefault();
 		$form = $(this);
-
-		var nombre = $('#nombre').val();
-		var apellidos = $('#apellidos').val();
-		var email = $('#email').val();
-		var telefono = $('#telefono').val();
-		var id_region = $('#id_region').val();
-		var id_ciudad = $('#id_ciudad').val();
-		var direccion = $('#direccion').val();
-		var pw = $('#pw').val();
-		var pw_confirmation = $('#pw_confirmation').val();
-		//$('.is-invalid').removeClass('is-invalid');
-		//$('.text-error').text("");
-		//$('.register-button').attr("disabled", true);
 		$('.register-button').attr("disabled", true);
 		var $inputs = $form.find("input,select");
 
-		var serializedData = $inputs.serialize();
 		$.ajax({
 			url: '{{ route("cliente.create_account.store") }}',
 			type: 'POST',
 			dataType: 'JSON',
-			data: {
-				nombre: nombre,
-				apellidos: apellidos,
-				email: email,
-				telefono: telefono,
-				id_region: id_region,
-				id_ciudad: id_ciudad,
-				direccion: direccion,
-				pw: pw,
-				pw_confirmation: pw_confirmation
-			},
+			data: $form.serialize(),
 		})
 		.done(function(data) {
 			//console.log(data);
@@ -294,7 +303,7 @@
 							progressBar: true,
 							"positionClass": "toast-top-right",
 						});
-						var html = "<br><br><h4>Cuenta creada con éxito!</h4><h5>Ahora puedes iniciar sesión para comprar en Adimel</h5>"
+						var html = "<br><br><h4>Cuenta creada con éxito!</h4><h5>Ahora puedes iniciar sesión comprar en Adimel</h5>"
 						var div = $("#form-create-account").parent();
 						$("#form-create-account").remove();
 						div.append(html);

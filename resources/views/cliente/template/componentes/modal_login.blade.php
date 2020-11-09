@@ -16,9 +16,9 @@
 										<label>RUT</label>
 										<input class="mb-0 form-control rut" type="text" name="login_rut" id="login_rut" placeholder="">
 									</div>
-									<div id="sucursal" name="sucursal" class="col-md-12 col-12 mb-20 form-group" style="display: none;">
+									<div id="login_sucursal" class="col-md-12 col-12 mb-20 form-group" style="display: none;">
 										<label>Sucursal</label>
-										<select class="mi_select" name="dependencias" id="dependencias">
+										<select class="mi_select" name="dependencias" id="login_dependencias">
 										</select>
 									</div>
 									<div class="col-12 mb-20 form-group">
@@ -52,24 +52,38 @@
 			"rut": null
 		}
 
-		$('.rut').on("change", function(e) {
-			state.rut = $(this).val();
-			console.log("largo = " + "string: " + state.rut.replace(/\./g,'').replace('-',''));
-			console.log(state.rut);
-			console.log("string: " + state.rut.replace('.','').replace('-',''));
-			if(state.rut.length >= 9) {
+		$('#login_rut').on("change", function(e) {
+			console.log("cambio la lesera");
+			let rut = this.value.replace(/\./g, '').replace('-', '');
+
+			if (rut.match(/^(\d{2})(\d{3}){2}(\w{1})$/)) {
+				rut = rut.replace(/^(\d{2})(\d{3})(\d{3})(\w{1})$/, '$1.$2.$3-$4');
+			}
+			else if (rut.match(/^(\d)(\d{3}){2}(\w{0,1})$/)) {
+				rut = rut.replace(/^(\d)(\d{3})(\d{3})(\w{0,1})$/, '$1.$2.$3-$4');
+			}
+			else if (rut.match(/^(\d)(\d{3})(\d{0,2})$/)) {
+				rut = rut.replace(/^(\d)(\d{3})(\d{0,2})$/, '$1.$2.$3');
+			}
+			else if (rut.match(/^(\d)(\d{0,2})$/)) {
+				rut = rut.replace(/^(\d)(\d{0,2})$/, '$1.$2');
+			}
+			console.log("rut: " + rut);
+
+			if(rut.length >= 11) {
+				console.log("entrooo");
 				$('#form-login btn-block').attr('disabled', true);
 				$.ajax({
-					url: "{{ route('api.get_dependencias') }}",
+					url: "{{ route('api.get_dependencias_web') }}",
 					type: 'POST',
 					dataType: 'JSON',
 					data: {
 						"_token": "{{ csrf_token() }}",
-						"rut": state.rut
+						"rut": rut
 					},
 				})
 				.done(function(data) {
-					console.log(data.dependencias);
+					console.log(data);
 					if(data.status) {
 						if(data.dependencias.length > 1) {
 							var html = "<option selected disabled>Seleccione una dependencia</option>";
@@ -77,12 +91,12 @@
 								console.log(value);
 								html += '<option value='+value.idn+'>'+value.nombre+'</option>';
 							});
-							$('#dependencias').empty().append(html);
-							$('#sucursal').show(400);
+							$('#login_dependencias').empty().append(html);
+							$('#login_sucursal').show(400);
 
 						} else {
-							$('#sucursal').hide(400);
-							$('#dependencias option').empty();
+							$('#login_sucursal').hide(400);
+							$('#login_dependencias option').empty();
 						}
 					}
 				})
