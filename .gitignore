@@ -11,5 +11,6 @@
 .gitignore
 storage/
 public/imageProducts/
+.env
 # Storage
 ### app/storage/ ###
