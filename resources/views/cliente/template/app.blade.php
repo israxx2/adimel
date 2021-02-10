@@ -19,16 +19,16 @@
         <header>
             @include('cliente.template.componentes.header_middle')
             @include('cliente.template.componentes.header_bottom')
-                <!-- Begin Mobile Menu Area -->
-                <div class="mobile-menu-area d-lg-none d-xl-none col-12">
-                    <div class="container"> 
-                        <div class="row">
-                            <div class="mobile-menu">
-                            </div>
+            <!-- Begin Mobile Menu Area -->
+            <div class="mobile-menu-area d-lg-none d-xl-none col-12">
+                <div class="container"> 
+                    <div class="row">
+                        <div class="mobile-menu">
                         </div>
                     </div>
                 </div>
-                <!-- Mobile Menu Area End Here -->
+            </div>
+            <!-- Mobile Menu Area End Here -->
         </header>
 
         @yield('body')
@@ -39,6 +39,7 @@
         @yield('modal')
 
         @include('cliente.template.componentes.modal_login')
+
     </div>
     @include('cliente.template.recursos.script', ['resourceScript' => $resourceScript])
 </body>

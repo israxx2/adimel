@@ -50,19 +50,19 @@
                       
                         <div class="single-add-to-cart">
                             <form action="#" class="cart-quantity">
-                                <div class="quantity">
+                                <!-- <div class="quantity">
                                     <label>Cantidad</label>
                                     <div class="cart-plus-minus">
                                         <input class="cart-plus-minus-box" disabled value="1" max="{{$productos->pro_stock}}" type="text">
                                         <div class="dec qtybutton"  ><i  class="fa fa-angle-down" ></i></div>
                                         <div class="inc qtybutton" ><i  class="fa fa-angle-up"></i></div>
                                     </div>
-                                </div>
-                                <button 
+                                </div> -->
+                                <!-- <button 
                                 class="add-to-cart"  
                                 style=color:#fff; 
-                                onclick="funcion(this,'{{$productos->pro_codigo}}')" 
-                                >AÑADIR</button>
+                                onclick="funcion(this,'{{$productos->pro_codigo}}')" disabled
+                                >AÑADIR</button> -->
                                 <br>
                                 <small>Stock desfasado en 30 minutos. Al momento de efectuar la compra se revisará nuevamente</small>
                             </form>
@@ -115,8 +115,8 @@
 
 function funcion(e,id){
   
-    cantidad=e.form[0].value;
+    // cantidad=e.form[0].value;
 
-    addProducto(id,cantidad);
+    // addProducto(id,cantidad);
 }
 </script>
