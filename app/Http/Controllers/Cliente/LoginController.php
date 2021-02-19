@@ -198,6 +198,9 @@ class LoginController extends Controller
 			return false;
 	}
 
+	public function recuperarClave(Request $request) {
+		dd($request);
+	}
 }
 
 

@@ -38,7 +38,7 @@
 					<!-- Header Middle Searchbox Area End Here -->
 
 					@if(Auth::guard('cliente')->check())
-						<!-- <div class="header-middle-right">
+						<div class="header-middle-right">
 							<ul class="hm-menu">
 								<li class="hm-minicart" id="carritoSuperior">
 									
@@ -83,7 +83,7 @@
 									</div>
 								</li>
 							</ul>
-						</div> -->
+						</div>
 					@else
 						<div class="header-middle-right">
 							<button class="li-btn-2" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>

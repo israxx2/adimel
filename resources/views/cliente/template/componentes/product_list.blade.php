@@ -44,7 +44,7 @@
 									
 										<div class="add-actions">
 											@if(Auth::guard('cliente')->check())
-												<!-- <button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="addProducto('{{$p->pro_codigo}}','{{1}} ')"><span>AÑADIR</span></button>	 -->									
+												<button  class="btn btn-sm btn-block" style="background-color: #0088C6; color:white" onclick="addProducto('{{$p->pro_codigo}}','{{1}} ')"><span>AÑADIR</span></button>										
 											@else
 												<button class="btn btn-sm btn-block" style="background-color:#0088c6; color:white" data-toggle="modal" data-target="#modal_login"><span>Iniciar Sesión</span></button>
 											@endif
