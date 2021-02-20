@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\User;
 
 class RecuperarContrasena extends Mailable
 {
@@ -16,10 +17,11 @@ class RecuperarContrasena extends Mailable
      *
      * @return void
      */
+    public $user;
 
-    public function __construct()
+    public function __construct(User $user)
     {
-
+        $this->user = $user;
     }
 
     /**
@@ -29,6 +31,10 @@ class RecuperarContrasena extends Mailable
      */
     public function build()
     {
-        return $this->view('cliente.mails.recuperar_contrasena');
+        //dd($this->user);
+        return $this->view('cliente.mails.recuperar_contrasena')
+        ->with('user', $this->user);
+
+        
     }
 }

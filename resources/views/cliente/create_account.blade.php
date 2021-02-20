@@ -133,10 +133,10 @@
 		})
 		.done(function(data) {		
 			var html = '';
-			console.log(data);			
+			////console.log(data);			
 			$.each(data, function(index, value) {
 
-				console.log(value);
+				////console.log(value);
 				html += '<option value='+value.seg_div_pol_idn+'>'+value.seg_div_pol_nombre+'</option>';
 			});
 			$('#id_ciudad').empty().append(html);
@@ -168,7 +168,7 @@
 			else if (rut.match(/^(\d)(\d{0,2})$/)) {
 				rut = rut.replace(/^(\d)(\d{0,2})$/, '$1.$2');
 			}
-			console.log("rut: " + rut);
+			////console.log("rut: " + rut);
 
 
 			state.rut = rut;
@@ -185,7 +185,7 @@
 					},
 				})
 				.done(function(data) {
-					console.log(data);
+					////console.log(data);
 					if(data.status) {
 						//No hay ninguna dependencia
 						if(data.dependencias.length == 0) {
@@ -204,7 +204,7 @@
 								$form_group.append(html);
 							}
 							else {
-								console.log("sin cuenta creada");
+								////console.log("sin cuenta creada");
 								$('#sucursal').hide('fast');
 								$('#nombre').attr('disabled', false);
 								$('#apellidos').attr('disabled', false);
@@ -223,7 +223,7 @@
 						else {
 							var html = "<option selected disabled>Seleccione una dependencia</option>";
 							$.each(data.dependencias, function(index, value) {
-								console.log(value);
+								////console.log(value);
 								html += '<option value='+value.idn+'>'+value.nombre+'</option>';
 							});
 							$('#dependencias').empty().append(html);
@@ -277,7 +277,7 @@
 			data: $form.serialize(),
 		})
 		.done(function(data) {
-			//console.log(data);
+			////console.log(data);
 			$('.has-error').removeClass('has-error');
 			$('.text-error').remove();
 			$('.mi_select').css('border', '1px solid #999999');
@@ -292,7 +292,7 @@
 							"positionClass": "toast-top-right",
 						});
 						$form_group = $('.rut-f');
-						// console.log($form_group);
+						// //console.log($form_group);
 						$form_group.addClass('has-error');
 						var html = '<p class="text-error">El rut ya está en uso!</p>';
 						$form_group.append(html);
@@ -316,7 +316,7 @@
 						//alert( index + ": " + value );
 						var elem = $('#'+index);						
 						if(elem.is('input')) {
-							console.log(elem);
+							//console.log(elem);
 							$form_group = elem.parent('.form-group');
 							$form_group.addClass('has-error');
 							html = '';
@@ -326,7 +326,7 @@
 							$form_group.append(html);
 						}
 						else {
-							console.log(elem);
+							//console.log(elem);
 							elem.css('border', '1px solid #ff0000');
 							$form_group = elem.parent('.form-group');
 							$form_group.addClass('has-error');

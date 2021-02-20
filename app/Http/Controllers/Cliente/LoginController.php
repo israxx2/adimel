@@ -11,6 +11,10 @@ use App\Producto;
 use App\Region;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use App\Mail\RecuperarContrasena;
+use Illuminate\Support\Facades\Mail;
+
 
 class LoginController extends Controller
 {
@@ -199,7 +203,96 @@ class LoginController extends Controller
 	}
 
 	public function recuperarClave(Request $request) {
-		dd($request);
+		$categorias = DB::table('RUBRO')
+		->where([
+			['rub_estado', 1],
+			['rub_idn', '!=', 0],
+			['rub_idn', '!=', 8],
+		])->get();
+
+		$rut = $request->input('login_rut_r');
+		$dep = $request->input('dependencias');
+		$user = null;
+		if($dep){
+			$user = User::find($dep);
+		}else{
+			$user = User::getDependencias($rut)[0];
+			$user = User::find($user->dep_cli_idn);
+		}
+
+		if($user){
+			$token = Str::random(60);
+
+
+			$current_date = date('Y-d-m H:i:s');
+
+			$user->dep_token_web = $token;
+			$user->dep_fecha_token_web = $current_date;
+
+			$user->save();
+			//Mail::to($user->dep_cli_email)->send(new RecuperarContrasena($user));
+			Mail::to(["carlosmof15@gmail.com"])->send(new RecuperarContrasena($user));
+
+			return view('cliente.recuperar')->with('categorias', $categorias);
+
+		}
+	}
+
+	public function recuperarClave2($id, $token) {
+		$categorias = DB::table('RUBRO')
+		->where([
+			['rub_estado', 1],
+			['rub_idn', '!=', 0],
+			['rub_idn', '!=', 8],
+		])->get();
+
+		return view('cliente.recuperar_contrasena')
+		->with('categorias', $categorias)
+		->with('id', $id)
+		->with('token', $token);
+	}
+
+	public function recuperarClave3(Request $request) {
+		$data = ['status' => TRUE, 'errors' => null, 'expired' => FALSE];
+		
+		$current_token = $request->input('mail_token');
+		$user_id = $request->input('user_id');
+		$user = User::find($user_id);
+		
+		$user_token =  $user->dep_token_web;
+		$user_expiration_date = $user->dep_fecha_token_web;
+
+
+		$now = date('Y-m-d H:i:s');
+		$new_time =  date('Y-m-d H:i:s',strtotime('+2 hours',strtotime($user_expiration_date)));
+
+		if($now > $new_time || $user_token != $current_token ){
+			$data['expired'] = TRUE;
+			return $data;
+		}
+
+
+		$reglas['pw'] = 'required|confirmed|min:6';
+		$msjs['pw.required'] = "La contraseña es obligatoria.";
+		$msjs['pw.confirmed'] = "Las contraseñas no coinciden.";
+		$msjs['pw.min'] = "La contraseña debe tener mas de 5 caracteres";
+		$validator = \Validator::make($request->all(), $reglas, $msjs);
+		if ($validator->fails())
+		{
+			$data['errors'] = response()->json(['errors'=>$validator->errors()]);
+			return $data;
+		}
+
+		$user->password =  bcrypt($request->input('pw'));
+		$user->dep_token_web=  null;
+		$user->save();
+		//dd($user);
+
+
+
+		$data['status'] = TRUE;
+
+		return $data;
 	}
 }
 

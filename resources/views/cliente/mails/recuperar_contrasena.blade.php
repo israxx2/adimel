@@ -3,25 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-    <title>Llamado de emergencia</title>
+    <title>Recuperar contraseña</title>
 </head>
 <body>
-    <p>Hola! Se ha reportado un nuevo caso de emergencia a las 21:00.</p>
-    <p>Estos son los datos del usuario que ha realizado la denuncia:</p>
-    <ul>
-        <li>Nombre: aaaa</li>
-        <li>Teléfono: 1232132</li>
-        <li>DNI: 123213</li>
-    </ul>
-    <p>Y esta es la posición reportada:</p>
-    <ul>
-        <li>Latitud: 12</li>
-        <li>Longitud: -72</li>
-        <li>
-            <a href="#">
-                Ver en Google Maps
-            </a>
-        </li>
-    </ul>
+    <p>Hola {{ $user->name }}</p>
+    <p>Hemos recibido tu solicitud para modificar tu contraseña, puede completar el proceso presionando el siguiente enlace</p>
+	<a href="{{ route('cliente.recuperar_contrasena_token', ['id' => $user->dep_cli_idn, 'token' =>$user->dep_token_web]) }}">
+                RECUPERAR
+    </a>
+    <p>En caso de error, favor ignorar este correo.</p>
+
 </body>
 </html>

@@ -176,7 +176,7 @@ function comprar(e){
             type: "POST",
             data: data,
             success: function () {
-                console.log("enviada")
+                //console.log("enviada")
             }
         });
 

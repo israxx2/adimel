@@ -17,6 +17,7 @@ use App\Producto;
 use App\Funcionario;
 use App\Mail\RecuperarContrasena;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 //////////////////////////
 //// AUTH ADMIN		//////
@@ -42,6 +43,8 @@ Route::post('/efectuarcompra', 'Cliente\CarritoController@efectuarcompra');
 Route::get('/viewProduct/{id}', 'Cliente\GeneralController@viewProduct');
 Route::get('/categoria/{id}', 'Cliente\GeneralController@categoria');
 Route::post('/cliente/direccion', 'Cliente\GeneralController@nuevaDireccion')->name('cliente.direccion');
+Route::get('/cliente/recuperar-contrasena/{id}/{token}', 'Cliente\LoginController@recuperarClave2')->name('cliente.recuperar_contrasena_token');
+Route::post('/recuperar-contrasena', 'Cliente\LoginController@recuperarClave3')->name('cliente.recuperar_contrasena.store');
 
 //////////////////////
 //// CARRITO	//////
@@ -91,7 +94,8 @@ Route::group(['prefix' => 'adimel'], function(){
 Route::get('/test', function () {
 	// dd(Auth::guard('cliente')->user());
 
-
+	$user = User::find(6347);
+	dd($user);
 	// $dep = DB::table('CLIENTE')
 	// ->where('cli_idn', '6347')
 	// ->take('100')
@@ -157,7 +161,7 @@ Route::get('/oferta', function() {
 });
 
 
-Route::get('aaa', function() {
-	$receivers = ['israxx2@gmail.com'];
-	dd(Mail::to($receivers)->send(new RecuperarContrasena()));
+Route::get('recuper-contraseña', function(Request $request) {
+	//$rut = '19105900-K';
+
 });

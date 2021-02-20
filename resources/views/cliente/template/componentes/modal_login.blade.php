@@ -41,14 +41,14 @@
 						</form>
 					</div>
 					<div class="col-sm-12" id="div-form-recuperar" style="display: none; ">
-						<form method="POST" action="{{ route('cliente.recuperar') }}" id="form-login">
+						<form method="POST" action="{{ route('cliente.recuperar') }}" id="form-recuperar">
 							@csrf
 							<div class="container">
 								<center><h4 class="login-title">Recuperar Contraseña</h4></center>
 								<div class="row d-flex justify-content-center">
 									<div class="col-md-12 col-12 mt-20 form-group mt-20">
 										<label>RUT</label>
-										<input class="mb-0 form-control rut" type="text" name="login_rut" id="login_rut" placeholder="">
+										<input class="mb-0 form-control rut" type="text" name="login_rut_r" id="login_rut_r" placeholder="">
 									</div>
 									<div id="login_sucursal_r" class="col-md-12 col-12 mb-20 form-group" style="display: none;">
 										<label>Sucursal</label>
@@ -84,7 +84,7 @@
 		}
 
 		$('#login_rut').on("change", function(e) {
-			console.log("cambio la lesera");
+			//console.log("cambio la lesera");
 			let rut = this.value.replace(/\./g, '').replace('-', '');
 
 			if (rut.match(/^(\d{2})(\d{3}){2}(\w{1})$/)) {
@@ -99,10 +99,10 @@
 			else if (rut.match(/^(\d)(\d{0,2})$/)) {
 				rut = rut.replace(/^(\d)(\d{0,2})$/, '$1.$2');
 			}
-			console.log("rut: " + rut);
+			//console.log("rut: " + rut);
 
 			if(rut.length >= 11) {
-				console.log("entrooo");
+				//console.log("entrooo");
 				$('#form-login btn-block').attr('disabled', true);
 				$.ajax({
 					url: "{{ route('api.get_dependencias_web') }}",
@@ -114,12 +114,12 @@
 					},
 				})
 				.done(function(data) {
-					console.log(data);
+					//console.log(data);
 					if(data.status) {
 						if(data.dependencias.length > 1) {
 							var html = "<option selected disabled>Seleccione una dependencia</option>";
 							$.each(data.dependencias, function(index, value) {
-								console.log(value);
+								//console.log(value);
 								html += '<option value='+value.idn+'>'+value.nombre+'</option>';
 							});
 							$('#login_dependencias').empty().append(html);
@@ -132,7 +132,7 @@
 					}
 				})
 				.fail(function(data) {
-					console.log(data);
+					//console.log(data);
 				}).always(function() {
 					$('#form-login btn-block').attr('disabled', false);
 				});
@@ -143,7 +143,7 @@
 		}); 
 
 		$('#login_rut_r').on("change", function(e) {
-			console.log("cambio la lesera");
+			//console.log("cambio la lesera");
 			let rut = this.value.replace(/\./g, '').replace('-', '');
 
 			if (rut.match(/^(\d{2})(\d{3}){2}(\w{1})$/)) {
@@ -158,7 +158,7 @@
 			else if (rut.match(/^(\d)(\d{0,2})$/)) {
 				rut = rut.replace(/^(\d)(\d{0,2})$/, '$1.$2');
 			}
-			console.log("rut: " + rut);
+			//console.log("rut: " + rut);
 
 			if(rut.length >= 11) {
 				$('#form-login btn-block').attr('disabled', true);
@@ -172,12 +172,12 @@
 					},
 				})
 				.done(function(data) {
-					console.log(data);
+					//console.log(data);
 					if(data.status) {
 						if(data.dependencias.length > 1) {
 							var html = "<option selected disabled>Seleccione una dependencia</option>";
 							$.each(data.dependencias, function(index, value) {
-								console.log(value);
+								//console.log(value);
 								html += '<option value='+value.idn+'>'+value.nombre+'</option>';
 							});
 							$('#login_dependencias_r').empty().append(html);
@@ -190,7 +190,7 @@
 					}
 				})
 				.fail(function(data) {
-					console.log(data);
+					//console.log(data);
 				}).always(function() {
 					$('#form-recuperar btn-block').attr('disabled', false);
 				});
